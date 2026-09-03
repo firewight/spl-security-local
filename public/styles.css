@@ -458,7 +458,8 @@ h1 em {
   display: grid;
   place-items: center;
   overflow: hidden;
-  background: #efefeb;
+  /* The product PNG is transparent: let SPL yellow run uninterrupted behind it. */
+  background: transparent;
   padding: 18px 24px;
 }
 .timeless-art img {
@@ -474,7 +475,7 @@ h1 em {
   max-height: none;
   object-fit: contain;
   transform: translate(-50%, -50%);
-  filter: drop-shadow(16px 20px 18px rgba(0, 0, 0, 0.18));
+  filter: drop-shadow(16px 22px 20px rgba(39, 28, 0, 0.28));
 }
 .halo-art {
   grid-column: 1 / -1;
