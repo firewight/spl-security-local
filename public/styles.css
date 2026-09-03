@@ -618,15 +618,16 @@ h1 em {
   padding: 20px 32px;
 }
 .cadell-art img {
-  position: relative;
+  /* An absolute inset box makes every dimension resolve against .cadell-art,
+     whose height is set by its top/bottom insets. */
+  position: absolute;
+  inset: 18px 32px;
   z-index: 1;
   display: block;
-  /* Size from the fixed-height artwork panel.  Using a width-first size here
-     allowed the 1:1 supplier image to exceed the panel and be clipped. */
-  width: auto;
+  width: calc(100% - 64px);
   height: calc(100% - 36px);
-  max-width: calc(100% - 64px);
-  max-height: calc(100% - 36px);
+  max-width: none;
+  max-height: none;
   margin: 0 auto;
   object-fit: contain;
   mix-blend-mode: multiply;
