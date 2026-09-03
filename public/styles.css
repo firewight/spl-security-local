@@ -335,7 +335,7 @@ h1 em {
   inset: 270px 0 26px;
   min-height: 0;
 }
-.product-feature .halo-art,
+.product-feature .timeless-art,
 .product-feature .vault-art {
   position: absolute;
   inset: 330px 0 26px;
@@ -451,6 +451,22 @@ h1 em {
 .dark-links a,
 .dark-links button {
   color: #151515;
+}
+.timeless-art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 54% 54%, rgba(247, 198, 0, 0.24), transparent 35%),
+    linear-gradient(135deg, #e7e7e2, #f8f8f5 48%, #d9dad5);
+}
+.timeless-art img {
+  display: block;
+  width: min(600px, 86%);
+  max-height: 360px;
+  object-fit: contain;
+  filter: drop-shadow(22px 30px 25px rgba(0, 0, 0, 0.3));
 }
 .halo-art {
   grid-column: 1 / -1;
@@ -796,11 +812,11 @@ dialog::backdrop {
     align-self: start;
   }
   .product-feature .sentinel-art,
-  .product-feature .halo-art,
+  .product-feature .timeless-art,
   .product-feature .vault-art {
     inset: 300px 0 28px;
   }
-  .product-feature .halo-art,
+  .product-feature .timeless-art,
   .product-feature .vault-art {
     inset: 380px 0 28px;
   }
@@ -815,6 +831,10 @@ dialog::backdrop {
   }
   .product-gold {
     min-height: 830px;
+  }
+  .timeless-art img {
+    width: min(500px, 92%);
+    max-height: 290px;
   }
   .halo-door {
     width: 82vw;
