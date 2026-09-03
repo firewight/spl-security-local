@@ -1,0 +1,25 @@
+.cadell-finish-section { background: #050505; }
+
+.cadell-finish-section .section-intro { margin-bottom: 42px; }
+
+.cadell-finish-section .section-intro h2,
+.cadell-finish-section .section-intro p { color: #fff; }
+
+.cadell-gallery .cadell-product-card {
+  min-height: 390px;
+  padding: 24px;
+  background: radial-gradient(circle at 50% 48%, #3a3a3a 0, #171717 47%, #050505 82%);
+}
+
+.cadell-gallery .cadell-product-card img {
+  width: min(620px, 110%);
+  max-width: none;
+  max-height: 335px;
+  object-fit: contain;
+  filter: drop-shadow(0 24px 24px #000c);
+}
+
+@media (max-width: 760px) {
+  .cadell-gallery .cadell-product-card { min-height: 300px; }
+  .cadell-gallery .cadell-product-card img { max-height: 255px; }
+}
