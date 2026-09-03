@@ -603,6 +603,12 @@ h1 em {
 .legacy-ajax-links {
   display: none;
 }
+.legacy-sentinel-links,
+.cadell-art .sentinel-shadow,
+.cadell-art .sentinel,
+.cadell-art .caption {
+  display: none;
+}
 .cadell-art {
   position: relative;
   display: grid;
