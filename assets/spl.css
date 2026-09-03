@@ -1,0 +1,928 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap");
+:root {
+  --ink: #050505;
+  --yellow: #f7c600;
+  --paper: #f5f5f1;
+  --muted: #6b6b6b;
+  --blue: #1769e0;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  font-family: "DM Sans", Arial, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+}
+button,
+a {
+  font: inherit;
+}
+button {
+  border: 0;
+  cursor: pointer;
+}
+.service-bar {
+  height: 36px;
+  background: var(--yellow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+.service-bar a {
+  color: inherit;
+  text-decoration: none;
+}
+.site-header {
+  height: 74px;
+  padding: 0 clamp(22px, 5vw, 76px);
+  background: #090909;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+}
+.brand img {
+  display: block;
+  width: clamp(126px, 12vw, 164px);
+  height: auto;
+}
+nav {
+  display: flex;
+  align-items: center;
+  gap: 27px;
+}
+nav a {
+  font-size: 13px;
+  color: #eee;
+  text-decoration: none;
+}
+.nav-cta {
+  background: var(--yellow);
+  padding: 10px 15px;
+  font-size: 12px;
+  font-weight: 800;
+}
+.menu-toggle {
+  display: none;
+  background: transparent;
+  color: #fff;
+  font-size: 13px;
+}
+.panel-dark {
+  background: #050505;
+  color: #fff;
+}
+.hero {
+  /* Leave a deliberate bottom-band preview of the next product title. */
+  min-height: clamp(560px, 70svh, 640px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+}
+.hero-copy {
+  padding: clamp(62px, 7vw, 108px) clamp(30px, 8vw, 135px);
+  z-index: 1;
+}
+.kicker {
+  margin: 0 0 16px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  font-weight: 800;
+  color: var(--yellow);
+}
+h1,
+h2,
+h3 {
+  font-family: Manrope, Arial, sans-serif;
+  letter-spacing: -0.065em;
+  margin: 0;
+}
+h1 {
+  font-size: clamp(54px, 7vw, 106px);
+  line-height: 0.95;
+}
+h1 em {
+  font-style: normal;
+  color: var(--yellow);
+}
+.intro {
+  max-width: 430px;
+  margin: 30px 0;
+  color: #bdbdbd;
+  font-size: 18px;
+  line-height: 1.55;
+}
+.hero-assurance {
+  margin: 38px 0 0;
+  color: #d7d7d7;
+  font-size: 14px;
+  font-weight: 600;
+}
+.hero-assurance strong {
+  color: var(--yellow);
+}
+.links {
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+.links a,
+.links button {
+  background: transparent;
+  padding: 0;
+  color: var(--yellow);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 15px;
+}
+.links span {
+  font-size: 24px;
+  line-height: 0;
+  vertical-align: -2px;
+  margin-left: 3px;
+}
+.hero-device {
+  position: relative;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(
+    circle at 48% 45%,
+    #4c4c4c 0,
+    #1d1d1d 28%,
+    #080808 68%
+  );
+  overflow: hidden;
+}
+.hero-device:before,
+.hero-device:after {
+  content: "";
+  position: absolute;
+  width: 76vw;
+  height: 76vw;
+  border: 1px solid #3f3f3f;
+  border-radius: 50%;
+}
+.hero-device:after {
+  width: 49vw;
+  height: 49vw;
+  border-color: #5d511e;
+}
+.hub-light {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: #f7c600;
+  filter: blur(90px);
+  opacity: 0.22;
+}
+.hub-face {
+  position: relative;
+  width: 250px;
+  height: 330px;
+  border-radius: 34px;
+  background: linear-gradient(135deg, #454545, #151515 52%, #333);
+  box-shadow:
+    20px 35px 75px #000b,
+    -18px -12px 38px #aaa2;
+  transform: rotate(18deg);
+  padding: 35px;
+  display: flex;
+  gap: 9px;
+  align-items: flex-end;
+}
+.hub-face i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #f5c700;
+  box-shadow: 0 0 13px #f5c700;
+}
+.hub-face strong {
+  position: absolute;
+  bottom: 25px;
+  right: 28px;
+  font: 800 24px Manrope;
+  letter-spacing: -0.1em;
+  color: #eee;
+}
+.announcement {
+  min-height: 105px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 20px;
+  gap: 15px;
+  text-align: center;
+}
+.announcement p {
+  font: 700 clamp(18px, 2vw, 28px) / 1.1 Manrope;
+  letter-spacing: -0.05em;
+  margin: 0;
+}
+.announcement p strong {
+  color: #777;
+}
+.announcement a {
+  color: var(--blue);
+  font-weight: 700;
+  text-decoration: none;
+}
+.announcement span {
+  font-size: 23px;
+  vertical-align: -2px;
+}
+.product {
+  /* Keep the compact, Apple-style product rhythm: the next title remains
+     close by, while each illustration is sized to its available art area. */
+  min-height: clamp(680px, 76svh, 740px);
+  overflow: hidden;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.product-copy {
+  padding: clamp(24px, 3vw, 42px) clamp(28px, 8vw, 135px);
+  align-self: start;
+  z-index: 2;
+}
+.product h2 {
+  font-size: clamp(57px, 7vw, 105px);
+  line-height: 0.9;
+}
+.product h2 sup {
+  font-size: 0.28em;
+  letter-spacing: 0;
+}
+.product h3 {
+  font-size: clamp(27px, 3vw, 47px);
+  line-height: 1.02;
+  margin: 19px 0;
+}
+.product-copy > p:not(.kicker) {
+  max-width: 440px;
+  color: #5b5b5b;
+  line-height: 1.65;
+  font-size: 17px;
+  margin: 0 0 27px;
+}
+.product-light {
+  background: #efefeb;
+}
+.product-feature {
+  display: block;
+}
+.product-feature .product-copy {
+  position: relative;
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+}
+.product-feature h2 {
+  font-size: clamp(36px, 8vw, 78px);
+  white-space: nowrap;
+}
+.product-feature h3 {
+  margin: 13px 0 18px;
+  font-size: clamp(24px, 2.5vw, 32px);
+  line-height: 1.08;
+}
+.product-feature .product-copy > p:not(.kicker) {
+  margin-right: auto;
+  margin-left: auto;
+}
+.product-feature .links {
+  justify-content: center;
+}
+.product-feature .sentinel-art {
+  position: absolute;
+  inset: 270px 0 26px;
+  min-height: 0;
+}
+.product-feature .timeless-art,
+.product-feature .cadell-art {
+  position: absolute;
+  inset: 330px 0 26px;
+  min-height: 0;
+}
+.sentinel-art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(
+    circle at 55% 55%,
+    #fff 0,
+    #dddeda 25%,
+    #ecece7 62%
+  );
+  min-height: 400px;
+}
+.sentinel-shadow {
+  width: 360px;
+  height: 90px;
+  background: #787875;
+  filter: blur(28px);
+  opacity: 0.35;
+  border-radius: 50%;
+  transform: translateY(110px) scale(0.8);
+}
+.sentinel {
+  position: absolute;
+  width: 260px;
+  height: 355px;
+  border-radius: 38px;
+  background: linear-gradient(142deg, #20221f, #070807 64%, #43443e);
+  box-shadow:
+    28px 38px 64px #5558,
+    -15px -15px 36px #fff;
+  transform: scale(0.8) rotate(-16deg);
+  overflow: hidden;
+}
+.sentinel:before {
+  content: "";
+  position: absolute;
+  inset: 11px;
+  border: 1px solid #73746a;
+  border-radius: 30px;
+}
+.sentinel b {
+  position: absolute;
+  bottom: 25px;
+  left: 31px;
+  color: #d6d6ce;
+  font: 700 23px Manrope;
+  letter-spacing: -0.09em;
+}
+.lens {
+  position: absolute;
+  top: 40px;
+  left: 31px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 38% 35%,
+    #a8d5ee 0 5%,
+    #1b3146 18%,
+    #050608 56%,
+    #778985 60%,
+    #111 67%
+  );
+  box-shadow:
+    0 0 0 8px #191a19,
+    0 0 0 10px #65665f;
+}
+.pulse {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #f7c600;
+  right: 35px;
+  bottom: 32px;
+  box-shadow: 0 0 16px #f7c600;
+}
+.p2 {
+  bottom: 57px;
+  opacity: 0.45;
+}
+.caption {
+  position: absolute;
+  bottom: 62px;
+  font: 800 11px Manrope;
+  letter-spacing: 0.16em;
+  color: #62625d;
+}
+.product-gold {
+  background: var(--yellow);
+}
+.dark-kicker {
+  color: #171717;
+}
+.center-copy {
+  text-align: center;
+  align-self: start;
+  padding-top: 100px;
+}
+.product-feature .center-copy {
+  padding-top: clamp(24px, 3vw, 42px);
+}
+.center-copy > p:not(.kicker) {
+  margin-left: auto;
+  margin-right: auto;
+  color: #292929;
+}
+.dark-links a,
+.dark-links button {
+  color: #151515;
+}
+.timeless-art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  /* The product PNG is transparent: let SPL yellow run uninterrupted behind it. */
+  background: transparent;
+  padding: 18px 24px;
+}
+.timeless-art img {
+  display: block;
+  /* The supplier image has been trimmed to its visible product bounds, so the
+     safe can use the available art area without clipping. */
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: auto;
+  max-width: calc(100% - 48px);
+  height: calc(100% - 20px);
+  max-height: none;
+  object-fit: contain;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(16px 22px 20px rgba(39, 28, 0, 0.28));
+}
+.halo-art {
+  grid-column: 1 / -1;
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: end center;
+  overflow: hidden;
+  pointer-events: none;
+}
+.halo-door {
+  position: absolute;
+  width: min(44vw, 580px);
+  height: 290px;
+  bottom: 12px;
+  background: linear-gradient(90deg, #d39b00, #ffe16b 50%, #d49c00);
+  border-radius: 310px 310px 0 0;
+  box-shadow:
+    0 0 0 18px #24200c,
+    0 0 0 22px #f8d032;
+  transform: perspective(700px) rotateX(6deg);
+}
+.halo-ring {
+  position: absolute;
+  bottom: 66px;
+  width: 245px;
+  height: 245px;
+  border-radius: 50%;
+  background: conic-gradient(#161616, #4f4d45, #111, #f8dc66, #151515);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 25px 50px #50390080;
+}
+.halo-core {
+  width: 192px;
+  height: 192px;
+  border-radius: 50%;
+  background: #0b0b0a;
+  box-shadow: inset 0 0 0 1px #6c671f;
+  display: grid;
+  place-items: center;
+}
+.halo-core span {
+  width: 35px;
+  height: 45px;
+  border-radius: 7px;
+  background: var(--yellow);
+  box-shadow: 0 -18px 0 -7px var(--yellow);
+}
+.halo-art p {
+  position: absolute;
+  bottom: 24px;
+  color: #191919;
+  font: 800 12px Manrope;
+  letter-spacing: 0.14em;
+}
+.halo-art em {
+  font-style: normal;
+  color: #735b05;
+}
+.product-black {
+  background: #030303;
+  color: #fff;
+}
+.inverse .product-copy {
+}
+.inverse > p:not(.kicker) {
+  color: #ababab;
+}
+.vault-art {
+  position: relative;
+  background: radial-gradient(
+    circle at 52% 52%,
+    #313131 0,
+    #101010 30%,
+    #030303 66%
+  );
+  min-height: 430px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+.vault-glow {
+  position: absolute;
+  width: 390px;
+  height: 390px;
+  border-radius: 50%;
+  background: #f7c600;
+  opacity: 0.22;
+  filter: blur(65px);
+}
+.vault-case {
+  width: 320px;
+  height: 210px;
+  position: relative;
+  border-radius: 26px;
+  background: linear-gradient(140deg, #5b5b5b, #111 48%, #454545);
+  box-shadow:
+    35px 36px 76px #000,
+    -16px -14px 35px #a4a4a444;
+  transform: rotate(-15deg);
+}
+.vault-case:after {
+  content: "";
+  position: absolute;
+  inset: 9px;
+  border-radius: 20px;
+  border: 1px solid #777;
+}
+.vault-slot {
+  position: absolute;
+  top: 37px;
+  right: 31px;
+  width: 83px;
+  height: 4px;
+  border-radius: 5px;
+  background: #030303;
+  box-shadow: 0 1px #777;
+}
+.vault-logo {
+  position: absolute;
+  left: 31px;
+  bottom: 30px;
+  font: 800 27px Manrope;
+  letter-spacing: -0.1em;
+}
+.ajax-art {
+  background:
+    radial-gradient(circle at 50% 54%, rgba(247, 198, 0, 0.16), transparent 42%),
+    #050505;
+  padding: 24px 34px 18px;
+}
+.ajax-art img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: min(470px, 78%);
+  max-height: 350px;
+  margin: 0 auto;
+  object-fit: contain;
+  filter: brightness(1.08) contrast(1.08) drop-shadow(0 25px 30px rgba(0, 0, 0, 0.78));
+}
+.legacy-ajax-links {
+  display: none;
+}
+.legacy-sentinel-links,
+.cadell-art .sentinel-shadow,
+.cadell-art .sentinel,
+.cadell-art .caption {
+  display: none;
+}
+.cadell-art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 42%, #fff 0, #eeeeea 52%, #dfdfd9 100%);
+  padding: 20px 32px;
+}
+.cadell-art img {
+  /* An absolute inset box makes every dimension resolve against .cadell-art,
+     whose height is set by its top/bottom insets. */
+  position: absolute;
+  inset: 18px 32px;
+  z-index: 1;
+  display: block;
+  width: calc(100% - 64px);
+  height: calc(100% - 36px);
+  max-width: none;
+  max-height: none;
+  margin: 0 auto;
+  object-fit: contain;
+  /* The supplier image has been cut out, so the artwork sits directly on the
+     section surface rather than carrying a white rectangular studio backdrop. */
+  filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.18));
+}
+.ecosystem {
+  padding: clamp(80px, 11vw, 155px) clamp(28px, 8vw, 135px);
+  background: #fff;
+}
+.ecosystem-head {
+  max-width: 720px;
+}
+.ecosystem h2,
+.cta h2 {
+  font-size: clamp(46px, 6vw, 90px);
+  line-height: 0.94;
+}
+.ecosystem-head > p:last-child {
+  max-width: 570px;
+  color: #666;
+  font-size: 17px;
+  line-height: 1.65;
+  margin: 29px 0 0;
+}
+.ecosystem-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  margin-top: 75px;
+}
+.ecosystem-grid article {
+  border-top: 2px solid #161616;
+  padding-top: 18px;
+}
+.number {
+  color: #777;
+  font: 800 13px Manrope;
+}
+.ecosystem-grid h3 {
+  font-size: 27px;
+  margin: 37px 0 12px;
+}
+.ecosystem-grid p {
+  color: #686868;
+  max-width: 250px;
+  line-height: 1.6;
+}
+.cta {
+  background: var(--yellow);
+  padding: clamp(85px, 12vw, 165px) 8vw;
+  text-align: center;
+}
+.cta .kicker {
+  color: #171717;
+}
+.light-cta {
+  margin-top: 30px;
+  background: #111;
+  color: #fff;
+  padding: 15px 22px;
+  font-weight: 700;
+}
+.light-cta span {
+  font-size: 23px;
+  vertical-align: -2px;
+}
+footer {
+  background: #090909;
+  color: #aaa;
+  min-height: 170px;
+  padding: 35px 8vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  font-size: 12px;
+}
+.footer-brand {
+  color: #fff;
+}
+footer > a:last-child {
+  color: var(--yellow);
+  font: 700 18px Manrope;
+  text-decoration: none;
+}
+dialog {
+  width: min(540px, calc(100% - 30px));
+  border: 0;
+  padding: 42px;
+  background: #f6f6f3;
+  box-shadow: 0 20px 90px #000b;
+}
+dialog h2 {
+  font-size: 44px;
+  line-height: 1;
+  margin: 0 0 10px;
+}
+dialog > p:not(.kicker) {
+  color: #666;
+  line-height: 1.5;
+}
+.close {
+  position: absolute;
+  right: 14px;
+  top: 9px;
+  background: transparent;
+  font-size: 28px;
+}
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 24px;
+}
+label {
+  font-size: 12px;
+  font-weight: 700;
+  display: grid;
+  gap: 6px;
+}
+.full,
+.form-submit,
+.form-status {
+  grid-column: 1 / -1;
+}
+input,
+select,
+textarea {
+  font: inherit;
+  padding: 10px;
+  border: 1px solid #c8c8c4;
+  background: #fff;
+}
+.form-submit {
+  background: var(--yellow);
+  padding: 13px;
+  font-weight: 800;
+}
+.form-status {
+  margin: 0;
+  font-size: 13px;
+}
+.form-status.error {
+  color: #b00020;
+}
+dialog::backdrop {
+  background: #000b;
+}
+@media (max-width: 760px) {
+  .service-bar {
+    height: auto;
+    min-height: 34px;
+    padding: 7px 15px;
+    font-size: 9px;
+    gap: 7px;
+    text-align: center;
+  }
+  .service-bar span {
+    display: none;
+  }
+  .site-header {
+    height: 64px;
+  }
+  .menu-toggle {
+    display: block;
+  }
+  nav {
+    display: none;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: #111;
+    padding: 22px 7vw;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  nav.open {
+    display: flex;
+  }
+  .hero {
+    grid-template-columns: 1fr;
+    min-height: 720px;
+  }
+  .hero-copy {
+    padding-top: 75px;
+  }
+  .hero-device {
+    min-height: 330px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 360px;
+  }
+  .hub-face {
+    transform: scale(0.74) rotate(18deg);
+  }
+  .product {
+    grid-template-columns: 1fr;
+    min-height: 830px;
+  }
+  .product-copy {
+    padding-top: 78px;
+    align-self: start;
+  }
+  .product-feature .sentinel-art,
+  .product-feature .timeless-art,
+  .product-feature .cadell-art {
+    inset: 300px 0 28px;
+  }
+  .product-feature .timeless-art,
+  .product-feature .vault-art {
+    inset: 380px 0 28px;
+  }
+  /* Timeless is intentionally more compact than the device panels: its
+     product photograph must resolve completely before the next section. */
+  #timeless.product {
+    min-height: 700px;
+  }
+  #timeless .timeless-art {
+    inset: 320px 0 16px;
+  }
+  .sentinel-art {
+    min-height: 330px;
+  }
+  .sentinel {
+    transform: scale(0.72) rotate(-16deg);
+  }
+  .sentinel-shadow {
+    transform: translateY(110px) scale(0.7);
+  }
+  .product-gold {
+    min-height: 830px;
+  }
+  .timeless-art img {
+    width: auto;
+    max-width: calc(100% - 48px);
+    height: calc(100% - 20px);
+    max-height: none;
+    transform: translate(-50%, -50%);
+  }
+  .timeless-art {
+    place-items: center;
+    padding: 18px 24px;
+  }
+  .halo-door {
+    width: 82vw;
+    height: 390px;
+    bottom: 18px;
+  }
+  .halo-ring {
+    transform: scale(0.75);
+    bottom: 104px;
+  }
+  .halo-art p {
+    bottom: 43px;
+    font-size: 9px;
+  }
+  .product-black {
+    min-height: 790px;
+  }
+  .cadell-art {
+    min-height: 310px;
+  }
+  .vault-case {
+    transform: scale(0.7) rotate(-15deg);
+  }
+  .cadell-art img {
+    max-height: 270px;
+  }
+  .ecosystem-grid {
+    grid-template-columns: 1fr;
+    gap: 35px;
+    margin-top: 55px;
+  }
+  .ecosystem-grid h3 {
+    margin: 15px 0 8px;
+  }
+  .cta {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+  footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  form {
+    grid-template-columns: 1fr;
+  }
+  .full,
+  .form-submit,
+  .form-status {
+    grid-column: auto;
+  }
+}
