@@ -463,15 +463,15 @@ h1 em {
 }
 .timeless-art img {
   display: block;
-  /* This asset includes real transparent space on every side, so centring the
-     image also centres the visible safe. */
+  /* The supplier image has been trimmed to its visible product bounds, so the
+     safe can use the available art area without clipping. */
   position: absolute;
   left: 50%;
   top: 50%;
-  width: min(520px, calc(100% - 48px));
-  max-width: none;
-  height: auto;
-  max-height: calc(100% - 36px);
+  width: auto;
+  max-width: calc(100% - 48px);
+  height: calc(100% - 20px);
+  max-height: none;
   object-fit: contain;
   transform: translate(-50%, -50%);
   filter: drop-shadow(16px 20px 18px rgba(0, 0, 0, 0.18));
@@ -849,9 +849,10 @@ dialog::backdrop {
     min-height: 830px;
   }
   .timeless-art img {
-    width: min(480px, calc(100% - 48px));
-    max-width: none;
-    max-height: calc(100% - 36px);
+    width: auto;
+    max-width: calc(100% - 48px);
+    height: calc(100% - 20px);
+    max-height: none;
     transform: translate(-50%, -50%);
   }
   .timeless-art {
