@@ -6,7 +6,7 @@
 .hero-art.timeless-open::after { display: none; }
 
 .hero-art.timeless-open img {
-  width: min(760px, 112%);
+  width: min(860px, 120%);
   height: auto;
   max-height: none;
   mix-blend-mode: normal;
@@ -27,6 +27,6 @@
 }
 
 @media (max-width: 760px) {
-  .hero-art.timeless-open img { width: 112%; height: auto; max-height: none; }
+  .hero-art.timeless-open img { width: 118%; height: auto; max-height: none; }
   .gallery-card.open-safe-card img { width: 122%; }
 }

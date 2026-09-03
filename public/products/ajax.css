@@ -1,0 +1,28 @@
+/* Transparent product cut-outs keep Ajax imagery seamless on dark product panels. */
+.hero-art.ajax img {
+  width: min(600px, 100%);
+  max-height: none;
+  filter: brightness(1.08) contrast(1.08) drop-shadow(0 30px 34px #000c);
+}
+
+.ajax-gallery .ajax-product-card {
+  min-height: 360px;
+  padding: 26px;
+  background: radial-gradient(circle at 50% 44%, #313131 0, #121212 45%, #050505 82%);
+}
+
+.ajax-gallery .ajax-product-card img {
+  width: min(460px, 94%);
+  max-width: none;
+  max-height: 310px;
+  object-fit: contain;
+  filter: brightness(1.08) contrast(1.08) drop-shadow(0 22px 22px #000c);
+}
+
+.ajax-gallery .ajax-product-card--compact img { width: min(390px, 88%); }
+
+@media (max-width: 760px) {
+  .hero-art.ajax img { width: min(520px, 100%); }
+  .ajax-gallery .ajax-product-card { min-height: 280px; }
+  .ajax-gallery .ajax-product-card img { max-height: 240px; }
+}
