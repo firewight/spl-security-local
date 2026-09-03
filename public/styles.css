@@ -621,12 +621,12 @@ h1 em {
   position: relative;
   z-index: 1;
   display: block;
-  width: min(520px, 82%);
-  max-height: 370px;
+  width: min(460px, 88%);
+  max-height: calc(100% - 12px);
   margin: 0 auto;
   object-fit: contain;
-  mix-blend-mode: multiply;
-  filter: contrast(1.06) drop-shadow(0 22px 24px rgba(0, 0, 0, 0.22));
+  mix-blend-mode: normal;
+  filter: contrast(1.03) drop-shadow(0 22px 24px rgba(0, 0, 0, 0.24));
 }
 .ecosystem {
   padding: clamp(80px, 11vw, 155px) clamp(28px, 8vw, 135px);
