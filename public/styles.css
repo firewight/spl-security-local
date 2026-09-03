@@ -621,8 +621,12 @@ h1 em {
   position: relative;
   z-index: 1;
   display: block;
-  width: min(460px, 88%);
-  max-height: calc(100% - 12px);
+  /* Size from the fixed-height artwork panel.  Using a width-first size here
+     allowed the 1:1 supplier image to exceed the panel and be clipped. */
+  width: auto;
+  height: calc(100% - 36px);
+  max-width: calc(100% - 64px);
+  max-height: calc(100% - 36px);
   margin: 0 auto;
   object-fit: contain;
   mix-blend-mode: multiply;
