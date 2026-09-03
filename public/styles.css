@@ -469,7 +469,8 @@ h1 em {
      four sides so none of the product touches a section edge. */
   max-width: min(650px, 92%);
   height: auto;
-  max-height: calc(100% - 36px);
+  /* A fixed visual ceiling keeps the entire safe in view on compact screens. */
+  max-height: min(270px, calc(100% - 48px));
   object-fit: contain;
   transform: translateX(15.7%);
   filter: drop-shadow(16px 20px 18px rgba(0, 0, 0, 0.18));
@@ -826,6 +827,14 @@ dialog::backdrop {
   .product-feature .vault-art {
     inset: 380px 0 28px;
   }
+  /* Timeless is intentionally more compact than the device panels: its
+     product photograph must resolve completely before the next section. */
+  #timeless.product {
+    min-height: 700px;
+  }
+  #timeless .timeless-art {
+    inset: 320px 0 16px;
+  }
   .sentinel-art {
     min-height: 330px;
   }
@@ -841,7 +850,7 @@ dialog::backdrop {
   .timeless-art img {
     width: auto;
     max-width: min(600px, 92%);
-    max-height: calc(100% - 36px);
+    max-height: min(250px, calc(100% - 42px));
     transform: translateX(15.7%);
   }
   .timeless-art {
