@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "spl-home",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

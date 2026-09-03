@@ -1,0 +1,44 @@
+<div class="service-bar">24/7 EMERGENCY LOCKSMITH <span>&bull;</span> Gold Coast &middot; Brisbane &middot; Northern NSW <a href="tel:0755888111">Call (07) 55 888 111</a></div>
+<header class="site-header">
+  <a class="brand" href="#top" aria-label="SPL Security Solutions home"><img src="{{ 'spl-logo-white.png' | asset_url }}" alt="SPL Security Solutions"></a>
+  <button class="menu-toggle" aria-expanded="false" aria-controls="main-nav">Menu</button>
+  <nav id="main-nav"><a href="#cadell">Cadell 52</a><a href="#timeless">Timeless Safes</a><a href="#ajax">Ajax</a><a href="#ecosystem">Ecosystem</a><button class="nav-cta" data-open-form>Talk to an expert</button></nav>
+</header>
+
+<main id="top">
+  <section class="hero panel-dark">
+    <div class="hero-copy"><p class="kicker">SPL SECURITY SYSTEMS</p><h1>Security,<br><em>thought through.</em></h1><p class="intro">A new collection of connected security essentials, designed for the way you live and work.</p><div class="links"><a href="#cadell">Explore the collection <span>&rsaquo;</span></a><button data-open-form>Book a consultation <span>&rsaquo;</span></button></div><p class="hero-assurance">Built for serious protection. <strong>Made simple.</strong></p></div>
+    <div class="hero-device" aria-label="SPL security hub illustration"><div class="hub-light"></div><div class="hub-face"><i></i><i></i><i></i><strong>SPL</strong></div></div>
+  </section>
+
+  <section class="product product-light product-feature" id="cadell">
+    <div class="product-copy center-copy"><h2>Cadell 52</h2><h3>Access, made effortless.</h3><p>A commercial-grade digital lever lock with fingerprint, PIN, RFID and key access in one clean, dependable platform.</p><div class="links dark-links"><a href="#enquire">Explore Cadell 52 <span>&rsaquo;</span></a><button data-open-form data-service="Cadell 52 Digital Lock">Get started <span>&rsaquo;</span></button></div></div>
+    <div class="cadell-art"><img src="{{ 'cadell-52-cutout.png' | asset_url }}" alt="Cadell 52 black digital lever lock and mortice lock"></div>
+  </section>
+
+  <section class="product product-gold product-feature" id="timeless">
+    <div class="product-copy center-copy"><h2>Timeless Safes</h2><h3>Protection, beautifully made.</h3><p>A compact, fire-rated safe with a polished black door, digital lock and serious protection for the things you value most.</p><div class="links dark-links"><a href="#enquire">Explore Timeless <span>&rsaquo;</span></a><button data-open-form data-service="Timeless Safes">Speak with SPL <span>&rsaquo;</span></button></div></div>
+    <div class="timeless-art"><img src="{{ 'timeless-safe-trimmed.png' | asset_url }}" alt="Timeless closed safe"></div>
+  </section>
+
+  <section class="product product-black product-feature" id="ajax">
+    <div class="product-copy center-copy inverse"><h2>Ajax StarterKit</h2><h3>Protection, ready from the box.</h3><p>A professional wireless alarm foundation with a hub, motion detector, door sensor and key fob &mdash; DIY kits available at SPL.</p><div class="links"><a href="#enquire">Explore Ajax <span>&rsaquo;</span></a><button data-open-form data-service="Ajax StarterKit">Get started <span>&rsaquo;</span></button></div></div>
+    <div class="vault-art ajax-art"><img src="{{ 'ajax-starterkit-cutout.png' | asset_url }}" alt="Ajax StarterKit black hub, motion detector, door sensor and remote"></div>
+  </section>
+
+  <section class="ecosystem" id="ecosystem"><div class="ecosystem-head"><p class="kicker">ONE SYSTEM. COMPLETE COVERAGE.</p><h2>Everything works<br>better together.</h2><p>From first notification to final response, SPL security products and local expertise are designed as one considered system.</p></div><div class="ecosystem-grid"><article><span class="number">01</span><h3>See clearly</h3><p>Smart cameras and meaningful alerts, without the noise.</p></article><article><span class="number">02</span><h3>Control access</h3><p>Open the right doors for the right people at the right time.</p></article><article><span class="number">03</span><h3>Respond locally</h3><p>Backed by real SPL technicians when you need a hand.</p></article></div></section>
+
+  <section class="cta" id="enquire"><p class="kicker">LET'S GET YOUR SECURITY SORTED</p><h2>Protection starts<br>with a conversation.</h2><button class="light-cta" data-open-form>Talk to an SPL expert <span>&rsaquo;</span></button></section>
+</main>
+
+<footer><a class="brand footer-brand" href="#top"><img src="{{ 'spl-logo-white.png' | asset_url }}" alt="SPL Security Solutions"></a><p>SPL Security Solutions product collection.</p><a href="tel:0755888111">(07) 55 888 111</a></footer>
+
+<dialog id="enquiry-dialog"><button class="close" aria-label="Close">&times;</button><p class="kicker">SPL SECURITY SOLUTIONS</p><h2>Talk to an expert.</h2><p>Tell us what you need protected and we&rsquo;ll call you back.</p>{% form 'contact' %}<label>Name<input name="contact[name]" required autocomplete="name"></label><label>Phone<input name="contact[phone]" required type="tel" autocomplete="tel"></label><label>Email<input name="contact[email]" type="email" autocomplete="email"></label><label>Product or service<select name="contact[service]"><option>General enquiry</option><option>Timeless Safes</option><option>Cadell 52 Digital Lock</option><option>Ajax StarterKit</option></select></label><label class="full">How can we help?<textarea name="contact[body]" required rows="4"></textarea></label><button class="form-submit" type="submit">Send enquiry</button>{% if form.posted_successfully? %}<p class="form-status">Thanks — your enquiry has been sent.</p>{% endif %}{% if form.errors %}<p class="form-status error">Please check the form and try again.</p>{% endif %}{% endform %}</dialog>
+
+{% schema %}
+{
+  "name": "SPL storefront home",
+  "settings": [],
+  "presets": [{"name": "SPL storefront home"}]
+}
+{% endschema %}
