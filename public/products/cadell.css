@@ -19,6 +19,11 @@
   filter: drop-shadow(0 24px 24px #000c);
 }
 
+.cadell-gallery .cadell-product-card--exterior img {
+  width: min(330px, 78%);
+  max-height: 350px;
+}
+
 @media (max-width: 760px) {
   .cadell-gallery .cadell-product-card { min-height: 300px; }
   .cadell-gallery .cadell-product-card img { max-height: 255px; }
