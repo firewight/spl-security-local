@@ -591,8 +591,7 @@ h1 em {
   max-height: 350px;
   margin: 0 auto;
   object-fit: contain;
-  mix-blend-mode: multiply;
-  filter: brightness(1.28) contrast(1.05) drop-shadow(0 25px 30px rgba(0, 0, 0, 0.78));
+  filter: brightness(1.08) contrast(1.08) drop-shadow(0 25px 30px rgba(0, 0, 0, 0.78));
 }
 .ecosystem {
   padding: clamp(80px, 11vw, 155px) clamp(28px, 8vw, 135px);
