@@ -579,20 +579,20 @@ h1 em {
 }
 .ajax-art {
   background:
-    radial-gradient(circle at 50% 52%, rgba(247, 198, 0, 0.18), transparent 39%),
+    radial-gradient(circle at 50% 54%, rgba(247, 198, 0, 0.16), transparent 42%),
     #050505;
-  padding: 34px;
+  padding: 24px 34px 18px;
 }
 .ajax-art img {
   position: relative;
   z-index: 1;
   display: block;
-  width: min(620px, 88%);
+  width: min(470px, 78%);
   max-height: 350px;
   margin: 0 auto;
   object-fit: contain;
-  mix-blend-mode: screen;
-  filter: drop-shadow(0 25px 30px rgba(0, 0, 0, 0.6));
+  mix-blend-mode: multiply;
+  filter: brightness(1.28) contrast(1.05) drop-shadow(0 25px 30px rgba(0, 0, 0, 0.78));
 }
 .ecosystem {
   padding: clamp(80px, 11vw, 155px) clamp(28px, 8vw, 135px);
