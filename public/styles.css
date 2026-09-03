@@ -56,31 +56,13 @@ button {
 .brand {
   display: flex;
   align-items: center;
-  gap: 8px;
   color: inherit;
   text-decoration: none;
 }
-.brand-mark {
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: var(--yellow);
-  color: #111;
-  font: 800 19px/1 Manrope;
-}
-.brand b {
-  font: 800 25px/0.75 Manrope;
-  letter-spacing: -0.08em;
+.brand img {
   display: block;
-}
-.brand small {
-  display: block;
-  margin-top: 7px;
-  font-size: 7px;
-  font-weight: 800;
-  letter-spacing: 0.18em;
+  width: clamp(126px, 12vw, 164px);
+  height: auto;
 }
 nav {
   display: flex;
