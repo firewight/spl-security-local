@@ -463,16 +463,14 @@ h1 em {
 }
 .timeless-art img {
   display: block;
-  width: auto;
-  /* The supplied image has a large transparent area on its right. Centre the
-     actual safe, not the full source canvas, and retain breathing room on all
-     four sides so none of the product touches a section edge. */
-  max-width: min(650px, 92%);
+  /* This asset includes real transparent space on every side, so centring the
+     image also centres the visible safe. */
+  width: min(520px, 84%);
+  max-width: none;
   height: auto;
-  /* A fixed visual ceiling keeps the entire safe in view on compact screens. */
-  max-height: min(270px, calc(100% - 48px));
+  max-height: min(330px, calc(100% - 32px));
   object-fit: contain;
-  transform: translateX(15.7%);
+  transform: none;
   filter: drop-shadow(16px 20px 18px rgba(0, 0, 0, 0.18));
 }
 .halo-art {
@@ -848,10 +846,10 @@ dialog::backdrop {
     min-height: 830px;
   }
   .timeless-art img {
-    width: auto;
-    max-width: min(600px, 92%);
-    max-height: min(250px, calc(100% - 42px));
-    transform: translateX(15.7%);
+    width: min(480px, 84%);
+    max-width: none;
+    max-height: min(300px, calc(100% - 28px));
+    transform: none;
   }
   .timeless-art {
     place-items: center;
