@@ -19,7 +19,15 @@
   filter: brightness(1.08) contrast(1.08) drop-shadow(0 22px 22px #000c);
 }
 
-.ajax-gallery .ajax-product-card--compact img { width: min(390px, 88%); }
+.ajax-gallery .ajax-product-card--hub img {
+  width: min(380px, 82%);
+  max-height: 300px;
+}
+
+.ajax-gallery .ajax-product-card--doorprotect img {
+  width: min(400px, 88%);
+  max-height: 290px;
+}
 
 @media (max-width: 760px) {
   .hero-art.ajax img { width: min(520px, 100%); }
