@@ -319,7 +319,7 @@ h1 em {
   min-height: 0;
 }
 .product-feature .timeless-art,
-.product-feature .vault-art {
+.product-feature .cadell-art {
   position: absolute;
   inset: 330px 0 26px;
   min-height: 0;
@@ -600,6 +600,28 @@ h1 em {
   object-fit: contain;
   filter: brightness(1.08) contrast(1.08) drop-shadow(0 25px 30px rgba(0, 0, 0, 0.78));
 }
+.legacy-ajax-links {
+  display: none;
+}
+.cadell-art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 42%, #fff 0, #eeeeea 52%, #dfdfd9 100%);
+  padding: 20px 32px;
+}
+.cadell-art img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: min(520px, 82%);
+  max-height: 370px;
+  margin: 0 auto;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  filter: contrast(1.06) drop-shadow(0 22px 24px rgba(0, 0, 0, 0.22));
+}
 .ecosystem {
   padding: clamp(80px, 11vw, 155px) clamp(28px, 8vw, 135px);
   background: #fff;
@@ -804,7 +826,7 @@ dialog::backdrop {
   }
   .product-feature .sentinel-art,
   .product-feature .timeless-art,
-  .product-feature .vault-art {
+  .product-feature .cadell-art {
     inset: 300px 0 28px;
   }
   .product-feature .timeless-art,
@@ -858,13 +880,13 @@ dialog::backdrop {
   .product-black {
     min-height: 790px;
   }
-  .vault-art {
+  .cadell-art {
     min-height: 310px;
   }
   .vault-case {
     transform: scale(0.7) rotate(-15deg);
   }
-  .ajax-art img {
+  .cadell-art img {
     max-height: 270px;
   }
   .ecosystem-grid {
