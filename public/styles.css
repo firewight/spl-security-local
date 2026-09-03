@@ -577,6 +577,23 @@ h1 em {
   font: 800 27px Manrope;
   letter-spacing: -0.1em;
 }
+.ajax-art {
+  background:
+    radial-gradient(circle at 50% 52%, rgba(247, 198, 0, 0.18), transparent 39%),
+    #050505;
+  padding: 34px;
+}
+.ajax-art img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: min(620px, 88%);
+  max-height: 350px;
+  margin: 0 auto;
+  object-fit: contain;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 25px 30px rgba(0, 0, 0, 0.6));
+}
 .ecosystem {
   padding: clamp(80px, 11vw, 155px) clamp(28px, 8vw, 135px);
   background: #fff;
@@ -821,6 +838,9 @@ dialog::backdrop {
   }
   .vault-case {
     transform: scale(0.7) rotate(-15deg);
+  }
+  .ajax-art img {
+    max-height: 270px;
   }
   .ecosystem-grid {
     grid-template-columns: 1fr;
