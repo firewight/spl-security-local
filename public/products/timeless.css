@@ -9,7 +9,7 @@
   width: min(760px, 112%);
   height: auto;
   max-height: none;
-  mix-blend-mode: multiply;
+  mix-blend-mode: normal;
   filter: drop-shadow(0 28px 24px #4b370033);
 }
 
@@ -22,7 +22,7 @@
   width: 118%;
   max-width: none;
   max-height: none;
-  mix-blend-mode: multiply;
+  mix-blend-mode: normal;
   filter: drop-shadow(0 18px 16px #4b370033);
 }
 
