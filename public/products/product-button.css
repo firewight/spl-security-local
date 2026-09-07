@@ -1,0 +1,28 @@
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 22px;
+  background: #f7c600;
+  border: 2px solid #f7c600;
+  color: #090909;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background .18s ease, color .18s ease, transform .18s ease;
+}
+
+.back-link:hover,
+.back-link:focus-visible {
+  background: #090909;
+  color: #f7c600;
+  transform: translateY(-1px);
+}
+
+.back-link:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
