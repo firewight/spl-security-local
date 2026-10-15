@@ -3,6 +3,7 @@ const fs=require('fs'),path=require('path'),crypto=require('crypto'),{load}=requ
 const root=path.resolve(__dirname,'..'), out=path.join(root,'public'), cache=path.join(root,'.source-cache');
 fs.mkdirSync(cache,{recursive:true});
 const origin='https://www.splsecurity.com.au';
+const excluded=new Set(require('../seo.config.json').excludedPaths||[]);
 const esc=s=>String(s||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 const clean=s=>String(s||'').replace(/\s+/g,' ').trim();
 const homeFile=path.join(out,'index.html'), home=fs.readFileSync(homeFile,'utf8');
@@ -12,14 +13,16 @@ async function fetchPage(p){const file=path.join(cache,crypto.createHash('sha256
 async function run(){
  const source=await fetchPage('/'), $home=load(source);
  const navTree=$home('nav').first().find('>ul>li').map((i,li)=>{const a=$home(li).children('a').first();return {label:clean(a.text()),url:a.attr('href'),children:$home(li).find('>ul>li>a').map((j,a)=>({label:clean($home(a).text()),url:$home(a).attr('href')})).get()};}).get();
+ for(const group of navTree)group.children=group.children.filter(a=>!excluded.has(new URL(a.url,origin).pathname));
  const sitemap=await fetchPage('/sitemap.xml');
  const queue=new Set(['/']);
  for(const m of sitemap.matchAll(/<loc>(.*?)<\/loc>/g)){const u=new URL(m[1]);if(u.origin===origin&&!/\.xml$/.test(u.pathname))queue.add(u.pathname.replace(/\/$/,'')||'/');}
  const addLinks=text=>{const $=load(text);$('a[href]').each((i,a)=>{try{const u=new URL($(a).attr('href'),origin);if(u.origin===origin&&!path.extname(u.pathname)&&!u.pathname.startsWith('/feed/')&&!u.pathname.includes('/api/'))queue.add(u.pathname.replace(/\/$/,'')||'/');}catch{}});};
  addLinks(source);
+ for(const p of excluded)queue.delete(p);
  const pages=[], failures=[];let done=0;
  // Small batches avoid overloading the source website.
- const visited=new Set(['/']);
+ const visited=new Set(['/',...excluded]);
  while([...queue].some(p=>!visited.has(p))){const batch=[...queue].filter(p=>!visited.has(p)).slice(0,5);await Promise.all(batch.map(async p=>{visited.add(p);try{const text=await fetchPage(p);addLinks(text);pages.push({url:p,html:text});}catch(e){failures.push({url:p,error:e.message});}done++;if(done%20===0)console.log('Fetched',done,'of',queue.size-1);}));}
  if(failures.length){fs.writeFileSync(path.join(root,'import-failures.json'),JSON.stringify(failures,null,2));throw Error('Source fetch failures: '+JSON.stringify(failures));}
  const routes=new Set(pages.map(p=>p.url));
@@ -37,7 +40,7 @@ async function run(){
   const base='../'.repeat(page.url.split('/').filter(Boolean).length);
   // Keep editorial text, original section anchors, links and images; discard builder layout and tracking.
   const allowed=new Set(['p','h1','h2','h3','h4','h5','h6','ul','ol','li','a','strong','b','em','i','br','table','thead','tbody','tr','td','th','blockquote']);
-  const sanitize=node=>{if(node.type==='text')return esc(node.data);if(node.type!=='tag')return '';const tag=node.tagName;if(['script','style','form','input','button','select','textarea','svg'].includes(tag))return '';const inner=(node.children||[]).map(sanitize).join('');if(!allowed.has(tag))return inner;if(tag==='a'){let h=$(node).attr('href')||'';if(!h||/^javascript:/i.test(h))return inner;try{const u=new URL(h,origin+page.url);if(u.origin===origin){if(u.pathname==='/'||u.pathname==='/home')h=base+'index.html'+u.hash;else if(routes.has(u.pathname.replace(/\/$/,'')))h=href(u.pathname+u.hash,base);else h=u.href;}else h=u.href;}catch{return inner;}return `<a href="${esc(h)}">${inner}</a>`;}return `<${tag}>${inner}</${tag}>`;};
+  const sanitize=node=>{if(node.type==='text')return esc(node.data);if(node.type!=='tag')return '';const tag=node.tagName;if(['script','style','form','input','button','select','textarea','svg'].includes(tag))return '';const inner=(node.children||[]).map(sanitize).join('');if(!allowed.has(tag))return inner;if(tag==='a'){let h=$(node).attr('href')||'';if(!h||/^javascript:/i.test(h))return inner;try{const u=new URL(h,origin+page.url);if(u.origin===origin){if(excluded.has(u.pathname.replace(/\/$/,'')))return inner;if(u.pathname==='/'||u.pathname==='/home')h=base+'index.html'+u.hash;else if(routes.has(u.pathname.replace(/\/$/,'')))h=href(u.pathname+u.hash,base);else h=u.href;}else h=u.href;}catch{return inner;}return `<a href="${esc(h)}">${inner}</a>`;}return `<${tag}>${inner}</${tag}>`;};
   const blocks=[],seen=new Set();
   const editorial='.dmNewParagraph,.dmBlogPost,.accordion-wrapper,p,h1,h2,h3,h4,h5,h6,ul,ol,table,blockquote';
   content.find(editorial+',img,.dmButtonLink,a[name],[data-anchor]').each((i,e)=>{

@@ -1,5 +1,7 @@
 # SEO, AEO and link audit — 15 October 2026
 
+Subsequent content change: `/brochures` was retired at Nato's request. Current generation covers 177 pages and 173 primary sitemap URLs; the original audit counts below describe the initial SEO work. No brochure page or menu/directory link remains.
+
 ## Scope and source findings
 
 Audited the original SPL homepage and 173 subpages using the live crawl saved earlier today, refreshing the homepage, contact, about, commercial locksmith and articles pages. The source has canonical URLs on all 174 pages, descriptions on 171, LocalBusiness markup on all pages, 65 BlogPosting records and 7 FAQPage records. Source metadata, actual visible FAQs, business information and established profile links informed the implementation; old tracking and form scripts were not copied.

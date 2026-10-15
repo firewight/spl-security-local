@@ -3,6 +3,7 @@ const root=path.resolve(__dirname,'..'),out=path.join(root,'public'),config=requ
 const files=['index.html',...manifest.pages.map(p=>p.file),'all-pages/index.html',...['cadell-52','timeless-safes','ajax-starterkit'].map(p=>'products/'+p+'.html')];
 const xml=load(fs.readFileSync(path.join(out,'sitemap.xml'),'utf8'),{xmlMode:true}),sitemap=xml('loc').map((i,e)=>xml(e).text()).get();
 assert.equal(sitemap.length,report.sitemapUrls);assert.equal(sitemap.length,new Set(sitemap).size);
+for(const p of config.excludedPaths||[]){assert(!fs.existsSync(path.join(out,p,'index.html')),'Retired page must not exist: '+p);assert(!sitemap.some(u=>new URL(u).pathname.endsWith(p+'/')),'Retired page in sitemap: '+p);}
 let schemas=0,faqs=0;const titles=new Map(),descriptions=new Map(),broken=[],missingAlts=[];
 for(const f of files){const file=path.join(out,f),html=fs.readFileSync(file,'utf8'),$=load(html);
  assert.equal($('head>title').length,1,f+' title');assert.equal($('meta[name="description"]').length,1,f+' description');assert.equal($('link[rel="canonical"]').length,1,f+' canonical');

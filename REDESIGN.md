@@ -2,6 +2,8 @@
 
 The homepage retains its original black/gold theme, hero and large centred panel styling. On 15 October 2026 Nato authorised replacing the three product promotions with four primary services: Locksmiths, Security Systems, Door Hardware and Retail/Trade. Their source-site images and detail-page links are recorded in `home-service-images.json`. The menu follows the source site's seven top-level groups. A searchable all-pages directory exposes every imported route.
 
+Brochures was subsequently retired at Nato's request: its About-menu entry, page and directory/sitemap links are removed. `seo.config.json` lists `/brochures` in `excludedPaths` so imports do not recreate it. The original source audit is retained as historical evidence.
+
 173 subpages were fetched from the live sitemap and internal links on 15 October 2026. Editorial copy, FAQs, expandable text, article links and brochures are retained in black/gold editorial layouts. 203 images and PDFs are stored under `public/assets/imported/`. The original website and Shopify theme are not modified.
 
 ## Rebuild
