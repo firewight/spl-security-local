@@ -28,3 +28,6 @@ SEO generation also runs `scripts/standardize-editorial-images.cjs`: it removes 
 The importer records coverage and homepage-main SHA-256 in `page-import-manifest.json`. Source snapshots and verification artifacts are ignored by Git. Audit verifies editorial text and local links for all imported pages. Browser verification covers representative desktop/mobile layouts, navigation and search. Set `VERIFY_URL` to verify a remote deployment.
 
 GitHub Pages is static: the contact page prepares an email in the visitor's mail app, clearly labeled for review and sending. Source form handlers and tracking scripts are not copied. The pre-existing homepage enquiry modal remains unchanged and requires its original local Node backend; this change does not add a hosted form service.
+
+### Retired download resources
+PDF and brochure downloads are no longer part of the demo. The Intercom quick-guide section and download-only Safe/Fire Door Hardware resource sections have been removed. `remove-download-resources.cjs` runs during SEO regeneration, image localization no longer fetches PDFs, and the consistency audit rejects PDF/brochure links and public PDF assets.

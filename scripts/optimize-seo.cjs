@@ -100,6 +100,7 @@ fs.writeFileSync(path.join(root,'seo-build-report.json'),JSON.stringify({mode:co
 const csv=s=>'"'+String(s).replaceAll('"','""')+'"';
 require('./repair-page-layout.cjs')();
 require('./normalize-locksmith-headings.cjs')();
+require('./remove-download-resources.cjs')();
 require('./consolidate-service-areas.cjs')();
 require('./clean-page-consistency.cjs')();
 require('./standardize-editorial-images.cjs')().catch(error=>{console.error(error);process.exitCode=1;});
