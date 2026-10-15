@@ -1,0 +1,18 @@
+# SPL demo subpage redesign
+
+Homepage main content and base stylesheet remain unchanged. The menu follows the source site's seven top-level groups. A searchable all-pages directory exposes every imported route.
+
+173 subpages were fetched from the live sitemap and internal links on 15 October 2026. Editorial copy, FAQs, expandable text, article links and brochures are retained in black/gold editorial layouts. 203 images and PDFs are stored under `public/assets/imported/`. The original website and Shopify theme are not modified.
+
+## Rebuild
+
+1. `npm ci`
+2. `node scripts/import-pages.cjs` (or `--cached` for local snapshots)
+3. `node scripts/localize-assets.cjs`
+4. `node scripts/refine-pages.cjs`
+5. `node scripts/audit-pages.cjs`
+6. `node scripts/verify-browser.cjs`
+
+The importer records coverage and homepage-main SHA-256 in `page-import-manifest.json`. Source snapshots and verification artifacts are ignored by Git. Audit verifies editorial text and local links for all imported pages. Browser verification covers representative desktop/mobile layouts, navigation and search. Set `VERIFY_URL` to verify a remote deployment.
+
+GitHub Pages is static: the contact page prepares an email in the visitor's mail app, clearly labeled for review and sending. Source form handlers and tracking scripts are not copied. The pre-existing homepage enquiry modal remains unchanged and requires its original local Node backend; this change does not add a hosted form service.

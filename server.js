@@ -31,7 +31,8 @@ http.createServer((req, res) => {
   }
   if (req.method !== 'GET' && req.method !== 'HEAD') return send(res, 405, 'Method not allowed');
   const pathname = url.pathname === '/' ? '/index.html' : path.normalize(url.pathname).replace(/^([.]{2}[\\/])+/, '');
-  const filename = path.join(root, pathname);
+  let filename = path.join(root, pathname);
+  if (fs.existsSync(filename) && fs.statSync(filename).isDirectory()) filename = path.join(filename, 'index.html');
   if (!filename.startsWith(root) || !fs.existsSync(filename) || fs.statSync(filename).isDirectory()) return send(res, 404, 'Not found');
   const content = fs.readFileSync(filename);
   res.writeHead(200, { 'Content-Type': mime[path.extname(filename)] || 'application/octet-stream' });

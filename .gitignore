@@ -1,1 +1,5 @@
 submissions.json
+node_modules/
+.source-cache/
+spl-shopify-theme.zip
+verification/
