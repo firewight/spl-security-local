@@ -10,8 +10,12 @@ Homepage main content and base stylesheet remain unchanged. The menu follows the
 2. `node scripts/import-pages.cjs` (or `--cached` for local snapshots)
 3. `node scripts/localize-assets.cjs`
 4. `node scripts/refine-pages.cjs`
-5. `node scripts/audit-pages.cjs`
-6. `node scripts/verify-browser.cjs`
+5. `node scripts/optimize-seo.cjs`
+6. `node scripts/audit-pages.cjs`
+7. `node scripts/verify-seo.cjs`
+8. `node scripts/verify-browser.cjs`
+
+See `SEO-REPORT.md` for the audit, preview indexing policy and backlink migration plan. SEO configuration is in `seo.config.json`; preview mode keeps this demo out of search results until a deliberate launch.
 
 The importer records coverage and homepage-main SHA-256 in `page-import-manifest.json`. Source snapshots and verification artifacts are ignored by Git. Audit verifies editorial text and local links for all imported pages. Browser verification covers representative desktop/mobile layouts, navigation and search. Set `VERIFY_URL` to verify a remote deployment.
 

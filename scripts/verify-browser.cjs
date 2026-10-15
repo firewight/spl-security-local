@@ -10,6 +10,7 @@ const dir=path.resolve(__dirname,'../verification');fs.mkdirSync(dir,{recursive:
 for(const route of ['','about/index.html','commercial-locksmith/index.html','brochures/index.html','articles/index.html','contact/index.html','products/cadell-52.html','all-pages/index.html']){
 const r=await page.goto(base+route,{waitUntil:'domcontentloaded'});if(r.status()!==200)throw Error(route+' HTTP '+r.status());
 await page.locator('h1').first().waitFor({state:'visible',timeout:20000}).catch(async e=>{console.log((await page.content()).slice(0,1000));throw e;});
+if(fs.existsSync(path.resolve(__dirname,'../seo-build-report.json'))){const config=require('../seo.config.json');if(config.indexing==='preview'&&!(await page.locator('meta[name="robots"]').getAttribute('content')).includes('noindex'))throw Error('Preview indexing directive missing '+route);if(await page.locator('script[data-seo-schema]').count()!==1)throw Error('Structured data missing '+route);}
 const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+2);if(overflow)throw Error('Desktop overflow '+route);
 await page.screenshot({path:path.join(dir,(route.split('/')[0]||'home')+'-desktop.png'),fullPage:false});
 }

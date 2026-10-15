@@ -1,0 +1,31 @@
+{
+  "mode": "preview",
+  "siteUrl": "https://firewight.github.io/spl-security-local/",
+  "pages": 178,
+  "faqPages": 81,
+  "questions": 201,
+  "articles": 65,
+  "aliases": [
+    {
+      "url": "/access-control",
+      "canonical": "/access-control-systems"
+    },
+    {
+      "url": "/alarm-systems0197b34d",
+      "canonical": "/alarm-system"
+    },
+    {
+      "url": "/locksmiths",
+      "canonical": "/locksmith-services"
+    },
+    {
+      "url": "/commercial-locksmiths",
+      "canonical": "/locksmith-services"
+    }
+  ],
+  "answerSummaries": 172,
+  "tablesOfContents": 168,
+  "imagesSized": 1383,
+  "contextualLinkPages": 143,
+  "sitemapUrls": 174
+}
