@@ -19,6 +19,8 @@ Brochures was subsequently retired at Nato's request: its About-menu entry, page
 
 See `SEO-REPORT.md` for the audit, preview indexing policy and backlink migration plan. SEO configuration is in `seo.config.json`; preview mode keeps this demo out of search results until a deliberate launch.
 
+SEO generation also runs `scripts/standardize-editorial-images.cjs`: it removes within-page duplicate photos (including near-identical resized copies), removes imported placeholder gallery labels and applies shared 16:9 editorial frames. Transparent logos, diagrams and very wide assets use contain rather than cover. Homepage service panels and the Contact social row are excluded. `editorial-media-report.json` records the last run. Browser checks include desktop/mobile CCTV frame proportions and image rendering.
+
 The importer records coverage and homepage-main SHA-256 in `page-import-manifest.json`. Source snapshots and verification artifacts are ignored by Git. Audit verifies editorial text and local links for all imported pages. Browser verification covers representative desktop/mobile layouts, navigation and search. Set `VERIFY_URL` to verify a remote deployment.
 
 GitHub Pages is static: the contact page prepares an email in the visitor's mail app, clearly labeled for review and sending. Source form handlers and tracking scripts are not copied. The pre-existing homepage enquiry modal remains unchanged and requires its original local Node backend; this change does not add a hosted form service.

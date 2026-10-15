@@ -1,0 +1,20 @@
+{
+  "pagesAudited": 172,
+  "uniqueAssets": 200,
+  "imagesBefore": 1380,
+  "imagesAfter": 1379,
+  "duplicatesRemoved": 1,
+  "placeholderLabelsRemoved": 12,
+  "pagesChanged": 12,
+  "examples": [
+    {
+      "url": "/cctv-system",
+      "duplicates": [
+        {
+          "src": "../assets/imported/204295b3587fddb35d18.jpg",
+          "duplicateOf": "../assets/imported/00cbcfee22ec01b0e6a3.jpg"
+        }
+      ]
+    }
+  ]
+}
