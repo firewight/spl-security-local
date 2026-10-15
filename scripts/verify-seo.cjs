@@ -8,6 +8,8 @@ let schemas=0,faqs=0;const titles=new Map(),descriptions=new Map(),broken=[],mis
 for(const f of files){const file=path.join(out,f),html=fs.readFileSync(file,'utf8'),$=load(html);
  assert.equal($('head>title').length,1,f+' title');assert.equal($('meta[name="description"]').length,1,f+' description');assert.equal($('link[rel="canonical"]').length,1,f+' canonical');
  assert.equal($('h1').length,1,f+' H1');
+ const regionalMenu=$('#main-nav .nav-group').filter((i,e)=>$(e).children('summary').text().trim()==='Service Area');if(regionalMenu.length)assert.deepEqual(regionalMenu.find('.nav-dropdown a').map((i,e)=>$(e).text().trim()).get(),['Gold Coast','Brisbane','Northern NSW'],f+' three-region menu');
+ assert.equal($('.editorial-content ul,.editorial-content ol').filter((i,e)=>$(e).find('a').length>15&&/Surfers Paradise/.test($(e).text())).length,0,f+' oversized area list');
  const title=$('head>title').text(),description=$('meta[name="description"]').attr('content'),canonical=$('link[rel="canonical"]').attr('href');assert(title.length>5,f+' title length');assert(description.length>25,f+' description length');assert(canonical.startsWith(config.siteUrl));
  if(config.indexing==='preview')assert($('meta[name="robots"]').attr('content').includes('noindex'),f+' preview protection');
  assert.equal($('meta[property="og:url"]').attr('content'),canonical);assert($('meta[property="og:image"]').attr('content').startsWith('https://'));assert.equal($('meta[name="twitter:card"]').attr('content'),'summary_large_image');

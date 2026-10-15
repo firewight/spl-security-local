@@ -4,6 +4,8 @@ The homepage retains its original black/gold theme, hero and large centred panel
 
 Brochures was subsequently retired at Nato's request: its About-menu entry, page and directory/sitemap links are removed. `seo.config.json` lists `/brochures` in `excludedPaths` so imports do not recreate it. The original source audit is retained as historical evidence.
 
+Service-area lists and the Service Area navigation dropdown are consolidated to Gold Coast, Brisbane and Northern NSW via `scripts/consolidate-service-areas.cjs` after SEO generation. Individual suburb pages remain accessible through the full page directory; no location URLs are removed.
+
 173 subpages were fetched from the live sitemap and internal links on 15 October 2026. Editorial copy, FAQs, expandable text, article links and brochures are retained in black/gold editorial layouts. 203 images and PDFs are stored under `public/assets/imported/`. The original website and Shopify theme are not modified.
 
 ## Rebuild
