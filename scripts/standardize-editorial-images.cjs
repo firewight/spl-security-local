@@ -19,6 +19,7 @@ async function run({auditOnly=false}={}){
  if(changed)report.pagesChanged++;
  if(!auditOnly){$('head link[href*="editorial-media.css"]').remove();const href=path.relative(path.dirname(page.file),path.join(out,'editorial-media.css')).replaceAll('\\','/');$('head').append(`<link rel="stylesheet" href="${href}?v=20261015" data-editorial-media>`);fs.writeFileSync(page.file,$.html().split('\n').map(s=>s.trimEnd()).join('\n').trimEnd()+'\n');}
  }
+ if(!auditOnly)require('./fix-social-icons.cjs')();
  if(!auditOnly)fs.writeFileSync(path.join(root,'editorial-media-report.json'),JSON.stringify(report,null,2)+'\n');
  console.log(JSON.stringify({...report,examples:report.examples.filter(e=>e.url==='/cctv-system').concat(report.examples.slice(0,3))},null,2));return report;
 }
