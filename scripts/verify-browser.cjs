@@ -42,6 +42,7 @@ for(const [id,label]of [['OurValues','Our Values'],['OurStory','Our Story']]){if
 await page.goto(base+'contact/index.html',{waitUntil:'domcontentloaded'});if(!await page.locator('.business-hours + .contact-draft').count())throw Error('Contact form order incorrect');
 await page.locator('.contact-socials').scrollIntoViewIfNeeded();for(const img of await page.locator('.contact-socials img').all()){await img.evaluate(el=>el.decode());const size=await img.boundingBox();if(size.width>40||size.height>40)throw Error('Oversized contact social icon');}
 await page.screenshot({path:path.join(dir,'contact-layout-'+width+'.png'),fullPage:false});
+await page.goto(base+'access-control-systems/index.html',{waitUntil:'domcontentloaded'});await page.locator('.related-links').scrollIntoViewIfNeeded();const regionsAlreadyListed=await page.locator('.region-list').count();for(const region of ['Gold Coast','Brisbane','Northern NSW']){if(await page.locator('.related-links a').filter({hasText:new RegExp('^'+region+'(?:\\s*↗)?$')}).count()!==(regionsAlreadyListed?0:1))throw Error('Repeated or missing related region '+region);}await page.screenshot({path:path.join(dir,'related-links-'+width+'.png'),fullPage:false});
 }
 if(errors.length)throw Error(JSON.stringify(errors));
 console.log('Passed desktop/mobile layouts, nested navigation, page directory search, no page errors.');await browser.close();

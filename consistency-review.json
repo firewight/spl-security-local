@@ -1,0 +1,31 @@
+{
+  "reviewDate": "2026-10-15",
+  "pagesReviewed": 177,
+  "pagesUpdated": 168,
+  "corrections": {
+    "pagesWithDuplicateBrisbaneEntriesInitially": 14,
+    "relatedLabelsStandardized": 1190,
+    "duplicateRelatedDestinationsRemoved": 144,
+    "repeatedRegionalGroupsRemoved": 19,
+    "duplicateDirectoryCardsRemoved": 4,
+    "placeholderUiLabelsRemoved": 6,
+    "redundantIntroHeadingsRemoved": 2,
+    "brokenSectionLinksRepaired": 3
+  },
+  "validation": {
+    "desktopMobileLayoutsChecked": 354,
+    "layoutIssuesRemaining": 0,
+    "browserTimeoutsRetriedSuccessfully": 2,
+    "duplicateRelatedLabelsRemaining": 0,
+    "duplicateCollectionDestinationsRemaining": 0,
+    "placeholderHeadingsRemaining": 0,
+    "duplicateIntroHeadingsRemaining": 0,
+    "brokenLocalFragmentsRemaining": 0,
+    "duplicateIdsRemaining": 0,
+    "inconsistentRelatedLabelsRemaining": 0,
+    "seoPagesPassed": 177,
+    "homepageContentPreserved": true,
+    "previewNoindexRetained": true
+  },
+  "scope": "Automated content/link audit of every page, desktop/mobile overflow and media-frame checks of every page, and interactive checks of menus, anchors, icons, search and representative related links. Intentional repeated CTAs and editorial questions are retained."
+}

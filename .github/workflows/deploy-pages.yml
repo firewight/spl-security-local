@@ -29,6 +29,8 @@ jobs:
       - run: npm ci
       - name: Validate SEO metadata, structured data and local links
         run: node scripts/verify-seo.cjs
+      - name: Check duplicate links, labels and section anchors
+        run: node scripts/audit-consistency.cjs --check
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
