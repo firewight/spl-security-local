@@ -58,7 +58,7 @@ for(const entry of entries){
  meta('name','twitter:image:alt',heading||config.siteName);
  if(shareImage.startsWith(base.href)){const size=imageSize(path.join(out,decodeURIComponent(shareImage.slice(base.href.length))));if(size){meta('property','og:image:width',String(size[0]));meta('property','og:image:height',String(size[1]));}}
  $('meta[name="theme-color"]').remove();meta('name','theme-color','#090909');
- if(!$('link[rel="icon"]').length)$('head').append(`<link rel="icon" href="${href(file,'/').replace(/index\.html$/,'assets/favicon.svg')}" type="image/svg+xml" data-seo-generated>`);
+ if(!$('link[rel="icon"]').length)$('head').append(`<link rel="icon" href="${href(file,'/').replace(/index\.html$/,'assets/spl-round-logo.png?v=20261015')}" type="image/png" data-seo-generated>`);
  for(const origin of ['https://fonts.googleapis.com','https://fonts.gstatic.com'])if(!$(`link[rel="preconnect"][href="${origin}"]`).length)$('head').append(`<link rel="preconnect" href="${origin}"${origin.includes('gstatic')?' crossorigin':''} data-seo-generated>`);
  if(!isHome)$('head').append(`<link rel="stylesheet" href="${path.relative(path.dirname(file),path.join(out,'seo.css')).replaceAll('\\','/')}?v=20261015" data-seo-generated>`);
  const webpage={'@type':entry.url==='/contact'?'ContactPage':entry.url==='/about'?'AboutPage':entry.url==='/articles'||entry.url==='/all-pages'?'CollectionPage':'WebPage','@id':canonical+'#webpage',url:canonical,name:title,description,inLanguage:'en-AU',isPartOf:{'@id':base.href+'#website'},about:{'@id':businessId}};
