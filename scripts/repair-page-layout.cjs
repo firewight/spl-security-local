@@ -1,6 +1,15 @@
 const fs=require('fs'),path=require('path'),{load}=require('cheerio');
 function repair(){
  const root=path.resolve(__dirname,'..');
+ // Source anchor placeholders precede the content; bind navigation to the actual headings.
+ const alarmFile=path.join(root,'public/alarm-monitoring/index.html'),alarm=load(fs.readFileSync(alarmFile,'utf8'));
+ for(const [label,id]of [['Alarm Monitoring','AlarmMonitoringandPatrolService'],['Electronic Security Maintenance','MaintenanceandServicing']]){
+ const heading=alarm('.editorial-content h2').filter((i,e)=>alarm(e).text().trim()===label).first();if(!heading.length)throw Error('Missing heading '+label);
+ const old=heading.attr('id');alarm('[id]').filter((i,e)=>alarm(e).attr('id')===id).not(heading).removeAttr('id');heading.attr('id',id).addClass('section-anchor');
+ if(old)alarm('.page-toc a').filter((i,e)=>alarm(e).attr('href')==='#'+old).attr('href','#'+id);
+ if(label==='Electronic Security Maintenance'){const block=heading.closest('.editorial-block'),image=block.prev('.editorial-image');if(image.length)block.after(image);}
+ }
+ fs.writeFileSync(alarmFile,alarm.html().split('\n').map(s=>s.trimEnd()).join('\n').trimEnd()+'\n');
  for(const name of ['about','contact']){
  const file=path.join(root,'public',name,'index.html'),$=load(fs.readFileSync(file,'utf8'));
  if(name==='about'){
