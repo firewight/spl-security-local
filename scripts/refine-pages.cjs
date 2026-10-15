@@ -1,7 +1,7 @@
 const fs=require('fs'),path=require('path'),{load}=require('cheerio');
 const root=path.resolve(__dirname,'..'),m=require('../page-import-manifest.json');
 const norm=s=>s.toLowerCase().replace(/[^a-z0-9]/g,'');
-for(const p of m.pages){const file=path.join(root,'public',p.file),$=load(fs.readFileSync(file,'utf8'));const factTexts=['Servicing Gold Coast, Brisbane & Northern NSW','FREE QUOTES AVAILABLE','GOLD COAST, BRISBANE, NORTHERN NSW','24/7 EMERGENCY ASSISTANCE'];
+for(const p of m.pages){const file=path.join(root,'public',p.file),$=load(fs.readFileSync(file,'utf8'));const factTexts=['Servicing Gold Coast, Brisbane & Northern NSW','FREE QUOTES AVAILABLE','24/7 EMERGENCY ASSISTANCE'];
 const facts=[];$('.editorial-block').each((i,e)=>{const text=$(e).text().replace(/\s+/g,' ').trim();if(factTexts.includes(text)){facts.push(text);$(e).remove();}});
 if(facts.length)$('.editorial-content').prepend(`<div class="service-facts">${facts.map(t=>`<span>${t.replaceAll('&','&amp;')}</span>`).join('')}</div>`);
 const ids=new Set();$('span.section-anchor[id]').each((i,e)=>{const id=$(e).attr('id');if(ids.has(id)){$(e).remove();return;}ids.add(id);const target=$('.editorial-content h2,.editorial-content h3').filter((i,h)=>norm($(h).text())===norm(id)||norm($(h).text()).includes(norm(id))).first();if(target.length){target.attr('id',id).addClass('section-anchor');$(e).remove();}});
