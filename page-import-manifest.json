@@ -1,7 +1,7 @@
 {
   "source": "https://www.splsecurity.com.au",
   "importedAt": "2026-10-15T03:33:14.618Z",
-  "homepageMainSha256": "0ffe2bc2e7f103fdb1b1c9bf359fc7a917d1b59bdc99c524e3d4b4cce9e39041",
+  "homepageMainSha256": "2e3dcf3a326c873dc1b135798e578e51ec1889880c82ebbbe4f3ecd2f992b43e",
   "pages": [
     {
       "url": "/blog/24-7-gold-coast-locksmith-secrets-to-our-success",
@@ -1042,5 +1042,7 @@
       "blocks": 24
     }
   ],
-  "failures": []
+  "failures": [],
+  "homepageUpdatedAt": "2026-10-15T04:31:05.832Z",
+  "homepageChange": "User-authorised replacement of product panels with four primary services; retain existing visual theme."
 }

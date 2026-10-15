@@ -15,11 +15,19 @@ const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>inne
 await page.screenshot({path:path.join(dir,(route.split('/')[0]||'home')+'-desktop.png'),fullPage:false});
 }
 await page.locator('#page-search').fill('locksmith');const visible=await page.locator('[data-page-title]:visible').count();if(!visible)throw Error('Directory search empty');
-await page.goto(base,{waitUntil:'domcontentloaded'});await page.getByText('Locksmiths',{exact:true}).click();await page.getByRole('link',{name:'Commercial',exact:true}).click();await page.waitForURL('**/commercial-locksmith/index.html');
+await page.goto(base,{waitUntil:'domcontentloaded'});await page.locator('#main-nav summary').filter({hasText:/^Locksmiths$/}).click();await page.getByRole('link',{name:'Commercial',exact:true}).click();await page.waitForURL('**/commercial-locksmith/index.html');
+await page.goto(base,{waitUntil:'domcontentloaded'});
+if(await page.locator('.service-feature').count()){
+ const expected=['Locksmiths','Security Systems','Door Hardware','Retail/Trade'];
+ if(JSON.stringify(await page.locator('.service-feature h2').allTextContents())!==JSON.stringify(expected))throw Error('Homepage service categories incorrect');
+ if(/Cadell 52|Timeless Safes|Ajax StarterKit/.test(await page.locator('main').innerText()))throw Error('Old product promotion remains');
+ for(const id of ['locksmiths','security','hardware','retail-trade']){const section=page.locator('#'+id);await section.scrollIntoViewIfNeeded();await section.locator('img').evaluate(img=>img.decode());await section.screenshot({path:path.join(dir,'service-'+id+'-desktop.png')});const link=section.locator('.links a').first(),target=await link.getAttribute('href');await link.click();await page.waitForURL(new URL(target,base).href);await page.goto(base,{waitUntil:'domcontentloaded'});}
+}
 await page.setViewportSize({width:390,height:844});
 for(const route of ['','about/index.html','commercial-locksmith/index.html','products/cadell-52.html','all-pages/index.html']){
 await page.goto(base+route,{waitUntil:'domcontentloaded'});if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+2))throw Error('Mobile overflow '+route);
 await page.screenshot({path:path.join(dir,(route.split('/')[0]||'home')+'-mobile.png'),fullPage:false});
+if(!route&&await page.locator('.service-feature').count()){for(const id of ['locksmiths','security','hardware','retail-trade']){const section=page.locator('#'+id);await section.scrollIntoViewIfNeeded();await section.locator('img').evaluate(img=>img.decode());await section.screenshot({path:path.join(dir,'service-'+id+'-mobile.png')});}await page.evaluate(()=>scrollTo(0,0));}
 await page.getByRole('button',{name:'Menu',exact:true}).click();await page.getByText('Security Systems',{exact:true}).first().click();await page.getByRole('link',{name:'Access Control',exact:true}).waitFor({state:'visible'});
 await page.keyboard.press('Escape');
 }

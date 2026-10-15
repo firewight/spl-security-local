@@ -1,0 +1,26 @@
+{
+  "locksmiths": {
+    "file": "A-Residential-Emergency-Locksmith-1920w.jpg",
+    "alt": "Locksmith working on a door lock",
+    "src": "assets/home-locksmiths.webp",
+    "source": "https://irp.cdn-website.com/b85feeb6/dms3rep/multi/opt/A-Residential-Emergency-Locksmith-1920w.jpg"
+  },
+  "security": {
+    "file": "IMG_1016-1920w.JPG",
+    "alt": "Technician reviewing CCTV camera feeds",
+    "src": "assets/home-security.webp",
+    "source": "https://irp.cdn-website.com/b85feeb6/dms3rep/multi/opt/IMG_1016-1920w.JPG"
+  },
+  "hardware": {
+    "file": "253180066_2027418890754274_105854141857844020_n-1920w.jpg",
+    "alt": "Brass door handle and cylinder lock",
+    "src": "assets/home-hardware.webp",
+    "source": "https://irp.cdn-website.com/b85feeb6/dms3rep/multi/opt/253180066_2027418890754274_105854141857844020_n-1920w.jpg"
+  },
+  "retail-trade": {
+    "file": "DSC02987-1920w.jpeg",
+    "alt": "Opening a combination safe",
+    "src": "assets/home-retail-trade.webp",
+    "source": "https://irp.cdn-website.com/b85feeb6/dms3rep/multi/opt/DSC02987-1920w.jpeg"
+  }
+}

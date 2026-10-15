@@ -22,7 +22,7 @@ Raw audit: `source-seo-audit.json`. Reproducible audit: `scripts/audit-source-se
 - All existing source paths remain available. Internal links prefer the four aliases' canonical destinations. The XML sitemap includes 174 primary routes, not duplicate aliases.
 - Source-backed social/business profile links on Contact; consistent name/address/phone; local share image and favicon; useful 404 recovery links.
 - Explicit dimensions for 1,383 image instances, asynchronous decoding and lazy loading below the fold on subpages; font preconnects. These reduce avoidable layout shifts/connections, not a claimed Core Web Vitals score.
-- Homepage visible body/design is preserved. Its metadata improves without replacing its product content.
+- Homepage design was preserved during the SEO work. Nato subsequently authorised replacing its product promotions with four primary service panels, retaining the same theme. The manifest records that approved content baseline; SEO checks ensure metadata generation does not alter it.
 
 The build receipt is `seo-build-report.json`; validation writes `verification/seo-validation.json`. Run `node scripts/optimize-seo.cjs` after any subpage rebuild, then `node scripts/verify-seo.cjs` and the content/browser checks in `REDESIGN.md`.
 
