@@ -99,4 +99,5 @@ fs.writeFileSync(path.join(out,'404.html'),`<!doctype html><html lang="en-AU"><h
 fs.writeFileSync(path.join(root,'seo-build-report.json'),JSON.stringify({mode:config.indexing,siteUrl:base.href,...stats,sitemapUrls:primary.length},null,2));console.log(JSON.stringify(stats,null,2));
 const csv=s=>'"'+String(s).replaceAll('"','""')+'"';
 require('./repair-page-layout.cjs')();
+require('./normalize-locksmith-headings.cjs')();
 fs.writeFileSync(path.join(root,'backlink-migration.csv'),['original_url,preferred_production_url,demo_canonical_url,launch_action',...audit.pages.filter(p=>!(config.excludedPaths||[]).includes(p.path)).map(p=>[new URL(p.path,config.businessUrl).href,new URL(sourcePath(p.path),config.businessUrl).href,canonicalUrl(p.path),sourcePath(p.path)===p.path?'Preserve existing production path':'301 redirect alias on production host at launch'].map(csv).join(','))].join('\n')+'\n');
