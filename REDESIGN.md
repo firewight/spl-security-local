@@ -31,3 +31,6 @@ GitHub Pages is static: the contact page prepares an email in the visitor's mail
 
 ### Retired download resources
 PDF and brochure downloads are no longer part of the demo. The Intercom quick-guide section and download-only Safe/Fire Door Hardware resource sections have been removed. `remove-download-resources.cjs` runs during SEO regeneration, image localization no longer fetches PDFs, and the consistency audit rejects PDF/brochure links and public PDF assets.
+
+### Sitewide consistency cleanup
+`clean-import-remnants.cjs` removes orphaned source form prompts, static form errors/confirmations, empty trading-hours labels and empty links. Careers uses the working enquiry route rather than claiming a missing application form. Service-section headings precede their photographs; linked article cards retain their image-first layout. The cleanup runs during SEO generation. All-page desktop/mobile layout verification also checks social-icon dimensions.
