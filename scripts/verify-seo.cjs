@@ -21,5 +21,7 @@ for(const f of files){const file=path.join(out,f),html=fs.readFileSync(file,'utf
 }
 assert.equal(broken.length,0,JSON.stringify(broken.slice(0,8)));assert.equal(missingAlts.length,0);assert.equal(faqs,report.faqPages);
 const contact=load(fs.readFileSync(path.join(out,'contact/index.html'),'utf8'));assert(contact('.business-hours').text().includes('7:00 am'));assert(contact('.business-hours').text().includes('8:00 am'));assert.equal(contact('.official-profiles a').length,5);
+const about=load(fs.readFileSync(path.join(out,'about/index.html'),'utf8'));for(const [id,label]of [['OurValues','Our Values'],['OurStory','Our Story']]){assert.equal(about('[id="'+id+'"]').length,1);assert.equal(about('[id="'+id+'"]').text().trim(),label);}
+assert(contact('.business-hours').next().is('.contact-draft'),'Contact form must follow visit details');assert.equal(contact('.contact-socials img').length,5);assert(!contact('.editorial-content h2').toArray().some(e=>contact(e).text().trim()==='Contact Details'),'Duplicate contact details heading');
 const result={pagesVerified:files.length,sitemapUrls:sitemap.length,schemaNodes:schemas,faqPages:faqs,brokenLocalLinks:broken.length,homepageUnchanged:true,indexing:config.indexing};
 fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification/seo-validation.json'),JSON.stringify(result,null,2));console.log(JSON.stringify(result,null,2));

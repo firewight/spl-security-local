@@ -31,6 +31,13 @@ if(!route&&await page.locator('.service-feature').count()){for(const id of ['loc
 await page.getByRole('button',{name:'Menu',exact:true}).click();await page.getByText('Security Systems',{exact:true}).first().click();await page.getByRole('link',{name:'Access Control',exact:true}).waitFor({state:'visible'});
 await page.keyboard.press('Escape');
 }
+for(const width of [1440,390]){
+await page.setViewportSize({width,height:1000});await page.goto(base,{waitUntil:'domcontentloaded'});
+for(const [id,label]of [['OurValues','Our Values'],['OurStory','Our Story']]){if(width===390)await page.getByRole('button',{name:'Menu',exact:true}).click();await page.locator('#main-nav summary').filter({hasText:/^About$/}).click();await page.locator('#main-nav a').filter({hasText:new RegExp('^'+label+'$')}).click();await page.waitForURL('**#'+id);await page.waitForFunction(id=>{const y=document.getElementById(id)?.getBoundingClientRect().top;return y>=70&&y<200;},id);}
+await page.goto(base+'contact/index.html',{waitUntil:'domcontentloaded'});if(!await page.locator('.business-hours + .contact-draft').count())throw Error('Contact form order incorrect');
+await page.locator('.contact-socials').scrollIntoViewIfNeeded();for(const img of await page.locator('.contact-socials img').all()){await img.evaluate(el=>el.decode());const size=await img.boundingBox();if(size.width>40||size.height>40)throw Error('Oversized contact social icon');}
+await page.screenshot({path:path.join(dir,'contact-layout-'+width+'.png'),fullPage:false});
+}
 if(errors.length)throw Error(JSON.stringify(errors));
 console.log('Passed desktop/mobile layouts, nested navigation, page directory search, no page errors.');await browser.close();
 })().then(()=>process.exit(0)).catch(e=>{console.error(e);process.exit(1)});
