@@ -18,11 +18,12 @@
 .hero-slides{position:relative;display:grid;place-items:center}
 .hero-slide{grid-area:1/1;opacity:0;visibility:hidden;transition:opacity .8s ease,visibility 0s linear .8s}
 .hero-slide.is-active{opacity:1;visibility:visible;transition:opacity .8s ease}
-.hub-face.hub-photo{padding:0;margin:0;overflow:hidden;display:block}
-.hub-photo picture,.hub-photo img{display:block;width:100%;height:100%;object-fit:cover}
-.hub-photo:after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,#0000 45%,#000c 100%),radial-gradient(circle at 30% 20%,#f7c60022,#0000 60%);box-shadow:inset 0 0 0 1px #ffffff1a}
-.hub-photo figcaption{position:absolute;left:18px;bottom:18px;z-index:1;font:800 15px/1 Manrope,sans-serif;letter-spacing:-.02em;color:#fff;display:flex;align-items:center;gap:8px}
-.hub-photo figcaption:before{content:"";width:9px;height:9px;border-radius:50%;background:#f5c700;box-shadow:0 0 13px #f5c700}
+/* product slides: cut-out product floating on the hero glow (no card), 80% of the 330px slide-1 card height */
+.hub-float{margin:0;display:flex;flex-direction:column;align-items:center;gap:14px}
+.hub-float picture{display:block}
+.hub-float img{display:block;height:264px;width:auto;max-width:min(340px,80vw);object-fit:contain;filter:drop-shadow(0 24px 30px #000a) drop-shadow(0 0 18px #f7c6002e)}
+.hub-float figcaption{display:flex;align-items:center;gap:8px;font:700 14px/1 Manrope,sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#f5f5f5}
+.hub-float figcaption:before{content:"";width:8px;height:8px;border-radius:50%;background:#f7c600;box-shadow:0 0 10px #f7c600}
 .hero-dots{position:absolute;left:0;right:0;bottom:18px;display:flex;justify-content:center;gap:4px;z-index:2}
 .hero-dot{width:28px;height:28px;padding:0;border:0;background:transparent;cursor:pointer;display:grid;place-items:center}
 .hero-dot:before{content:"";width:8px;height:8px;border-radius:50%;background:#ffffff55;transition:background .2s,transform .2s}
