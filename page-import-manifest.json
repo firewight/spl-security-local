@@ -1,7 +1,7 @@
 {
   "source": "https://www.splsecurity.com.au",
   "importedAt": "2026-10-15T03:33:14.618Z",
-  "homepageMainSha256": "8d850c15782ac79be9f0d2846c4f1962cc39413ce6c63c7d9b1c165fabb41aca",
+  "homepageMainSha256": "80fe4d4523c71aee77224c4698ebc649ca150f0b4aa8d0e549198f1066ecb1af",
   "pages": [
     {
       "url": "/blog/24-7-gold-coast-locksmith-secrets-to-our-success",
@@ -601,6 +601,6 @@
     }
   ],
   "failures": [],
-  "homepageUpdatedAt": "2026-10-16T05:37:59.736Z",
+  "homepageUpdatedAt": "2026-10-16T06:19:47.557Z",
   "homepageChange": "Homepage: contrast fixes (CSS only)"
 }
