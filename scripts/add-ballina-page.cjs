@@ -57,6 +57,11 @@ module.exports=function run(){
   if(h!==b)fs.writeFileSync(f,h);}
  // Ballina showroom cards: the 24/7 emergency line is the Ballina landline (Gold Coast cards keep (07) 55 888 111).
  for(const f of walk(out)){const h=fs.readFileSync(f,'utf8');const n=h.replace(/<article class="showroom-card">(?:(?!<\/article>)[\s\S])*?Ballina NSW 2478(?:(?!<\/article>)[\s\S])*?<\/article>/g,c=>c.replace('<dt>24/7 emergency</dt><dd><a href="tel:+61755888111">(07) 55 888 111</a></dd>','<dt>24/7 emergency</dt><dd><a href="tel:+61266867675">(02) 6686 7675</a></dd>'));if(n!==h)fs.writeFileSync(f,n);}
+ // Main nav: Locations becomes a dropdown (All locations, Gold Coast, Ballina) in the existing nav-group style.
+ for(const f of walk(out)){const h=fs.readFileSync(f,'utf8');if(/http-equiv="refresh"/.test(h))continue;
+  const up=p=>path.relative(path.dirname(f),path.join(out,p)).replaceAll('\\','/');
+  const n=h.replace(/(<nav id="main-nav"[^>]*>[\s\S]*?)<a href="(?:[^"]*locations\/)?index\.html"(?: aria-current="page")?>Locations<\/a>/,(m,pre)=>`${pre}<details class="nav-group"><summary>Locations</summary><div class="nav-dropdown"><a href="${up('locations/index.html')}">All locations</a><a href="${up('locations/index.html')}#gold-coast">Gold Coast</a><a href="${up('ballina/index.html')}">Ballina</a></div></details>`);
+  if(n!==h)fs.writeFileSync(f,n);}
  // launch 301s for the old Ballina domain (no old Ballina paths are recorded in the repo; catch-all to /ballina/)
  const cf=path.join(root,'backlink-migration.csv');const lines=fs.readFileSync(cf,'utf8').trimEnd().split('\n');const csv=s=>'"'+String(s).replaceAll('"','""')+'"';
  const old={'':'ballina','transponder-key/':'auto-locksmith','flip-keys/':'auto-locksmith','replacement-keys/':'auto-locksmith','automotive/':'auto-locksmith','mobile-locksmiths/':'auto-locksmith',
