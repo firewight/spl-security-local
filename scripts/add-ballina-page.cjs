@@ -95,5 +95,8 @@ module.exports=function run(){
    .replace('href="tel:+61755888111"><span><small>CALL SPL · 24/7 EMERGENCIES</small><strong>(07) 55 888 111</strong>','href="tel:+61266867675"><span><small>CALL SPL BALLINA · 24/7 EMERGENCIES</small><strong>(02) 6686 7675</strong>')
    .replace('href="mailto:info@spl.com.au"><span><small>EMAIL OUR TEAM</small><strong>info@spl.com.au</strong>','href="mailto:ballina@spl.com.au"><span><small>EMAIL OUR BALLINA TEAM</small><strong>ballina@spl.com.au</strong>'));
   if(h!==b)fs.writeFileSync(bf,h);}
+ // Ballina van photo (from the old Ballina site, transparent lossless WebP) after the About section.
+ {const bf=path.join(out,'ballina/index.html');let h=fs.readFileSync(bf,'utf8');
+  if(!h.includes('spl-ballina-van')){h=h.replace(/(<div class="editorial-block"><h2 id="section-about-spl-ballina">[\s\S]*?<\/div>\n)/,`$1<figure class="editorial-image ballina-van"><img src="../assets/spl-ballina-van.webp" srcset="../assets/spl-ballina-van-800.webp 800w, ../assets/spl-ballina-van.webp 1200w" sizes="(max-width: 900px) 92vw, 760px" alt="White SPL Ballina Locksmiths van with the SPL logo, (02) 6686 7675 and 24 HR Emergency Service on the side" width="1200" height="598" loading="lazy" decoding="async"></figure>\n`);fs.writeFileSync(bf,h);}}
 };
 if(require.main===module){module.exports();console.log('ballina page built');}
