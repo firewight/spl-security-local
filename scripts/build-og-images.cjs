@@ -21,7 +21,6 @@ const cards={
  'cctv':{title:'Security Cameras & CCTV Systems',pages:['cctv-system/index.html']},
  'access-control':{title:'Access Control Systems',pages:['access-control-systems/index.html','access-control/index.html']},
  'intercoms':{title:'Intercom Systems',pages:['intercom/index.html']},
- 'home-automation':{title:'Home Automation',pages:['home-automation/index.html']},
  'door-hardware':{title:'Door Hardware',pages:['door-hardware/index.html']},
  'architectural-door-hardware':{title:'Architectural Door Hardware',pages:['architectural-door-hardware/index.html']},
  'door-handles':{title:'Lever Door Handles',pages:['door-handles/index.html']},

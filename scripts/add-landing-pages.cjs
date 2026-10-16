@@ -9,7 +9,8 @@ const esc=s=>String(s).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceA
 const slugId=s=>'section-'+s.toLowerCase().replace(/&amp;|&/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 
 const pages=[
-{slug:'home-automation',crumb:'Home Automation',h1:'Home Automation',
+{slug:'home-automation',draft:true,// parked in drafts/home-automation/ until SPL approves; not built or linked
+crumb:'Home Automation',h1:'Home Automation',
  title:'Home Automation on the Gold Coast | SPL Security Solutions',
  description:'Smart home automation built on your security system: app control of alarms, lighting, gates and appliances. Talk to SPL Security Solutions on (07) 55 888 111.',
  summary:'We can extend a modern security system into home automation, so lighting, gates, appliances and security modes are managed from the same app as your alarm and cameras.',
@@ -29,7 +30,7 @@ const pages=[
  sections:[
   ['Before you leave home',`<ul><li>Walk around and check every door, window, sliding door and garage door actually locks. Fix sticking or worn locks before you go.</li><li>Lock side gates, sheds and garages, and put away ladders and tools that could help someone get in.</li><li>Don't leave a spare key under the mat or in a pot plant. Leave it with someone you trust instead.</li><li>Move valuables, documents and spare car keys out of sight, ideally into a <a href="../safe/index.html">safe</a>.</li><li>Unplug non-essential appliances and turn off water to washing machines if you're away for long.</li></ul>`],
   ['Make the property look lived in',`<ul><li>Use timers or smart lighting so lights come on in the evening.</li><li>Ask a neighbour to collect mail and parcels, put bins out and back, and park in the driveway now and then.</li><li>Pause deliveries, or have them sent somewhere else while you're away.</li><li>Keep the lawn and garden tidy before you leave.</li><li>Avoid posting travel plans or holiday photos on social media until you're home.</li></ul>`],
-  ['Check your alarm and cameras',`<ul><li>Test your <a href="../alarm-system/index.html">alarm system</a> and replace backup and sensor batteries if they're due.</li><li>Make sure your contact details and any monitoring arrangements are up to date. Find out about <a href="../alarm-monitoring/index.html#AlarmMonitoringandPatrolService">alarm monitoring</a> if no one will be nearby to respond.</li><li>Confirm your <a href="../cctv-system/index.html">CCTV cameras</a> are online, recording and viewable from your phone, and that lenses are clean.</li><li>If you use <a href="../home-automation/index.html">home automation</a>, set lighting scenes and check notifications reach you while you're away.</li></ul>`],
+  ['Check your alarm and cameras',`<ul><li>Test your <a href="../alarm-system/index.html">alarm system</a> and replace backup and sensor batteries if they're due.</li><li>Make sure your contact details and any monitoring arrangements are up to date. Find out about <a href="../alarm-monitoring/index.html#AlarmMonitoringandPatrolService">alarm monitoring</a> if no one will be nearby to respond.</li><li>Confirm your <a href="../cctv-system/index.html">CCTV cameras</a> are online, recording and viewable from your phone, and that lenses are clean.</li><li>If you use smart lighting or automation, set lighting scenes and check notifications reach you while you're away.</li></ul>`],
   ['Closing your business for the holidays',`<ul><li>Review who has keys, cards or codes, and remove access for staff or contractors who no longer need it. <a href="../access-control-systems/index.html">Access control</a> lets you change permissions without rekeying.</li><li>Check that restricted or master key records are current and that no keys are unaccounted for.</li><li>Set alarm schedules and holiday hours, and update the after-hours contact list.</li><li>Remove cash and valuables from registers and display areas, and lock them away.</li><li>Check doors, closers and roller doors close and latch properly, including fire and rear exits.</li><li>Make sure intercoms, cameras and alarm communications are working before the last person leaves.</li></ul>`],
   ['When you get back',`<ul><li>Check doors, windows and fences for signs of tampering.</li><li>Review alarm and camera events for anything unusual.</li><li>If you've lost keys or think someone may have a copy, have the <a href="../residential-locksmith/index.html">locks rekeyed or changed</a>.</li></ul>`],
   ['Need a hand before you go?',`<p>If something needs fixing before you leave, from a lock that won't latch to an alarm or camera that needs servicing, call SPL on (07) 55 888 111 or <a href="../contact/index.html#contact-enquiry">send us an enquiry</a>. For a lockout or break-in while you're away, our <a href="../emergency-locksmith/index.html">24/7 emergency</a> line is the same number.</p>`]],
@@ -37,7 +38,7 @@ const pages=[
 ];
 
 const template=fs.readFileSync(path.join(out,'intercom/index.html'),'utf8');
-for(const p of pages){
+for(const p of pages.filter(p=>!p.draft)){
  const $=load(template),url=base+p.slug+'/',img=base+p.image.src;
  $('head>title').text(p.title);
  const setMeta=(sel,v)=>$(sel).attr('content',v);
@@ -63,7 +64,7 @@ fs.writeFileSync(manifestFile,JSON.stringify(manifest,null,2)+'\n');
 
 // Sitemap
 const smFile=path.join(out,'sitemap.xml');let sm=fs.readFileSync(smFile,'utf8');
-for(const p of pages){const loc=`<url><loc>${base}${p.slug}/</loc></url>`;if(!sm.includes(loc))sm=sm.replace('</urlset>',loc+'\n</urlset>');}
+for(const p of pages.filter(p=>!p.draft)){const loc=`<url><loc>${base}${p.slug}/</loc></url>`;if(!sm.includes(loc))sm=sm.replace('</urlset>',loc+'\n</urlset>');}
 fs.writeFileSync(smFile,sm);
 const repFile=path.join(root,'seo-build-report.json'),rep=JSON.parse(fs.readFileSync(repFile,'utf8'));rep.sitemapUrls=(sm.match(/<loc>/g)||[]).length;fs.writeFileSync(repFile,JSON.stringify(rep,null,2));
 
@@ -72,10 +73,6 @@ function walk(d,acc=[]){for(const e of fs.readdirSync(d,{withFileTypes:true})){c
 for(const file of walk(out)){
  let html=fs.readFileSync(file,'utf8');const before=html;
  const rel=t=>path.relative(path.dirname(file),path.join(out,t)).replaceAll('\\','/');
- // Nav: add Home Automation after Alarm Systems in the Security Systems dropdown.
- if(!html.includes('>Home Automation</a>')||!/nav-dropdown[^]*?>Home Automation<\/a>/.test(html)){
-  html=html.replace(/(<a href="[^"]*alarm-system\/index\.html">Alarm Systems<\/a>)(<a href="[^"]*alarm-monitoring\/index\.html">Maintenance)/,`$1<a href="${rel('home-automation/index.html')}">Home Automation</a>$2`);
- }
  // Footer: holiday tips link under the address.
  if(html.includes('class="expanded-footer"')&&!html.includes('class="footer-links"')){
   html=html.replace(/(<footer class="expanded-footer">[\s\S]*?<p>101 Ashmore Rd, Bundall QLD 4217<\/p>)/,`$1<p class="footer-links"><a href="${rel('holiday-security-tips/index.html')}">Holiday security tips</a> · <a href="${rel('articles/index.html')}">Helpful articles</a></p>`);
@@ -83,19 +80,6 @@ for(const file of walk(out)){
  if(html!==before)fs.writeFileSync(file,html);
 }
 
-// Security Systems overview: service list, a short section and Explore more.
-{const f=path.join(out,'security-systems/index.html');const $=load(fs.readFileSync(f,'utf8'));
- if(!$('main a[href="../home-automation/index.html"]').length){
-  const alarm=$('main a[href="../alarm-system/index.html"]').filter((i,e)=>/Alarm Systems/.test($(e).text())).first();
-  const tag=alarm.clone();tag.attr('href','../home-automation/index.html').html('Home Automation <span aria-hidden="true">↗</span>');alarm.after(tag);
-  const sec=$('#section-alarm-monitoring').closest('.editorial-block');
-  sec.before(`<div class="editorial-block"><h2 id="section-home-automation">Home Automation</h2><p>Modern alarm platforms can also manage <a href="../home-automation/index.html">home automation</a>, such as lighting, gates, appliances and automatic security modes, from the same app as your alarm and cameras.</p></div>\n`);
-  $('.page-toc div a[href="#section-alarm-monitoring"]').before('<a href="#section-home-automation">Home Automation</a>');
-  $('.related-links a[href="../alarm-system/index.html"]').after('<a href="../home-automation/index.html">Home Automation <span aria-hidden="true">↗</span></a>');
-  fs.writeFileSync(f,$.html());}}
-// Alarm system page: link the Ajax automation copy to the new page.
-{const f=path.join(out,'alarm-system/index.html');const $=load(fs.readFileSync(f,'utf8'));
- if(!$('.related-links a[href="../home-automation/index.html"]').length){$('.related-links').append('<a href="../home-automation/index.html">Home Automation <span aria-hidden="true">↗</span></a>');fs.writeFileSync(f,$.html());}}
 // Helpful Articles: feature the holiday tips first.
 {const f=path.join(out,'articles/index.html');const $=load(fs.readFileSync(f,'utf8'));
  if(!$('main a[href="../holiday-security-tips/index.html"]').length){

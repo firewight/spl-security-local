@@ -604,13 +604,6 @@
       "blocks": 24
     },
     {
-      "url": "/home-automation",
-      "title": "Home Automation",
-      "file": "home-automation/index.html",
-      "blocks": 6,
-      "addedAt": "2026-10-16"
-    },
-    {
       "url": "/holiday-security-tips",
       "title": "Holiday Security Tips for Homes and Businesses",
       "file": "holiday-security-tips/index.html",
