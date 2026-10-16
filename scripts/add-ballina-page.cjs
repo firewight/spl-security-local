@@ -89,5 +89,11 @@ module.exports=function run(){
  const rows=[];for(const [p,to]of Object.entries(old)){rows.push(['https://ballinalocksmiths.com.au/'+p,to]);if(p==='')rows.push(['https://www.ballinalocksmiths.com.au/',to]);}
  for(const [from,to] of rows){const row=[from,prod+'/'+to,base+to+'/',`301 redirect to /${to} at launch (old Ballina Locksmiths site${from.endsWith('*')?'; catch-all for any other path, www and non-www':''})`].map(csv).join(',');const i=lines.findIndex(x=>x.startsWith(csv(from)+','));if(i>=0)lines[i]=row;else lines.push(row);}
  fs.writeFileSync(cf,lines.join('\n')+'\n');
+ // /ballina/ contact panel: Ballina phone and email (the site-wide header and footer keep the Gold Coast details).
+ {const bf=path.join(out,'ballina/index.html');let h=fs.readFileSync(bf,'utf8');const b=h;
+  h=h.replace(/(<section class="contact-options"[\s\S]*?<\/section>)/,sec=>sec
+   .replace('href="tel:+61755888111"><span><small>CALL SPL · 24/7 EMERGENCIES</small><strong>(07) 55 888 111</strong>','href="tel:+61266867675"><span><small>CALL SPL BALLINA · 24/7 EMERGENCIES</small><strong>(02) 6686 7675</strong>')
+   .replace('href="mailto:info@spl.com.au"><span><small>EMAIL OUR TEAM</small><strong>info@spl.com.au</strong>','href="mailto:ballina@spl.com.au"><span><small>EMAIL OUR BALLINA TEAM</small><strong>ballina@spl.com.au</strong>'));
+  if(h!==b)fs.writeFileSync(bf,h);}
 };
 if(require.main===module){module.exports();console.log('ballina page built');}
