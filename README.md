@@ -41,4 +41,4 @@ Edit `to_email` in the server's `api/config.php` from `support@spl.com.au` to `i
 ## Image credits
 
 - Homepage hero "Security Systems" slide (`public/assets/hero-product-security.*`): official Hikvision product photo of the **DS-2CD2347G2-LU** 4 MP ColorVu fixed turret network camera, from the Hikvision product page https://www.hikvision.com/en/products/IP-Products/Network-Cameras/Pro-Series-EasyIP-/ds-2cd2347g2-l-u-/ (served from assets.hikvision.com). It's used because SPL installs Hikvision products. It was cut out and graded to match the site.
-- The other hero products are SPL's own photos (keys) and images from the old splsecurity.com.au site (lever, Dominator safe).
+- The other hero products are SPL's own photos (keys) and a user-supplied safe photo, and an image from the old splsecurity.com.au site (lever).
