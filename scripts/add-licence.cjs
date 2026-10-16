@@ -13,6 +13,8 @@ module.exports=function(){let n=0;
   const rel=path.relative(out,path.dirname(f)).replaceAll('\\','/');
   const fact=LOCK.includes(rel)?'Master Locksmiths Association of Australasia member 6386':SEC.includes(rel)?'ASIAL member C908':'';
   if(fact&&!h.includes(fact))h=h.replace(/(<div class="service-facts">[\s\S]*?)(<\/div>)/,`$1<span>${fact}</span>$2`);
+  // ASIAL logo supplied by the user (from asial.com.au), CMYK->sRGB via embedded ICC, resized, lossless WebP; not recoloured.
+  if(SEC.includes(rel)&&!h.includes('asial-logo.webp'))h=h.replace('<span>ASIAL member C908</span>','<span style="display:inline-flex;align-items:center;gap:8px"><img src="../assets/asial-logo.webp" alt="Australian Security Industry Association Limited (ASIAL) logo" width="50" height="37" loading="lazy" decoding="async" style="width:50px;height:auto;flex:none">ASIAL member C908</span>');
   // Official MLAA Professional Guarantee badge (as used on SPL's previous site), unmodified, beside the MLAA line.
   if(LOCK.includes(rel)&&!h.includes('mlaa-professional-guarantee.png'))h=h.replace('<span>Master Locksmiths Association of Australasia member 6386</span>','<span style="display:inline-flex;align-items:center;gap:8px"><img src="../assets/mlaa-professional-guarantee.png" alt="Master Locksmiths Professional Guarantee badge" width="48" height="37" loading="lazy" decoding="async" style="width:48px;height:auto;flex:none">Master Locksmiths Association of Australasia member 6386</span>');
   // Footer legal line
