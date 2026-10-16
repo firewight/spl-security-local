@@ -19,5 +19,9 @@ module.exports=function run(){let n=0;
    const id='nav-sub-'+slug(label);
    return `<div class="nav-group"><a class="nav-top-link" href="${href}">${label}</a><button type="button" class="nav-expand" aria-expanded="false" aria-controls="${id}" aria-label="Show ${label} menu"></button><div class="nav-dropdown" id="${id}" hidden>${items}</div></div>`;});
   if(x!==h){fs.writeFileSync(f,x);n++;}}
+ // Top-menu 'Contact Us' goes to the contact page (not the #contact-options panel at the bottom).
+ for(const f of walk(out)){const h=fs.readFileSync(f,'utf8');const href=path.relative(path.dirname(f),path.join(out,'contact/index.html')).replaceAll('\\','/');
+  const x=h.replace(/(<\/div><\/div>)<a href="#contact-options">Contact Us<\/a>(<\/nav>)/,`$1<a href="${href}">Contact Us</a>$2`);
+  if(x!==h){fs.writeFileSync(f,x);n++;}}
  return n;};
 if(require.main===module)console.log(JSON.stringify({files:module.exports()}));
