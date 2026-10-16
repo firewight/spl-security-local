@@ -598,6 +598,13 @@
       "file": "ballina/index.html",
       "blocks": 4,
       "addedAt": "2026-10-16"
+    },
+    {
+      "url": "/blog",
+      "title": "Blog",
+      "file": "blog/index.html",
+      "blocks": 1,
+      "addedAt": "2026-10-16"
     }
   ],
   "failures": [],
