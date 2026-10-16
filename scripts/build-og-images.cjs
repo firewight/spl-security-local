@@ -12,7 +12,7 @@ const cards={
  'locksmiths':{title:'Locksmith Services',pages:['locksmith-services/index.html','locksmiths/index.html']},
  'residential-locksmiths':{title:'Residential Locksmiths',pages:['residential-locksmith/index.html']},
  'commercial-locksmiths':{title:'Commercial Locksmiths',pages:['commercial-locksmith/index.html']},
- 'auto-locksmiths':{title:'Auto Locksmiths',pages:['auto-locksmith/index.html']},
+ 'auto-locksmiths':{title:'24/7 Auto Locksmiths',pages:['auto-locksmith/index.html']},
  'emergency-locksmiths':{title:'24/7 Emergency Locksmiths',pages:['emergency-locksmith/index.html']},
  'restricted-keys':{title:'Restricted Key Systems',pages:['restricted-keys/index.html']},
  'security-systems':{title:'Security Systems',pages:['security-systems/index.html']},
