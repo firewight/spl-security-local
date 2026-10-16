@@ -6,17 +6,17 @@ const fs=require('fs'),path=require('path'),{load}=require('cheerio');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'public'),config=require('../seo.config.json'),base=config.siteUrl;
 const walk=(d,a=[])=>{for(const e of fs.readdirSync(d,{withFileTypes:true})){const f=path.join(d,e.name);if(e.isDirectory())walk(f,a);else if(e.name.endsWith('.html'))a.push(f);}return a;};
 const slug=s=>'section-'+s.toLowerCase().replace(/&amp;/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-const CONTACT=`<p><strong>SPL Security Solutions</strong><br>101 Ashmore Rd, Bundall QLD 4217<br>Phone (07) 55 888 111<br>Email info@spl.com.au</p><p><strong>SPL Ballina Security</strong><br>Unit 2/269 River Street, Ballina NSW 2478<br>Phone (02) 6686 7675<br>Email ballina@spl.com.au</p>`;
+const CONTACT=`<p><strong>SPL Security Solutions</strong><br>SPL Security Solutions Pty Ltd, ABN 39 088 382 745<br>101 Ashmore Rd, Bundall QLD 4217<br>Phone (07) 55 888 111<br>Email info@spl.com.au</p><p><strong>SPL Ballina Security</strong><br>Unit 2/269 River Street, Ballina NSW 2478<br>Phone (02) 6686 7675<br>Email ballina@spl.com.au</p>`;
 const PAGES={
  'privacy-policy':{title:'Privacy Policy | SPL Security Solutions',h1:'Privacy Policy',
   description:'How SPL Security Solutions collects, uses and protects personal information from website enquiries, under the Australian Privacy Principles.',
   summary:'We collect the details you send through our enquiry form to reply to you. Enquiries go to our team by email, and we don’t sell or rent your personal information.',
   sections:[
-   ['About this policy','<p>SPL Security Solutions (“SPL”, “we”, “us”) respects your privacy. This policy explains how we handle personal information collected through this website, in line with the Privacy Act 1988 (Cth) and the Australian Privacy Principles.</p>'],
+   ['About this policy','<p>SPL Security Solutions (“SPL”, “we”, “us”) respects your privacy. This policy explains how we handle personal information collected through this website, SPL is bound by the Privacy Act 1988 (Cth) and handles personal information in accordance with the Australian Privacy Principles (APPs).</p>'],
    ['What we collect','<p>When you send an enquiry through our website form, we collect your name, phone number, email address, the service you’re interested in and your message. We also record the date and time of the enquiry and the IP address it was sent from, to help prevent spam and misuse.</p><p>If you call or email us, we collect the details you choose to give us.</p>'],
    ['How we use your information','<p>We use your information to reply to your enquiry, prepare quotes, provide the products and services you ask for, and keep records of our dealings with you. We don’t sell or rent your personal information.</p>'],
    ['How enquiries are sent and stored','<p>Enquiries from our website form are sent by email to the SPL Security Solutions team and kept in our email system. To limit repeated automated submissions, our website briefly keeps a coded (hashed) form of the IP address used to send an enquiry, not the address itself.</p>'],
-   ['Cookies and analytics','<p>We plan to use Google Analytics to understand how visitors use this website, for example which pages are visited and the type of device and browser used. Google Analytics uses cookies, and the information is collected and processed by Google, which may store it outside Australia. You can block or delete cookies in your browser settings, or use Google’s opt-out browser add-on.</p><p>Our location pages show embedded Google Maps, which are provided by Google and may also use cookies.</p>'],
+   ['Cookies and analytics','<p>We use Google Analytics to understand how visitors use this website, for example which pages are visited and the type of device and browser used. Google Analytics uses cookies, and the information it collects is processed by Google, which may store and process it outside Australia, including in the United States.</p><p>You can block or delete cookies in your browser settings, or opt out of Google Analytics with the <a href="https://tools.google.com/dlpage/gaoptout">Google Analytics opt-out browser add-on</a>. For more on how Google handles data, see <a href="https://policies.google.com/privacy">Google’s privacy policy</a>.</p><p>Our location pages show embedded Google Maps, which are provided by Google and may also use cookies.</p>'],
    ['Who we share information with','<p>We only share personal information with service providers who help us run our business and this website (such as our email and website hosting providers), or where we are required or authorised by law.</p>'],
    ['Keeping your information secure','<p>We take reasonable steps to protect personal information from misuse, loss and unauthorised access, and to delete or de-identify it when we no longer need it.</p>'],
    ['Access, correction and complaints','<p>You can ask to access or correct the personal information we hold about you, or make a privacy complaint, by contacting us using the details below. We’ll respond within a reasonable time. If you’re not satisfied with our response, you can contact the Office of the Australian Information Commissioner at <a href="https://www.oaic.gov.au/">oaic.gov.au</a>.</p>'],
@@ -34,6 +34,7 @@ const PAGES={
    ['Intellectual property','<p>The content on this website, including text, photos, logos and design, belongs to SPL Security Solutions or is used with permission. Please don’t copy or reuse it without our written permission. Product names and brands belong to their owners.</p>'],
    ['Links to other websites','<p>This website links to other websites, such as suppliers and social media. We don’t control those websites and aren’t responsible for their content or privacy practices.</p>'],
    ['Liability','<p>To the extent permitted by law, we aren’t liable for any loss arising from your use of this website or reliance on its general information. Nothing in these terms excludes rights you have under the Australian Consumer Law.</p>'],
+   ['Governing law','<p>These terms are governed by the laws of Queensland, Australia. You and SPL submit to the non-exclusive jurisdiction of the courts of Queensland.</p>'],
    ['Contact us',CONTACT],
    ['Changes to these terms','<p>We may update these terms from time to time. This version was last updated in October 2026.</p>']]}};
 const tpl=()=>load(fs.readFileSync(path.join(out,'holiday-security-tips/index.html'),'utf8'));
@@ -74,12 +75,13 @@ function build404(){const $=tpl(),bp=new URL(base).pathname;
  html=html.replace(/(href|src)="\.\.\/([^"]*)"/g,(m,a,p)=>`${a}="${bp}${p.replace(/index\.html$/,'')}"`).replace(/(href|src)="\.\.\/?"/g,`$1="${bp}"`);
  fs.writeFileSync(path.join(out,'404.html'),html);}
 function footers(){let n=0;
- for(const f of walk(out)){let h=fs.readFileSync(f,'utf8');const b=h;if(/http-equiv="refresh"/.test(h)||path.relative(out,f)==='404.html')continue;
+ for(const f of walk(out)){let h=fs.readFileSync(f,'utf8');const b=h;if(/http-equiv="refresh"/.test(h))continue;const is404=path.relative(out,f)==='404.html';
   const up=path.relative(path.dirname(f),out).replaceAll('\\','/'),pre=up?up+'/':'./';
   const add=`<a href="${pre}privacy-policy/index.html">Privacy policy</a> · <a href="${pre}terms-of-use/index.html">Terms of use</a>`;
-  if(!h.includes('privacy-policy/index.html">Privacy policy</a>')){
+  if(!is404&&!h.includes('privacy-policy/index.html">Privacy policy</a>')){
    if(/<p class="footer-links">/.test(h))h=h.replace(/(<p class="footer-links">[\s\S]*?)(<\/p>)/,`$1 · ${add}$2`);
    else h=h.replace(/(<footer[\s\S]*?<span>\(07\) 55 888 111<\/span>)/,`$1\n      <p class="footer-links">${add}</p>`);}
+  if(!h.includes('footer-abn'))h=h.replace(/(<p class="footer-links">[\s\S]*?<\/p>)/,`$1\n      <p class="footer-links footer-abn">SPL Security Solutions Pty Ltd · ABN 39 088 382 745</p>`);
   if(h!==b){fs.writeFileSync(f,h);n++;}}
  return n;}
 module.exports=function run(){for(const [k,p] of Object.entries(PAGES))buildPage(k,p);build404();return {legalPages:Object.keys(PAGES).length,footersUpdated:footers()};};
