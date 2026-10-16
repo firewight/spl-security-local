@@ -69,6 +69,16 @@ module.exports=function run(){
   if(f.endsWith('locations/index.html'))n2=n2.replace('<article class="showroom-card" id="brisbane-office" style="scroll-margin-top:86px">','<article class="showroom-card">');
   if(f.endsWith('locations/index.html'))n2=n2.replace('<h3 id="gold-coast">SPL Security Gold Coast</h3>','<h3 id="gold-coast">SPL Security Gold Coast &amp; Brisbane</h3>');
   if(n2!==h)fs.writeFileSync(f,n2);}
+ // Showroom cards: 'Get directions' goes to our own embedded maps (same tab), not external Google Maps.
+ // Gold Coast -> /locations/#gold-coast-map, Ballina -> /ballina/#ballina-map.
+ for(const f of walk(out)){let h=fs.readFileSync(f,'utf8');const b=h;const up=p=>path.relative(path.dirname(f),path.join(out,p)).replaceAll('\\','/');
+  if(f.endsWith(path.join('locations','index.html')))h=h.replace(/(<article class="showroom-card"[^>]*><h3 id="gold-coast">(?:(?!<\/article>)[\s\S])*?)<div class="showroom-map">/,'$1<div class="showroom-map" id="gold-coast-map" style="scroll-margin-top:110px">');
+  if(f.endsWith(path.join('ballina','index.html')))h=h.replace(/<div class="showroom-map">/,'<div class="showroom-map" id="ballina-map" style="scroll-margin-top:110px">');
+  h=h.replace(/<article class="showroom-card"[^>]*>(?:(?!<\/article>)[\s\S])*?<\/article>/g,c=>{
+   const target=/Ballina NSW 2478/.test(c)?up('ballina/index.html')+'#ballina-map':/Bundall QLD 4217/.test(c)?up('locations/index.html')+'#gold-coast-map':null;if(!target)return c;
+   const href=target.replace(/^(?:index\.html)(#.*)$/,'$1');
+   return c.replace(/<a href="[^"]*"(?: rel="noopener noreferrer")?(?: target="_blank")?(?: rel="noopener noreferrer")?>Get directions(?: ↗)?(?:<span class="sr-only"> \(opens in a new tab\)<\/span>)?<\/a>/,`<a href="${href}">Get directions</a>`);});
+  if(h!==b)fs.writeFileSync(f,h);}
  // launch 301s for the old Ballina domain (no old Ballina paths are recorded in the repo; catch-all to /ballina/)
  const cf=path.join(root,'backlink-migration.csv');const lines=fs.readFileSync(cf,'utf8').trimEnd().split('\n');const csv=s=>'"'+String(s).replaceAll('"','""')+'"';
  const old={'':'ballina','transponder-key/':'auto-locksmith','flip-keys/':'auto-locksmith','replacement-keys/':'auto-locksmith','automotive/':'auto-locksmith','mobile-locksmiths/':'auto-locksmith',
