@@ -8,13 +8,14 @@ const FOOT='<p class="footer-links footer-abn">SPL Security Solutions Pty Ltd ·
 function walk(d){return fs.readdirSync(d,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(d,e.name)):e.name.endsWith('.html')?[path.join(d,e.name)]:[])}
 module.exports=function(){let n=0;
  for(const f of walk(out)){let h=fs.readFileSync(f,'utf8');const b=h;if(/http-equiv="refresh"/.test(h))continue;
+  h=h.split('>ASIAL member C908<').join('>Australian Security Industry Association member C908<');
   // Homepage trust badge
   h=h.replace(/<strong>QLD licensed<\/strong>(<small>[^<]*<\/small>)+/,'<strong>QLD licensed</strong><small>QLD Security Licence 3247282</small>');
   const rel=path.relative(out,path.dirname(f)).replaceAll('\\','/');
-  const fact=LOCK.includes(rel)?'Master Locksmiths Association of Australasia member 6386':SEC.includes(rel)?'ASIAL member C908':'';
+  const fact=LOCK.includes(rel)?'Master Locksmiths Association of Australasia member 6386':SEC.includes(rel)?'Australian Security Industry Association member C908':'';
   if(fact&&!h.includes(fact))h=h.replace(/(<div class="service-facts">[\s\S]*?)(<\/div>)/,`$1<span>${fact}</span>$2`);
   // ASIAL logo supplied by the user (from asial.com.au), CMYK->sRGB via embedded ICC, resized, lossless WebP; not recoloured.
-  if(SEC.includes(rel)&&!h.includes('asial-logo.webp'))h=h.replace('<span>ASIAL member C908</span>','<span style="display:inline-flex;align-items:center;gap:8px"><img src="../assets/asial-logo.webp" alt="Australian Security Industry Association Limited (ASIAL) logo" width="50" height="37" loading="lazy" decoding="async" style="width:50px;height:auto;flex:none">ASIAL member C908</span>');
+  if(SEC.includes(rel)&&!h.includes('asial-logo.webp'))h=h.replace('<span>Australian Security Industry Association member C908</span>','<span style="display:inline-flex;align-items:center;gap:8px"><img src="../assets/asial-logo.webp" alt="Australian Security Industry Association Limited (ASIAL) logo" width="50" height="37" loading="lazy" decoding="async" style="width:50px;height:auto;flex:none">Australian Security Industry Association member C908</span>');
   // Official MLAA Professional Guarantee badge (as used on SPL's previous site), unmodified, beside the MLAA line.
   if(LOCK.includes(rel)&&!h.includes('mlaa-professional-guarantee.png'))h=h.replace('<span>Master Locksmiths Association of Australasia member 6386</span>','<span style="display:inline-flex;align-items:center;gap:8px"><img src="../assets/mlaa-professional-guarantee.png" alt="Master Locksmiths Professional Guarantee badge" width="48" height="37" loading="lazy" decoding="async" style="width:48px;height:auto;flex:none">Master Locksmiths Association of Australasia member 6386</span>');
   // Footer legal line
@@ -32,8 +33,8 @@ module.exports=function(){let n=0;
   if(h!==b){fs.writeFileSync(f,h);n++;}}
  // /security-systems/: ASIAL logo + line in the hero, same treatment as MLAA on /locksmith-services/.
  {const f=path.join(out,'security-systems','index.html');let h=fs.readFileSync(f,'utf8');const b=h;
-  h=h.replace(/<span style="display:inline-flex;align-items:center;gap:8px"><img src="\.\.\/assets\/asial-logo\.webp"[^>]*>ASIAL member C908<\/span>/,'').replace('<span>ASIAL member C908</span>','');
-  if(!h.includes('class="hero-credential"'))h=h.replace(/(<h1>[^<]*<\/h1>)/,'$1<p class="hero-credential" style="display:inline-flex;align-items:center;gap:10px;margin:14px 0 0;padding:6px 14px 6px 6px;border-radius:8px;background:rgba(255,255,255,.92);color:#1a1a1a;font-size:13px;font-weight:600;line-height:1.35"><img src="../assets/asial-logo.webp" alt="Australian Security Industry Association Limited (ASIAL) logo" width="50" height="37" decoding="async" style="width:50px;height:auto;flex:none">ASIAL member C908</p>');
+  h=h.replace(/<span style="display:inline-flex;align-items:center;gap:8px"><img src="\.\.\/assets\/asial-logo\.webp"[^>]*>Australian Security Industry Association member C908<\/span>/,'').replace('<span>Australian Security Industry Association member C908</span>','');
+  if(!h.includes('class="hero-credential"'))h=h.replace(/(<h1>[^<]*<\/h1>)/,'$1<p class="hero-credential" style="display:inline-flex;align-items:center;gap:10px;margin:14px 0 0;padding:6px 14px 6px 6px;border-radius:8px;background:rgba(255,255,255,.92);color:#1a1a1a;font-size:13px;font-weight:600;line-height:1.35"><img src="../assets/asial-logo.webp" alt="Australian Security Industry Association Limited (ASIAL) logo" width="50" height="37" decoding="async" style="width:50px;height:auto;flex:none">Australian Security Industry Association member C908</p>');
   if(h!==b){fs.writeFileSync(f,h);n++;}}
  return n;};
 if(require.main===module)console.log('add-licence',module.exports());
