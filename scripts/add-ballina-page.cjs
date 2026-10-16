@@ -102,5 +102,9 @@ module.exports=function run(){
   h=h.replace(/(<div class="editorial-block"><h2 id="section-about-spl-ballina">[\s\S]*?<\/div>\n)/,`$1${fig}`);
   h=h.replace(/editorial-media\.css\?v=[^"]*/,'editorial-media.css?v=20261016-natural');
   if(h!==b)fs.writeFileSync(bf,h);}
+ // /ballina/ footer only: Ballina phone, address and Ballina-relevant links (other pages keep the Gold Coast footer).
+ {const bf=path.join(out,'ballina/index.html');let h=fs.readFileSync(bf,'utf8');const b=h;
+  h=h.replace(/(<footer class="expanded-footer">[\s\S]*?<div><p>[^<]*<\/p>)[\s\S]*?(<\/div><p>©)/,`$1<span>(02) 6686 7675</span><p>Unit 2/269 River Street, Ballina NSW 2478</p><p class="footer-links"><a href="#ballina-map">Ballina showroom &amp; map</a> · <a href="#section-airbnb-smart-locks">Airbnb smart locks</a> · <a href="../blog/index.html">Blog</a> · <a href="../locations/index.html#gold-coast">Gold Coast showroom</a></p>$2`);
+  if(h!==b)fs.writeFileSync(bf,h);}
 };
 if(require.main===module){module.exports();console.log('ballina page built');}
