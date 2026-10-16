@@ -60,7 +60,7 @@ module.exports=function run(){
  // Main nav: Locations becomes a dropdown (All locations, Gold Coast, Ballina) in the existing nav-group style.
  for(const f of walk(out)){const h=fs.readFileSync(f,'utf8');if(/http-equiv="refresh"/.test(h))continue;
   const up=p=>path.relative(path.dirname(f),path.join(out,p)).replaceAll('\\','/');
-  const n=h.replace(/(<nav id="main-nav"[^>]*>[\s\S]*?)<a href="(?:[^"]*locations\/)?index\.html"(?: aria-current="page")?>Locations<\/a>/,(m,pre)=>`${pre}<details class="nav-group"><summary>Locations</summary><div class="nav-dropdown"><a href="${up('locations/index.html')}#gold-coast">Gold Coast</a><a href="${up('locations/index.html')}#brisbane-office">Brisbane</a><a href="${up('ballina/index.html')}">Ballina</a></div></details>`);
+  const n=h.replace(/(<nav id="main-nav"[^>]*>(?:(?!<\/nav>)[\s\S])*?)<a href="(?:[^"]*locations\/)?index\.html"(?: aria-current="page")?>Locations<\/a>/,(m,pre)=>`${pre}<details class="nav-group"><summary>Locations</summary><div class="nav-dropdown"><a href="${up('locations/index.html')}#gold-coast">Gold Coast</a><a href="${up('locations/index.html')}#brisbane-office">Brisbane</a><a href="${up('ballina/index.html')}">Ballina</a></div></details>`);
   let n2=n.replace(/(<a href="([^"]*)#gold-coast">Gold Coast<\/a>)(?!<a [^>]*>Brisbane<\/a>)(<a href="[^"]*ballina\/index\.html">Ballina<\/a>)/,(m,g,l,ba)=>`${g}<a href="${l}#gold-coast">Brisbane</a>${ba}`);
   n2=n2.replace(/(<summary>Locations<\/summary><div class="nav-dropdown">)<a href="[^"]*">All locations<\/a>/,'$1');
   // Brisbane has no office: its menu item uses the same href as Gold Coast (/locations/#gold-coast); see the documented exception in audit-consistency.cjs.

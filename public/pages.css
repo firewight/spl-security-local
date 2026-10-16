@@ -18,3 +18,13 @@
 
 /* a11y: links inside body text are underlined */
 .editorial-content p a,.editorial-block p a,.business-hours p a,.answer-summary p a{text-decoration:underline;text-underline-offset:3px}
+
+/* Menu headings are links; the chevron button opens the submenu (see navigation.js) */
+.nav-group{display:flex;align-items:center}
+.site-header #main-nav .nav-top-link{padding:26px 0;color:#eee}
+.nav-expand{background:none;border:0;padding:6px 4px;margin:0 0 0 3px;color:var(--yellow);cursor:pointer;line-height:1;font:inherit;font-size:12px}
+.nav-expand:after{content:'⌄'}
+.nav-group.open>.nav-top-link{color:var(--yellow)!important}
+.nav-expand:focus-visible,.site-header #main-nav .nav-top-link:focus-visible{outline:2px solid var(--yellow);outline-offset:3px}
+.nav-dropdown[hidden]{display:none}
+@media(max-width:980px){.nav-group{flex-wrap:wrap}.site-header #main-nav .nav-top-link{padding:15px 0;font-size:14px;flex:1}.nav-expand{padding:12px 14px;font-size:18px}.nav-group.open .nav-expand:after{display:inline-block;transform:rotate(180deg)}.nav-dropdown{flex-basis:100%}}

@@ -16,16 +16,27 @@ await page.screenshot({path:path.join(dir,(route.split('/')[0]||'home')+'-deskto
 }
 if(await page.locator('a').filter({hasText:/all pages/i}).count())throw Error('Retired directory navigation remains');
 for(const label of ['Gold Coast','Brisbane','Northern NSW'])if(!await page.locator('.region-list a').filter({hasText:label}).count())throw Error('Missing regional link '+label);
-await page.goto(base,{waitUntil:'domcontentloaded'});await page.locator('#main-nav summary').filter({hasText:/^Locksmiths$/}).hover();await page.getByRole('link',{name:'Commercial',exact:true}).click();await page.waitForURL('**/commercial-locksmith/index.html');
+await page.goto(base,{waitUntil:'domcontentloaded'});await page.locator('#main-nav .nav-top-link').filter({hasText:/^Locksmiths$/}).hover();await page.getByRole('link',{name:'Commercial',exact:true}).click();await page.waitForURL('**/commercial-locksmith/index.html');
 await page.goto(base,{waitUntil:'domcontentloaded'});
-for(const group of await page.locator('#main-nav .nav-group').all()){
- await group.locator('summary').hover();
+const groups=await page.locator('#main-nav .nav-group').all();
+for(const group of groups){
+ await group.locator('.nav-top-link').hover();
  await group.locator('.nav-dropdown a').first().waitFor({state:'visible'});
  await group.locator('.nav-dropdown a').last().hover();
- if(!await group.evaluate(el=>el.open))throw Error('Dropdown closed while moving into submenu');
+ if(!await group.evaluate(el=>el.classList.contains('open')))throw Error('Dropdown closed while moving into submenu');
  await page.locator('#main-nav > a').first().hover();
- if(await group.evaluate(el=>el.open))throw Error('Dropdown did not close after mouse left');
+ if(await group.evaluate(el=>el.classList.contains('open')))throw Error('Dropdown did not close after mouse left');
+ if(!/index\.html$/.test(await group.locator('.nav-top-link').getAttribute('href')))throw Error('Menu heading is not a link');
+ if(await group.locator('.nav-dropdown a').filter({hasText:/ overview$/}).count())throw Error('Overview item still in dropdown');
 }
+// Keyboard: focusing a heading link opens its submenu; the chevron button toggles aria-expanded.
+await page.locator('#main-nav > a').first().focus();await page.keyboard.press('Tab');
+if(!await groups[0].evaluate(el=>el.classList.contains('open')))throw Error('Keyboard focus did not open submenu');
+await page.keyboard.press('Escape');
+if(await groups[0].evaluate(el=>el.classList.contains('open')))throw Error('Escape did not close submenu');
+await groups[0].locator('.nav-expand').click();
+if(await groups[0].locator('.nav-expand').getAttribute('aria-expanded')!=='true')throw Error('Chevron did not expand');
+await groups[0].locator('.nav-expand').click();
 if(await page.locator('.service-feature').count()){
  const expected=['Locksmiths','Security Systems','Door Hardware','Retail/Trade'];
  if(JSON.stringify(await page.locator('.service-feature h2').allTextContents())!==JSON.stringify(expected))throw Error('Homepage service categories incorrect');
@@ -37,7 +48,7 @@ for(const route of ['','about/index.html','commercial-locksmith/index.html','pro
 await page.goto(base+route,{waitUntil:'domcontentloaded'});if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+2))throw Error('Mobile overflow '+route);
 await page.screenshot({path:path.join(dir,(route.split('/')[0]||'home')+'-mobile.png'),fullPage:false});
 if(!route&&await page.locator('.service-feature').count()){for(const id of ['locksmiths','security','hardware','retail-trade']){const section=page.locator('#'+id);await section.scrollIntoViewIfNeeded();await section.locator('img').evaluate(img=>img.decode());await section.screenshot({path:path.join(dir,'service-'+id+'-mobile.png')});}await page.evaluate(()=>scrollTo(0,0));}
-await page.getByRole('button',{name:'Menu',exact:true}).click();await page.getByText('Security Systems',{exact:true}).first().click();await page.getByRole('link',{name:'Access Control',exact:true}).waitFor({state:'visible'});
+await page.goto(base,{waitUntil:"domcontentloaded"});await page.getByRole('button',{name:'Menu',exact:true}).click();await page.getByRole('button',{name:'Show Security Systems menu'}).click();await page.getByRole('link',{name:'Access Control',exact:true}).waitFor({state:'visible'});
 await page.keyboard.press('Escape');
 }
 for(const width of [1440,390]){
@@ -47,7 +58,7 @@ if(await page.locator('.editorial-block').filter({hasText:/^City skyline$/}).cou
 const images=page.locator('.editorial-media');for(let i=0;i<await images.count();i++){const size=await images.nth(i).boundingBox();if(Math.abs(size.width/size.height-16/9)>.02)throw Error('Inconsistent CCTV frame ratio');if(i<2){await images.nth(i).scrollIntoViewIfNeeded();await images.nth(i).locator('img').evaluate(el=>el.decode());await images.nth(i).screenshot({path:path.join(dir,'cctv-image-'+i+'-'+width+'.png')});}}
 }
 await page.setViewportSize({width,height:1000});await page.goto(base,{waitUntil:'domcontentloaded'});
-for(const [id,label]of [['OurValues','Our Values'],['OurStory','Our Story']]){if(width===390)await page.getByRole('button',{name:'Menu',exact:true}).click();if(width===390)await page.locator('#main-nav summary').filter({hasText:/^About$/}).click();else await page.locator('#main-nav summary').filter({hasText:/^About$/}).hover();await page.locator('#main-nav a').filter({hasText:new RegExp('^'+label+'$')}).click();await page.waitForURL('**#'+id);await page.waitForFunction(id=>{const y=document.getElementById(id)?.getBoundingClientRect().top;return y>=70&&y<200;},id);}
+for(const [id,label]of [['OurValues','Our Values'],['OurStory','Our Story']]){if(width===390)await page.getByRole('button',{name:'Menu',exact:true}).click();if(width===390)await page.getByRole('button',{name:'Show About menu'}).click();else await page.locator('#main-nav .nav-top-link').filter({hasText:/^About$/}).hover();await page.locator('#main-nav a').filter({hasText:new RegExp('^'+label+'$')}).click();await page.waitForURL('**#'+id);await page.waitForFunction(id=>{const y=document.getElementById(id)?.getBoundingClientRect().top;return y>=70&&y<200;},id);}
 await page.goto(base+'contact/index.html',{waitUntil:'domcontentloaded'});if(!await page.locator('.business-hours + .contact-draft').count())throw Error('Contact form order incorrect');
 await page.locator('.contact-socials').scrollIntoViewIfNeeded();for(const img of await page.locator('.contact-socials img').all()){await img.evaluate(el=>el.decode());const size=await img.boundingBox();if(size.width>40||size.height>40)throw Error('Oversized contact social icon');}
 await page.screenshot({path:path.join(dir,'contact-layout-'+width+'.png'),fullPage:false});
