@@ -13,6 +13,8 @@ module.exports=function(){let n=0;
   const rel=path.relative(out,path.dirname(f)).replaceAll('\\','/');
   const fact=LOCK.includes(rel)?'Master Locksmiths Association of Australasia member 6386':SEC.includes(rel)?'ASIAL member C908':'';
   if(fact&&!h.includes(fact))h=h.replace(/(<div class="service-facts">[\s\S]*?)(<\/div>)/,`$1<span>${fact}</span>$2`);
+  // Official MLAA Professional Guarantee badge (as used on SPL's previous site), unmodified, beside the MLAA line.
+  if(LOCK.includes(rel)&&!h.includes('mlaa-professional-guarantee.png'))h=h.replace('<span>Master Locksmiths Association of Australasia member 6386</span>','<span style="display:inline-flex;align-items:center;gap:8px"><img src="../assets/mlaa-professional-guarantee.png" alt="Master Locksmiths Professional Guarantee badge" width="48" height="37" loading="lazy" decoding="async" style="width:48px;height:auto;flex:none">Master Locksmiths Association of Australasia member 6386</span>');
   // Footer legal line
   h=h.replace(/<p class="footer-links footer-abn">[^<]*<\/p>/,FOOT);
   // Schema: business entities
