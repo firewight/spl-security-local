@@ -20,12 +20,12 @@ To connect the in-house backend: set `endpoint` (and `thankYouUrl` if needed) in
 
 Files: `contact.php` (endpoint), `.htaccess` (maps `/api/contact` to `contact.php` and blocks config/vendor), `vendor/` (PHPMailer 6, committed so no Composer is needed on the host; `composer.json` is included if you prefer `composer install`), `config.example.php`.
 
-What it does: accepts POST from the contact form (JSON from `forms.js`, or a normal form post without JS) with `form_name, name, phone, email, service, message` and the honeypot `website`. It checks that Origin/Referer is in `allowed_origins`, silently accepts and drops honeypot hits, and rate-limits per IP (default 5 per 10 minutes, file-based). It validates the fields (name, phone, valid email and message are required) and sends via SMTP with PHPMailer, setting Reply-To to the visitor. It returns `{"ok":true}` or `{"ok":false,"error":...,"fields":{...}}` (422/403/429/502) to fetch requests, and 303-redirects non-JS posts to `thank_you_url`.
+What it does: accepts POST from the contact form (JSON from `forms.js`, or a normal form post without JS) with `form_name, name, phone, email, service, message` and the honeypot `website`. It checks that Origin/Referer is in `allowed_origins`, silently accepts and drops honeypot hits and submissions made faster than `min_fill_seconds` (time trap; `forms.js` sends `elapsed_ms`, no-JS posts rely on the honeypot), and rate-limits per IP (default 5 per 10 minutes, file-based). It validates the fields (name without links, phone, valid email and message are required; `service` must be one of the form's options and `form_name` must start with "Website enquiry"; CR/LF are stripped so nothing reaches mail headers) and sends via SMTP with PHPMailer, setting Reply-To to the visitor. It returns `{"ok":true}` or `{"ok":false,"error":...,"fields":{...}}` (422/403/429/502) to fetch requests, and 303-redirects non-JS posts to `thank_you_url`.
 
 ### Deploy (at launch; nothing is deployed yet)
 1. Upload the contents of `public/` to the web root (e.g. `public_html/`). Upload `hosting/api/` to `public_html/api/`, including `.htaccess` and `vendor/`.
 2. On the server, copy `api/config.example.php` to `api/config.php` and fill in the SMTP settings. Never commit `config.php`; it is gitignored.
-3. Set `allowed_origins` to the live origins (e.g. `https://www.splsecurity.com.au` and `https://splsecurity.com.au`). Check that `rate_dir` is writable (or point it outside `public_html`).
+3. Set `allowed_origins` to the live origins (e.g. `https://spl.com.au` and `https://www.spl.com.au`). Check that `rate_dir` is writable (or point it outside `public_html`).
 4. If the site is not at the domain root, update `endpoint`/`thankYouUrl` in `public/form-config.js`, run `node scripts/apply-forms.cjs`, and set `thank_you_url` in `config.php` to match.
 5. Test one submission from the contact page form.
 
@@ -34,6 +34,9 @@ SMTP details needed: host, port and encryption, a username and password (or app 
 - Microsoft 365: `smtp.office365.com`, port 587 (tls). SMTP AUTH must be enabled for the mailbox, and the From address must be that mailbox or one it can send as.
 
 For deliverability, make sure the domain's SPF/DKIM allow the sending server.
+
+### Testing locally without sending email
+Set `'transport' => 'log'` in a test config: valid enquiries are appended to `log_file` as JSON and nothing is sent. Example: `SPL_CONTACT_CONFIG=/path/to/test-config.php php -S 127.0.0.1:8650 router.php` with a router that requires `hosting/api/contact.php` for `/api/contact`.
 
 ### Switching recipient to info@
 Edit `to_email` in the server's `api/config.php` from `support@spl.com.au` to `info@spl.com.au`. No site rebuild is needed.

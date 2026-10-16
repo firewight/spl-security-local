@@ -11,8 +11,11 @@ return [
     'from_name'   => 'SPL Security website',
     'to_email'    => 'support@spl.com.au',    // testing; switch to info@spl.com.au at launch
     // Origins allowed to post (scheme + host, no trailing slash)
-    'allowed_origins' => ['https://www.splsecurity.com.au', 'https://splsecurity.com.au'],
+    'allowed_origins' => ['https://spl.com.au', 'https://www.spl.com.au'],  // launch domain; add any other live origin
+    'min_fill_seconds' => 3,                  // time trap: faster JS submissions are silently dropped
     'thank_you_url'   => '/thank-you/',
     'rate_limit'      => ['max' => 5, 'window_seconds' => 600],  // per IP
     'rate_dir'        => __DIR__ . '/ratelimit',                  // must be writable; outside web root if possible
+    'transport'       => 'smtp',              // 'smtp' (live) | 'log' (local testing: write to log_file, send nothing)
+    'log_file'        => __DIR__ . '/ratelimit/test-mail.log',
 ];
