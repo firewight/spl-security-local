@@ -118,16 +118,10 @@
       "blocks": 39
     },
     {
-      "url": "/locksmiths/brisbane",
-      "title": "Commercial Locksmiths Brisbane",
-      "file": "locksmiths/brisbane/index.html",
-      "blocks": 91
-    },
-    {
-      "url": "/locations/locksmith-gold-coast",
-      "title": "Commercial Locksmiths Gold Coast",
-      "file": "locations/locksmith-gold-coast/index.html",
-      "blocks": 64
+      "url": "/locations",
+      "title": "Locations & Service Areas",
+      "file": "locations/index.html",
+      "blocks": 0
     },
     {
       "url": "/common-mistakes-people-make-when-searching-for-a-locksmith",
@@ -344,12 +338,6 @@
       "title": "Locksmiths",
       "file": "commercial-locksmiths/index.html",
       "blocks": 25
-    },
-    {
-      "url": "/locations/locksmith-northern-nsw",
-      "title": "Locksmiths in Northern NSW",
-      "file": "locations/locksmith-northern-nsw/index.html",
-      "blocks": 57
     },
     {
       "url": "/locksmith-insights-commercial-security-systems-for-2024",
