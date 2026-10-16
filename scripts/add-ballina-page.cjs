@@ -60,8 +60,9 @@ module.exports=function run(){
  // Main nav: Locations becomes a dropdown (All locations, Gold Coast, Ballina) in the existing nav-group style.
  for(const f of walk(out)){const h=fs.readFileSync(f,'utf8');if(/http-equiv="refresh"/.test(h))continue;
   const up=p=>path.relative(path.dirname(f),path.join(out,p)).replaceAll('\\','/');
-  const n=h.replace(/(<nav id="main-nav"[^>]*>[\s\S]*?)<a href="(?:[^"]*locations\/)?index\.html"(?: aria-current="page")?>Locations<\/a>/,(m,pre)=>`${pre}<details class="nav-group"><summary>Locations</summary><div class="nav-dropdown"><a href="${up('locations/index.html')}">All locations</a><a href="${up('locations/index.html')}#gold-coast">Gold Coast</a><a href="${up('locations/index.html')}#brisbane">Brisbane</a><a href="${up('ballina/index.html')}">Ballina</a></div></details>`);
+  const n=h.replace(/(<nav id="main-nav"[^>]*>[\s\S]*?)<a href="(?:[^"]*locations\/)?index\.html"(?: aria-current="page")?>Locations<\/a>/,(m,pre)=>`${pre}<details class="nav-group"><summary>Locations</summary><div class="nav-dropdown"><a href="${up('locations/index.html')}#gold-coast">Gold Coast</a><a href="${up('locations/index.html')}#brisbane">Brisbane</a><a href="${up('ballina/index.html')}">Ballina</a></div></details>`);
   let n2=n.replace(/(<a href="([^"]*)#gold-coast">Gold Coast<\/a>)(?!<a [^>]*>Brisbane<\/a>)(<a href="[^"]*ballina\/index\.html">Ballina<\/a>)/,(m,g,l,ba)=>`${g}<a href="${l}#brisbane">Brisbane</a>${ba}`);
+  n2=n2.replace(/(<summary>Locations<\/summary><div class="nav-dropdown">)<a href="[^"]*">All locations<\/a>/,'$1');
   if(f.endsWith('locations/index.html'))n2=n2.replace('<h3 id="gold-coast">SPL Security Gold Coast</h3>','<h3 id="gold-coast">SPL Security Gold Coast &amp; Brisbane</h3>');
   if(n2!==h)fs.writeFileSync(f,n2);}
  // launch 301s for the old Ballina domain (no old Ballina paths are recorded in the repo; catch-all to /ballina/)
