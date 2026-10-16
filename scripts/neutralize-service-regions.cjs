@@ -45,6 +45,8 @@ const body={
 };
 // Explore-more entries that point back at the locksmith overview itself.
 const selfLinks={'locksmith-services':'index.html','locksmiths':'../locksmith-services/index.html'};
+// Explore-more entries removed on request (page -> hrefs); applied on every rebuild.
+const dropLinks={'security-systems':['../retail-security/index.html']};
 const escA=s=>s.replaceAll('&','&amp;').replaceAll('"','&quot;'),escT=s=>s.replaceAll('&','&amp;');
 function walk(d,a=[]){for(const e of fs.readdirSync(d,{withFileTypes:true})){const f=path.join(d,e.name);if(e.isDirectory())walk(f,a);else if(e.name.endsWith('.html'))a.push(f);}return a;}
 const regional=rel=>/^(locations\/|locksmiths\/(brisbane|paradise)|security-systems\/(brisbane|intercoms|cctv-systems))/.test(rel)||rel==='404.html';
@@ -63,6 +65,7 @@ for(const file of walk(out)){
    if(!regional(rel)){const $=load(html);if($('h1').first().text().trim()===a)swapAll(a,b);}
   }
  }
+ if(dropLinks[key]){const $=load(html);const hit=$('.related-links a').filter((i,e)=>dropLinks[key].includes($(e).attr('href')));if(hit.length){hit.remove();html=$.html();}}
  if(selfLinks[key]){const $=load(html);$('.related-links a').filter((i,e)=>$(e).attr('href')===selfLinks[key]).remove();if($.html()!==load(html).html())html=$.html();}
  if(html!==before){fs.writeFileSync(file,html);changed++;}
 }
