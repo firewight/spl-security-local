@@ -1,7 +1,7 @@
 {
   "source": "https://www.splsecurity.com.au",
   "importedAt": "2026-10-15T03:33:14.618Z",
-  "homepageMainSha256": "da382daca3be9eee04f4ccd45f4ba0f388a2b3994295e4d8c5311cda85666ec0",
+  "homepageMainSha256": "95d8f4eab6c63cb28b2d5736facde81d67adde6ea06c9a3fc6509f2b527738ad",
   "pages": [
     {
       "url": "/blog/24-7-gold-coast-locksmith-secrets-to-our-success",
@@ -331,12 +331,6 @@
       "url": "/locksmiths",
       "title": "Locksmiths",
       "file": "locksmiths/index.html",
-      "blocks": 25
-    },
-    {
-      "url": "/commercial-locksmiths",
-      "title": "Locksmiths",
-      "file": "commercial-locksmiths/index.html",
       "blocks": 25
     },
     {
