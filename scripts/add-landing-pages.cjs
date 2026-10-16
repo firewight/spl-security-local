@@ -15,7 +15,7 @@ crumb:'Home Automation',h1:'Home Automation',
  description:'Smart home automation built on your security system: app control of alarms, lighting, gates and appliances. Talk to SPL Security Solutions on (07) 55 888 111.',
  summary:'We can extend a modern security system into home automation, so lighting, gates, appliances and security modes are managed from the same app as your alarm and cameras.',
  serviceType:'Electronic security',
- image:{src:'assets/imported/34a1ca427c077c1d3ef2.jpg',alt:'Ajax security and automation devices',w:900,h:900},
+ image:{src:'assets/imported/34a1ca427c077c1d3ef2.webp',alt:'Ajax security and automation devices',w:900,h:900},
  sections:[
   ['Security and automation in one system',`<p>Many modern alarm platforms do more than detect intruders. The <a href="../alarm-system/index.html">Ajax security systems</a> we supply combine intrusion protection, video surveillance, fire detection and water leak prevention with automation of lighting and appliances, all managed in one app.</p><p>That means the system protecting your property can also take care of everyday tasks, without a separate smart home hub to learn.</p>`],
   ['What you can automate',`<ul><li>Lighting scenes and schedules, including lights that switch on when the alarm is triggered</li><li>Remote control of gates and selected home appliances</li><li>Automatic changes of security mode, for example arming when the last person leaves</li><li>Viewing compatible security cameras alongside alarm events in the same app</li></ul><p>Which devices and scenarios suit your property depends on the system you have and how you use the building. We can talk you through the options.</p>`],
