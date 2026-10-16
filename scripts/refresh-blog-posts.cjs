@@ -48,6 +48,13 @@ Object.assign(edits,{
  '5-questions-to-consider-when-buying-a-gun-safe':edits['5-questions-to-consider-when-buying-a-gun-safe'],
  'top-5-security-tips-for-your-home-or-business':[],
 });
+
+// Oct 2026 follow-up: Christmas post uses the sourced ABS figure; locksmith cost post drops its old price figures.
+edits['gift-yourself-peace-of-mind-this-christmas'].push(['<p>Christmas isn’t even here yet and already Aussie properties are being hit at the rate of 20 burglaries an hour!</p>',`<p>Queensland police recorded 40,088 victims of burglary (unlawful entry with intent) in 2025, according to the <a href="${ABS}">Australian Bureau of Statistics, Recorded Crime – Victims, 2025</a>.</p>`]);
+edits['how-much-does-a-locksmith-cost']=[
+ ['Table of Contents When we think of locksmiths, we think of two types of services: firstly, getting a key cut and secondly, emergency services to get into our…','What does a locksmith cost? Prices vary with the job, the lock and the time of day. Learn the factors, then call SPL on (07) 55 888 111 for a quote.'],
+ ['<p>When we think of locksmiths, we think of two types of services: firstly, getting a key cut and secondly, emergency services to get into our car or house.</p></section>','<p>Locksmith costs vary with the job, the type of lock and whether it’s after hours. Call SPL on (07) 55 888 111 for a quote.</p></section>'],
+ [/<div class="editorial-block"><table>[\s\S]*?<\/table><\/div>\n<div class="editorial-block"><p>Please note average costs[\s\S]*?\$330 and above can be charged after midnight calls<\/li><\/ul>\n/,'<div class="editorial-block"><p>Like any trade service, such as a plumber or an electrician, a qualified locksmith will charge a call-out fee plus labour and materials, so costs vary from job to job. The main factors are:</p> <ul><li>The type of job, such as rekeying, repairing or changing a lock, or cutting keys</li><li>The type of lock or key involved</li><li>Labour time and any materials needed</li><li>Whether the call-out is after hours or an emergency, which costs more</li></ul>\n<p>For an accurate price, call SPL on (07) 55 888 111 for a quote.</p>\n']];
 // Every post: author recredited, and the duplicate imported byline line ("Author • Month D, YYYY") removed.
 const postFix=h=>{if(!h.includes('class="article-byline"'))return h;
  return h.split('"name":"AUSHost"').join('"name":"SPL Security Solutions"').split('data-seo-generated="">AUSHost ·').join('data-seo-generated="">SPL Security Solutions ·')
