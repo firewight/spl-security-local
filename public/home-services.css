@@ -16,8 +16,13 @@
 }
 /* hero slider: stacked slides in the same tilted card frame */
 .hero-slides{position:relative;display:grid;place-items:center}
-.hero-slide{grid-area:1/1;opacity:0;visibility:hidden;transition:opacity .8s ease,visibility 0s linear .8s}
-.hero-slide.is-active{opacity:1;visibility:visible;transition:opacity .8s ease}
+.hero-slide{grid-area:1/1;opacity:0;visibility:hidden}
+.hero-slide.is-active{opacity:1;visibility:visible}
+/* left-to-right slide: outgoing exits right, incoming enters from the left; .hero-device clips it and the glow stays still */
+.hero-slide.is-leaving{visibility:visible;animation:hero-slide-out .65s cubic-bezier(.6,0,.3,1) both}
+.hero-slide.is-entering{animation:hero-slide-in .65s cubic-bezier(.6,0,.3,1) both}
+@keyframes hero-slide-out{0%{transform:translateX(0);opacity:1}65%{opacity:.85}100%{transform:translateX(440px);opacity:0}}
+@keyframes hero-slide-in{0%{transform:translateX(-440px);opacity:0}35%{opacity:.85}100%{transform:translateX(0);opacity:1}}
 /* product slides: cut-out product floating on the hero glow (no card), 80% of the 330px slide-1 card height */
 .hub-float{margin:0;display:flex;flex-direction:column;align-items:center;gap:14px}
 .hub-float picture{display:block}
@@ -30,7 +35,7 @@
 .hero-dot[aria-current="true"]:before{background:#f7c600;transform:scale(1.25)}
 .hero-dot:hover:before{background:#fff}
 .hero-dot:focus-visible{outline:2px solid #f7c600;outline-offset:-2px;border-radius:50%}
-@media (prefers-reduced-motion:reduce){.hero-slide,.hero-slide.is-active{transition:none}}
+@media (prefers-reduced-motion:reduce){.hero-slide.is-leaving,.hero-slide.is-entering{animation:none}.hero-slide.is-leaving{visibility:hidden}}
 @media (max-width:760px){.hero-slide:not(:first-child),.hero-dots{display:none}.hero-slide:first-child{opacity:1;visibility:visible}}
 .hero-dots{align-items:center}
 .hero-toggle{margin-left:6px;width:28px;height:28px;padding:0;border:1px solid #ffffff40;border-radius:50%;background:#0008;color:#f7c600;font:700 10px/1 Manrope,sans-serif;letter-spacing:-1px;cursor:pointer;display:grid;place-items:center}
