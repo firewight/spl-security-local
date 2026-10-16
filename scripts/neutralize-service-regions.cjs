@@ -64,6 +64,11 @@ const sectionLinks={
  'security-systems':[['cctv-system','Security Cameras &amp; CCTV'],['access-control-systems','Access Control Systems'],['intercom','Intercom Systems'],['alarm-system','Alarm Systems'],['alarm-monitoring','Security System Maintenance']],
  'door-hardware':[['architectural-door-hardware','Architectural Door Hardware'],['door-handles','Lever Door Handles'],['door-closers','Door Closers &amp; Seals'],['fire-door-hardware','Fire Door Hardware'],['locksmiths/lock-hardware','Lock Hardware']]};
 sectionLinks.locksmiths=sectionLinks['locksmith-services'];
+// Retail & Trade section (Oct 2026 tidy): overview lists its sub-pages + 24/7 Emergency Locksmiths; each sub-page lists
+// the Retail & Trade overview, its siblings (Door Hardware overview too where the page sits in that menu) and Emergency.
+{const R=[['door-handles','Lever Door Handles'],['door-closers','Door Closers &amp; Seals'],['fire-door-hardware','Fire Door Hardware'],['locksmiths/lock-hardware','Lock Hardware'],['safe','Safes']],E=['emergency-locksmith','24/7 Emergency Locksmiths'];
+ sectionLinks['retail-security']=[...R,E];
+ for(const [k] of R)sectionLinks[k]=[['retail-security','Retail &amp; Trade'],...(k==='safe'?[]:[['door-hardware','Door Hardware']]),...R.filter(([x])=>x!==k),E];}
 // Contextual links to otherwise-orphaned product pages and articles (one short paragraph before Explore more).
 const contextual={
  'alarm-system':'<p>Looking for a starting point? See the <a href="../products/ajax-starterkit.html">Ajax StarterKit</a>, a wireless alarm kit that can be expanded as your property changes.</p>',
