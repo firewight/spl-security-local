@@ -60,7 +60,9 @@ for(const entry of entries){
  if(shareImage.startsWith(base.href)){const size=imageSize(path.join(out,decodeURIComponent(shareImage.slice(base.href.length))));if(size){meta('property','og:image:width',String(size[0]));meta('property','og:image:height',String(size[1]));}}
  $('meta[name="theme-color"]').remove();meta('name','theme-color','#090909');
  if(!$('link[rel="icon"]').length)$('head').append(`<link rel="icon" href="${href(file,'/').replace(/index\.html$/,'assets/spl-round-logo.png?v=20261015')}" type="image/png" data-seo-generated>`);
- for(const origin of ['https://fonts.googleapis.com','https://fonts.gstatic.com'])if(!$(`link[rel="preconnect"][href="${origin}"]`).length)$('head').append(`<link rel="preconnect" href="${origin}"${origin.includes('gstatic')?' crossorigin':''} data-seo-generated>`);
+ // Fonts are self-hosted (assets/fonts, @font-face in styles.css/product.css); preload the two critical files.
+ $('link[rel="preconnect"][href^="https://fonts.g"]').remove();
+ for(const font of ['manrope-latin-var.woff2','dm-sans-latin-var.woff2'])if(!$(`link[rel="preload"][href$="${font}"]`).length)$('head').append(`<link rel="preload" href="${href(file,'/').replace(/index\.html$/,'assets/fonts/'+font)}" as="font" type="font/woff2" crossorigin data-seo-generated>`);
  if(!isHome)$('head').append(`<link rel="stylesheet" href="${path.relative(path.dirname(file),path.join(out,'seo.css')).replaceAll('\\','/')}?v=20261015" data-seo-generated>`);
  const webpage={'@type':entry.url==='/contact'?'ContactPage':entry.url==='/about'?'AboutPage':entry.url==='/articles'||entry.url==='/all-pages'?'CollectionPage':'WebPage','@id':canonical+'#webpage',url:canonical,name:title,description,inLanguage:'en-AU',isPartOf:{'@id':base.href+'#website'},about:{'@id':businessId}};
  const graph=[{'@type':'WebSite','@id':base.href+'#website',url:base.href,name:config.siteName,inLanguage:'en-AU'},webpage];
