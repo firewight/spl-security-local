@@ -591,6 +591,13 @@
       "file": "holiday-security-tips/index.html",
       "blocks": 8,
       "addedAt": "2026-10-16"
+    },
+    {
+      "url": "/ballina",
+      "title": "SPL Security Ballina",
+      "file": "ballina/index.html",
+      "blocks": 4,
+      "addedAt": "2026-10-16"
     }
   ],
   "failures": [],
