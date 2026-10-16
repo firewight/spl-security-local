@@ -30,5 +30,10 @@ module.exports=function(){let n=0;
   h=h.replace(/<span style="display:inline-flex;align-items:center;gap:8px"><img src="\.\.\/assets\/mlaa-professional-guarantee\.png"[^>]*>Master Locksmiths Association of Australasia member 6386<\/span>/,'').replace('<span>Master Locksmiths Association of Australasia member 6386</span>','');
   if(!h.includes('class="hero-credential"'))h=h.replace(/(<h1>Locksmiths<\/h1>)/,'$1<p class="hero-credential" style="display:inline-flex;align-items:center;gap:10px;margin:14px 0 0;padding:6px 14px 6px 6px;border-radius:8px;background:rgba(255,255,255,.92);color:#1a1a1a;font-size:13px;font-weight:600;line-height:1.35"><img src="../assets/mlaa-professional-guarantee.png" alt="Master Locksmiths Professional Guarantee badge" width="48" height="37" decoding="async" style="width:48px;height:auto;flex:none">Master Locksmiths Association of Australasia member 6386</p>');
   if(h!==b){fs.writeFileSync(f,h);n++;}}
+ // /security-systems/: ASIAL logo + line in the hero, same treatment as MLAA on /locksmith-services/.
+ {const f=path.join(out,'security-systems','index.html');let h=fs.readFileSync(f,'utf8');const b=h;
+  h=h.replace(/<span style="display:inline-flex;align-items:center;gap:8px"><img src="\.\.\/assets\/asial-logo\.webp"[^>]*>ASIAL member C908<\/span>/,'').replace('<span>ASIAL member C908</span>','');
+  if(!h.includes('class="hero-credential"'))h=h.replace(/(<h1>[^<]*<\/h1>)/,'$1<p class="hero-credential" style="display:inline-flex;align-items:center;gap:10px;margin:14px 0 0;padding:6px 14px 6px 6px;border-radius:8px;background:rgba(255,255,255,.92);color:#1a1a1a;font-size:13px;font-weight:600;line-height:1.35"><img src="../assets/asial-logo.webp" alt="Australian Security Industry Association Limited (ASIAL) logo" width="50" height="37" decoding="async" style="width:50px;height:auto;flex:none">ASIAL member C908</p>');
+  if(h!==b){fs.writeFileSync(f,h);n++;}}
  return n;};
 if(require.main===module)console.log('add-licence',module.exports());
