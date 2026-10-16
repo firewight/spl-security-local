@@ -1,0 +1,15 @@
+.contact-options{background:#101010;color:#fff;padding:64px max(5vw,24px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:64px;scroll-margin-top:100px;text-align:left}
+.contact-options .contact-eyebrow{color:#f7c600;font-size:11px;font-weight:700;letter-spacing:.12em;margin:0 0 18px}
+.contact-options h2{font-size:clamp(30px,3.5vw,48px);line-height:1.12;letter-spacing:-.035em;margin:0 0 20px;color:#fff}
+.contact-options-copy>p:last-child{color:#bbb;font-size:14px;line-height:1.8;margin:0}
+.contact-options-links{display:grid;gap:10px;align-content:center;min-width:0}
+.contact-options .contact-option{display:flex;justify-content:space-between;align-items:center;gap:18px;padding:18px 22px;background:#202020;border:1px solid #444;color:#fff;text-decoration:none;min-height:78px;transition:background .15s}
+.contact-option small{display:block;font-size:10px;letter-spacing:.08em;font-weight:600;margin-bottom:6px}
+.contact-option strong{font-size:clamp(17px,2vw,21px);font-weight:600;overflow-wrap:anywhere}
+.contact-options .contact-option-primary{background:#f7c600;color:#101010;border-color:#f7c600}
+.contact-options .contact-option:hover{background:#333}.contact-options .contact-option-primary:hover{background:#ffda45}
+.contact-option:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.editorial-layout.editorial-layout-unified{grid-template-columns:minmax(0,1fr);max-width:1080px}
+#contact-enquiry{scroll-margin-top:110px}
+@media(max-width:700px){.contact-options{grid-template-columns:1fr;gap:28px;padding:42px 24px}.contact-options .contact-option{padding:16px 18px}.contact-options h2{font-size:32px}}
+@media(prefers-reduced-motion:reduce){.contact-options .contact-option{transition:none}}
