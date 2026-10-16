@@ -82,6 +82,7 @@ function footers(){let n=0;
    if(/<p class="footer-links">/.test(h))h=h.replace(/(<p class="footer-links">[\s\S]*?)(<\/p>)/,`$1 · ${add}$2`);
    else h=h.replace(/(<footer[\s\S]*?<span>\(07\) 55 888 111<\/span>)/,`$1\n      <p class="footer-links">${add}</p>`);}
   h=h.replace(/(<p class="footer-links">[\s\S]*?<\/p>)/,m=>m.replace(/\s*·\s*<a href="[^"]*ballina\/(index\.html)?">Ballina showroom<\/a>/g,'').replace(/^(<p class="footer-links">)<a href="[^"]*ballina\/(index\.html)?">Ballina showroom<\/a>\s*·\s*/,'$1'));
+  h=h.replace(/(<p class="footer-links">[\s\S]*?<\/p>)/,m=>m.replace(/<a href="#ballina-map">Ballina showroom &amp; map<\/a>\s*·\s*/g,'').replace(/\s*·\s*<a href="[^"]*locations\/index\.html#gold-coast">Gold Coast showroom<\/a>/g,''));
   if(!h.includes('footer-abn'))h=h.replace(/(<p class="footer-links">[\s\S]*?<\/p>)/,`$1\n      <p class="footer-links footer-abn">SPL Security Solutions Pty Ltd · ABN 39 088 382 745</p>`);
   if(h!==b){fs.writeFileSync(f,h);n++;}}
  return n;}
