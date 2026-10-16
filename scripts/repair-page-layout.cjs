@@ -16,7 +16,7 @@ function repair(){
   for(const [label,id]of [['Our Values','OurValues'],['Our Story','OurStory']]){const target=$('.editorial-content h2,.editorial-content h3').filter((i,e)=>$(e).text().trim()===label).first();if(!target.length)throw Error('Missing heading '+label);const old=target.attr('id');$(`[id="${id}"]`).not(target).removeAttr('id');target.attr('id',id).addClass('section-anchor');if(old)$('.page-toc a').filter((i,e)=>$(e).attr('href')==='#'+old).attr('href','#'+id);}
  }else{
   // Drop the old imported contact block, its bare hours labels and source-form success text.
-  const duplicates=new Set(['Contact Details','07 5588 8111','101 Ashmore Rd, Bundall QLD 4217','24/7 Emergency Locksmiths or Electronic Security','Trade COunter Hours','Retail Showroom Hours','Get A Free Quote Now!','Thank you for contacting SPL Security Solutions.','We will be in touch soon']);
+  const duplicates=new Set(['Contact Details','(07) 55 888 111','101 Ashmore Rd, Bundall QLD 4217','24/7 Emergency Locksmiths or Electronic Security','Trade COunter Hours','Retail Showroom Hours','Get A Free Quote Now!','Thank you for contacting SPL Security Solutions.','We will be in touch soon']);
   $('.editorial-content>.editorial-block').each((i,e)=>{if(duplicates.has($(e).text().replace(/\s+/g,' ').trim()))$(e).remove();});
   $('.editorial-content>.editorial-image').each((i,e)=>{if(/\/social-media\//.test($(e).find('img').attr('src')||''))$(e).remove();});
   $('span.section-anchor').each((i,e)=>{if(/^https?:/.test($(e).attr('id')||''))$(e).remove();});
