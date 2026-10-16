@@ -32,3 +32,7 @@
 .hero-dot:focus-visible{outline:2px solid #f7c600;outline-offset:-2px;border-radius:50%}
 @media (prefers-reduced-motion:reduce){.hero-slide,.hero-slide.is-active{transition:none}}
 @media (max-width:760px){.hero-slide:not(:first-child),.hero-dots{display:none}.hero-slide:first-child{opacity:1;visibility:visible}}
+.hero-dots{align-items:center}
+.hero-toggle{margin-left:6px;width:28px;height:28px;padding:0;border:1px solid #ffffff40;border-radius:50%;background:#0008;color:#f7c600;font:700 10px/1 Manrope,sans-serif;letter-spacing:-1px;cursor:pointer;display:grid;place-items:center}
+.hero-toggle:hover{border-color:#f7c600}
+.hero-toggle:focus-visible{outline:2px solid #f7c600;outline-offset:2px}
