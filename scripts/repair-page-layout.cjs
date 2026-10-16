@@ -21,7 +21,7 @@ function repair(){
   $('.editorial-content>.editorial-image').each((i,e)=>{if(/\/social-media\//.test($(e).find('img').attr('src')||''))$(e).remove();});
   $('span.section-anchor').each((i,e)=>{if(/^https?:/.test($(e).attr('id')||''))$(e).remove();});
   $('.contact-socials').remove();
-  const socials=[['facebook','SPL on Facebook','https://www.facebook.com/splptyltd/'],['instagram','SPL on Instagram','https://www.instagram.com/spl_security/'],['localsearch','SPL business listing','https://www.localsearch.com.au/profile/spl-security-solutions/bundall-qld/FSwF'],['gmb','Find SPL on Google Maps','https://maps.app.goo.gl/gMTHmoGATMh5Bm7XA'],['linkedin','SPL on LinkedIn','https://au.linkedin.com/company/spl-security']];
+  const socials=[['facebook','SPL on Facebook','https://www.facebook.com/splsecurity'],['instagram','SPL on Instagram','https://www.instagram.com/spl_security/'],['localsearch','SPL business listing','https://www.localsearch.com.au/profile/spl-security-solutions/bundall-qld/FSwF'],['gmb','Find SPL on Google Maps','https://maps.app.goo.gl/gMTHmoGATMh5Bm7XA'],['linkedin','SPL on LinkedIn','https://au.linkedin.com/company/spl-security']];
   $('.business-hours').append(`<div class="contact-socials" aria-label="SPL social and business profiles">${socials.map(([icon,label,url])=>`<a href="${url}" aria-label="${label}" rel="noopener noreferrer"><img src="../assets/social-${icon}.svg" alt="${label}" width="36" height="36" loading="lazy"></a>`).join('')}</div>`);
   $('.business-hours').after($('.contact-draft'));
   // Reconcile contents links with the new content order and remove the deleted section link.
