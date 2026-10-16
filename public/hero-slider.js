@@ -1,11 +1,10 @@
-/* Homepage hero rotator: left-to-right slide every 4s (instant switch every 6s with reduced motion), pause while hovering the dots/controls or
+/* Homepage hero rotator: left-to-right slide every 4s, the same for everyone incl. reduced-motion users (SPL decision), pause while hovering the dots/controls or
    on keyboard focus, dot buttons, and a pause/play button (WCAG 2.2.2). */
 (function(){
   var root=document.querySelector('.hero-slider');if(!root)return;
   if(window.matchMedia&&matchMedia('(max-width: 760px)').matches)return; // mobile: static slide 1 only
   var slides=[].slice.call(root.querySelectorAll('.hero-slide')),dots=[].slice.call(root.querySelectorAll('.hero-dot'));
-  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var i=0,hover=false,kbFocus=false,stopped=false,last=Date.now(),interval=reduce?6000:4000;
+  var i=0,hover=false,kbFocus=false,stopped=false,last=Date.now(),interval=4000;
   var bar=root.querySelector('.hero-dots');
   var btn=document.createElement('button');btn.type='button';btn.className='hero-toggle';
   function label(){btn.setAttribute('aria-label',stopped?'Play slideshow':'Pause slideshow');btn.setAttribute('aria-pressed',stopped?'true':'false');btn.textContent=stopped?'\u25B6':'\u275A\u275A';}
@@ -13,7 +12,7 @@
   function show(n){
     var prev=i;i=(n+slides.length)%slides.length;last=Date.now();
     slides.forEach(function(s){s.classList.remove('is-leaving','is-entering');});
-    if(!reduce&&prev!==i){void root.offsetWidth;slides[prev].classList.add('is-leaving');slides[i].classList.add('is-entering');}
+    if(prev!==i){void root.offsetWidth;slides[prev].classList.add('is-leaving');slides[i].classList.add('is-entering');}
     slides.forEach(function(s,k){var on=k===i;s.classList.toggle('is-active',on);if(on)s.removeAttribute('aria-hidden');else s.setAttribute('aria-hidden','true');
       if(on){var img=s.querySelector('img[loading="lazy"]');if(img)img.loading='eager';}});
     dots.forEach(function(d,k){if(k===i)d.setAttribute('aria-current','true');else d.removeAttribute('aria-current');});
