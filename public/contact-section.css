@@ -31,3 +31,4 @@
 .home-showrooms h2{font-size:clamp(28px,3vw,42px);margin:0 0 24px}
 .home-showrooms .kicker{color:#6f5700}
 @media(max-width:760px){.showroom-grid{grid-template-columns:1fr}}
+.showroom-photo{margin:8px 0 20px}.showroom-photo img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;border:1px solid #d8d8cf}.showroom-photo figcaption{font-size:13px;color:#555;margin-top:8px}
