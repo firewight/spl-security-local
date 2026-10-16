@@ -20,7 +20,7 @@ function normalize(){
  $('script[data-seo-schema]').each((i,e)=>{const schema=JSON.parse($(e).text());function update(o){if(!o||typeof o!=='object')return;for(const [key,v]of Object.entries(o)){if(typeof v==='string'&&['name','headline'].includes(key)){if(v===oldH1)o[key]=newH1;else if(v===oldTitle)o[key]=newTitle;}else if(typeof v==='object')update(v);}}update(schema);$(e).text(JSON.stringify(schema).replaceAll('<','\\u003c'));});
  fs.writeFileSync(file,$.html().split('\n').map(s=>s.trimEnd()).join('\n').trimEnd()+'\n');}
  }
- const directoryFile=path.join(root,'public/all-pages/index.html'),$=load(fs.readFileSync(directoryFile,'utf8'));for(const r of replacements){$('a[data-page-title]').filter((i,e)=>$(e).attr('href')==='../'+r.file).each((i,e)=>{$(e).attr('data-page-title',r.title.toLowerCase()).html(r.title+' <span>↗</span>');});}fs.writeFileSync(directoryFile,$.html());
+ if(fs.existsSync(path.join(root,'public/all-pages/index.html'))){const directoryFile=path.join(root,'public/all-pages/index.html'),$=load(fs.readFileSync(directoryFile,'utf8'));for(const r of replacements){$('a[data-page-title]').filter((i,e)=>$(e).attr('href')==='../'+r.file).each((i,e)=>{$(e).attr('data-page-title',r.title.toLowerCase()).html(r.title+' <span>↗</span>');});}fs.writeFileSync(directoryFile,$.html());}
  fs.writeFileSync(path.join(root,'page-import-manifest.json'),JSON.stringify(manifest,null,2)+'\n');
  return {headingsUpdated:count,pagesRetitled:replacements.length};
 }

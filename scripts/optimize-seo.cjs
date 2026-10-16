@@ -7,7 +7,7 @@ const escape=s=>String(s).replaceAll('&','&amp;').replaceAll('"','&quot;').repla
 const sources=new Map(audit.pages.map(p=>[p.path,p]));
 const sourcePath=p=>{try{return new URL(sources.get(p)?.canonical||p,config.businessUrl).pathname.replace(/\/$/,'')||'/';}catch{return p;}};
 const routeFor=p=>p==='/'?'':p.replace(/^\//,'').replace(/\/$/,'')+'/';
-const entries=[{url:'/',file:'index.html'},...manifest.pages,{url:'/all-pages',file:'all-pages/index.html'},...['cadell-52','timeless-safes','ajax-starterkit'].map(n=>({url:'/products/'+n+'.html',file:'products/'+n+'.html'}))];
+const entries=[{url:'/',file:'index.html'},...manifest.pages,...['cadell-52','timeless-safes','ajax-starterkit'].map(n=>({url:'/products/'+n+'.html',file:'products/'+n+'.html'}))];
 const files=new Map(entries.map(p=>[p.url,p.file]));
 const href=(from,to,hash='')=>{const canonical=files.has(sourcePath(to))?sourcePath(to):to;return path.relative(path.dirname(from),path.join(out,files.get(canonical)||'index.html')).replaceAll('\\','/')+hash;};
 const canonicalUrl=p=>new URL(p.endsWith('.html')?p.replace(/^\//,''):routeFor(files.has(sourcePath(p))?sourcePath(p):p),base).href;
@@ -95,9 +95,10 @@ for(const entry of entries){
 const primary=entries.filter(e=>!stats.aliases.some(a=>a.url===e.url));
 fs.writeFileSync(path.join(out,'sitemap.xml'),`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${primary.map(e=>`<url><loc>${escape(canonicalUrl(e.url))}</loc></url>`).join('\n')}\n</urlset>\n`);
 fs.writeFileSync(path.join(out,'robots.txt'),`# GitHub project-site robots.txt is informational; host-root robots.txt controls crawling.\n# Preview pages use HTML noindex; allow crawling so crawlers can read that directive.\nUser-agent: *\nAllow: /\nSitemap: ${new URL('sitemap.xml',base).href}\n`);
-fs.writeFileSync(path.join(out,'404.html'),`<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><meta name="robots" content="noindex, follow"><title>Page not found | SPL Security Solutions</title><style>body{font:18px Arial;background:#090909;color:white;margin:10vw;line-height:1.6}a{color:#f7c600}h1{font-size:48px}</style></head><body><h1>Let’s find the right solution.</h1><p>This page isn’t available.</p><p><a href="${base.href}">SPL home</a> · <a href="${new URL('all-pages/',base).href}">Browse all pages</a> · <a href="tel:0755888111">(07) 5588 8111</a></p></body></html>\n`);
+fs.writeFileSync(path.join(out,'404.html'),`<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><meta name="robots" content="noindex, follow"><title>Page not found | SPL Security Solutions</title><style>body{font:18px Arial;background:#090909;color:white;margin:10vw;line-height:1.6}a{color:#f7c600}h1{font-size:48px}</style></head><body><h1>Let’s find the right solution.</h1><p>This page isn’t available.</p><p><a href="${base.href}">SPL home</a> · <a href="${new URL('service-area/',base).href}">Our service regions</a> · <a href="tel:0755888111">(07) 5588 8111</a></p></body></html>\n`);
 fs.writeFileSync(path.join(root,'seo-build-report.json'),JSON.stringify({mode:config.indexing,siteUrl:base.href,...stats,sitemapUrls:primary.length},null,2));console.log(JSON.stringify(stats,null,2));
 const csv=s=>'"'+String(s).replaceAll('"','""')+'"';
+require('./enforce-regional-scope.cjs')();
 require('./repair-page-layout.cjs')();
 require('./normalize-locksmith-headings.cjs')();
 require('./remove-download-resources.cjs')();

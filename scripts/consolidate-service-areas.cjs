@@ -1,7 +1,7 @@
 const fs=require('fs'),path=require('path'),{load}=require('cheerio');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'public');
 const regions=[{name:'Gold Coast',file:'locations/locksmith-gold-coast/index.html'},{name:'Brisbane',file:'locksmiths/brisbane/index.html'},{name:'Northern NSW',file:'locations/locksmith-northern-nsw/index.html'}];
-function consolidate(){const manifest=JSON.parse(fs.readFileSync(path.join(root,'page-import-manifest.json'),'utf8')),files=['index.html',...manifest.pages.map(p=>p.file),'all-pages/index.html',...['cadell-52','timeless-safes','ajax-starterkit'].map(p=>'products/'+p+'.html')];const result={pagesWithListsConsolidated:[],menusUpdated:0};
+function consolidate(){const manifest=JSON.parse(fs.readFileSync(path.join(root,'page-import-manifest.json'),'utf8')),files=['index.html',...manifest.pages.map(p=>p.file),...['cadell-52','timeless-safes','ajax-starterkit'].map(p=>'products/'+p+'.html')];const result={pagesWithListsConsolidated:[],menusUpdated:0};
  for(const relative of files){const file=path.join(out,relative),html=fs.readFileSync(file,'utf8'),$=load(html);let changed=false,lists=false;
  const link=region=>path.relative(path.dirname(file),path.join(out,region.file)).replaceAll('\\','/');
  const list=()=>`<ul class="region-list">${regions.map(r=>`<li><a href="${link(r)}">${r.name}</a></li>`).join('')}</ul>`;

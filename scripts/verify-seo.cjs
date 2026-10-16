@@ -1,6 +1,6 @@
 const fs=require('fs'),path=require('path'),crypto=require('crypto'),assert=require('assert/strict'),{load}=require('cheerio');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'public'),config=require('../seo.config.json'),report=require('../seo-build-report.json'),manifest=require('../page-import-manifest.json');
-const files=['index.html',...manifest.pages.map(p=>p.file),'all-pages/index.html',...['cadell-52','timeless-safes','ajax-starterkit'].map(p=>'products/'+p+'.html')];
+const files=['index.html',...manifest.pages.map(p=>p.file),...['cadell-52','timeless-safes','ajax-starterkit'].map(p=>'products/'+p+'.html')];
 const xml=load(fs.readFileSync(path.join(out,'sitemap.xml'),'utf8'),{xmlMode:true}),sitemap=xml('loc').map((i,e)=>xml(e).text()).get();
 assert.equal(sitemap.length,report.sitemapUrls);assert.equal(sitemap.length,new Set(sitemap).size);
 for(const p of config.excludedPaths||[]){assert(!fs.existsSync(path.join(out,p,'index.html')),'Retired page must not exist: '+p);assert(!sitemap.some(u=>new URL(u).pathname.endsWith(p+'/')),'Retired page in sitemap: '+p);}
@@ -8,6 +8,7 @@ let schemas=0,faqs=0;const titles=new Map(),descriptions=new Map(),broken=[],mis
 for(const f of files){const file=path.join(out,f),html=fs.readFileSync(file,'utf8'),$=load(html);
  assert.equal($('head>title').length,1,f+' title');assert.equal($('meta[name="description"]').length,1,f+' description');assert.equal($('link[rel="canonical"]').length,1,f+' canonical');
  assert.equal($('h1').length,1,f+' H1');
+ assert.equal($('a').filter((i,e)=>/all pages/i.test($(e).text())).length,0,f+' retired all-pages navigation');
  const regionalMenu=$('#main-nav .nav-group').filter((i,e)=>$(e).children('summary').text().trim()==='Service Area');if(regionalMenu.length)assert.deepEqual(regionalMenu.find('.nav-dropdown a').map((i,e)=>$(e).text().trim()).get(),['Gold Coast','Brisbane','Northern NSW'],f+' three-region menu');
  assert.equal($('.editorial-content ul,.editorial-content ol').filter((i,e)=>$(e).find('a').length>15&&/Surfers Paradise/.test($(e).text())).length,0,f+' oversized area list');
  const title=$('head>title').text(),description=$('meta[name="description"]').attr('content'),canonical=$('link[rel="canonical"]').attr('href');assert(title.length>5,f+' title length');assert(description.length>25,f+' description length');assert(canonical.startsWith(config.siteUrl));

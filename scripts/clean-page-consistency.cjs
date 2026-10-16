@@ -1,7 +1,7 @@
 const fs=require('fs'),path=require('path'),{load}=require('cheerio');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'public'),config=require('../seo.config.json');
 function clean(){
- const m=JSON.parse(fs.readFileSync(path.join(root,'page-import-manifest.json'),'utf8')),files=['index.html',...m.pages.map(p=>p.file),'all-pages/index.html',...['cadell-52','timeless-safes','ajax-starterkit'].map(p=>'products/'+p+'.html')];
+ const m=JSON.parse(fs.readFileSync(path.join(root,'page-import-manifest.json'),'utf8')),files=['index.html',...m.pages.map(p=>p.file),...['cadell-52','timeless-safes','ajax-starterkit'].map(p=>'products/'+p+'.html')];
  const docs=new Map(files.map(f=>[path.join(out,f),{html:fs.readFileSync(path.join(out,f),'utf8'),$:load(fs.readFileSync(path.join(out,f),'utf8')),changed:false}]));
  const stats={pagesReviewed:files.length,pagesUpdated:0,relatedLabelsStandardized:0,repeatedLinksRemoved:0,repeatedRegionalGroupsRemoved:0,directoryDuplicatesRemoved:0,placeholderLabelsRemoved:0,duplicateHeadingsRemoved:0,sectionLinksRepaired:0,staticFormResponsesRemoved:0};
  const norm=s=>String(s).replace(/\s+/g,' ').trim(),slug=s=>String(s).toLowerCase().replace(/[^a-z0-9]/g,'');

@@ -7,7 +7,7 @@ const browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chr
 const page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
 const base=process.env.VERIFY_URL||'http://127.0.0.1:18187/';
 const dir=path.resolve(__dirname,'../verification');fs.mkdirSync(dir,{recursive:true});
-for(const route of ['','about/index.html','cctv-system/index.html','commercial-locksmith/index.html','articles/index.html','contact/index.html','products/cadell-52.html','all-pages/index.html']){
+for(const route of ['','about/index.html','cctv-system/index.html','commercial-locksmith/index.html','articles/index.html','contact/index.html','products/cadell-52.html','service-area/index.html']){
 const r=await page.goto(base+route,{waitUntil:'domcontentloaded'});if(r.status()!==200)throw Error(route+' HTTP '+r.status());
 await page.locator('h1').first().waitFor({state:'visible',timeout:20000}).catch(async e=>{console.log((await page.content()).slice(0,1000));throw e;});
 if(fs.existsSync(path.resolve(__dirname,'../seo-build-report.json'))){const config=require('../seo.config.json');if(config.indexing==='preview'&&!(await page.locator('meta[name="robots"]').getAttribute('content')).includes('noindex'))throw Error('Preview indexing directive missing '+route);if(await page.locator('script[data-seo-schema]').count()!==1)throw Error('Structured data missing '+route);}
@@ -24,7 +24,7 @@ if(await page.locator('.service-feature').count()){
  for(const id of ['locksmiths','security','hardware','retail-trade']){const section=page.locator('#'+id);await section.scrollIntoViewIfNeeded();await section.locator('img').evaluate(img=>img.decode());await section.screenshot({path:path.join(dir,'service-'+id+'-desktop.png')});const link=section.locator('.links a').first(),target=await link.getAttribute('href');await link.click();await page.waitForURL(new URL(target,base).href);await page.goto(base,{waitUntil:'domcontentloaded'});}
 }
 await page.setViewportSize({width:390,height:844});
-for(const route of ['','about/index.html','commercial-locksmith/index.html','products/cadell-52.html','all-pages/index.html']){
+for(const route of ['','about/index.html','commercial-locksmith/index.html','products/cadell-52.html','service-area/index.html']){
 await page.goto(base+route,{waitUntil:'domcontentloaded'});if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+2))throw Error('Mobile overflow '+route);
 await page.screenshot({path:path.join(dir,(route.split('/')[0]||'home')+'-mobile.png'),fullPage:false});
 if(!route&&await page.locator('.service-feature').count()){for(const id of ['locksmiths','security','hardware','retail-trade']){const section=page.locator('#'+id);await section.scrollIntoViewIfNeeded();await section.locator('img').evaluate(img=>img.decode());await section.screenshot({path:path.join(dir,'service-'+id+'-mobile.png')});}await page.evaluate(()=>scrollTo(0,0));}

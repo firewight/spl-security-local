@@ -1,6 +1,6 @@
 const fs=require('fs'),path=require('path'),{load}=require('cheerio');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'public');
-function removeDownloads(){const m=JSON.parse(fs.readFileSync(path.join(root,'page-import-manifest.json'),'utf8')),files=['index.html',...m.pages.map(p=>p.file),'all-pages/index.html',...['cadell-52','timeless-safes','ajax-starterkit'].map(p=>'products/'+p+'.html')];const stats={pagesReviewed:files.length,pagesUpdated:[],resourceSectionsRemoved:0,downloadLinksRemoved:0,pdfAssetsRetired:0};
+function removeDownloads(){const m=JSON.parse(fs.readFileSync(path.join(root,'page-import-manifest.json'),'utf8')),files=['index.html',...m.pages.map(p=>p.file),...['cadell-52','timeless-safes','ajax-starterkit'].map(p=>'products/'+p+'.html')];const stats={pagesReviewed:files.length,pagesUpdated:[],resourceSectionsRemoved:0,downloadLinksRemoved:0,pdfAssetsRetired:0};
 for(const relative of files){const file=path.join(out,relative),original=fs.readFileSync(file,'utf8'),$=load(original);let changed=false;const removedIds=new Set();
 function discard(nodes){$(nodes).find('[id]').addBack('[id]').each((i,e)=>removedIds.add($(e).attr('id')));$(nodes).remove();changed=true;}
 const starts={'intercom/index.html':/^ABB AUDIO HANDS-FREE INTERCOM QUICK OPERATION GUIDE$/i,'fire-door-hardware/index.html':/^Helpful Resources$/i,'safe/index.html':/^Yale Safes$/i};
