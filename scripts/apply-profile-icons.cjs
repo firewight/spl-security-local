@@ -1,3 +1,4 @@
+require('./lib/external-links.cjs').install();
 // Replaces footer social rows and the contact official-profiles row with the shared icon row.
 const fs=require('fs'),path=require('path'),{footerRow,contactRow}=require('./lib/profile-icons.cjs');
 const out=path.resolve(__dirname,'../public');let n=0;

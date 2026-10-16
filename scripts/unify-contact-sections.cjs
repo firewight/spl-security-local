@@ -1,3 +1,4 @@
+require('./lib/external-links.cjs').install();
 const fs=require('fs'),path=require('path'),crypto=require('crypto'),{load}=require('cheerio');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'public');
 const template=fs.readFileSync(path.join(__dirname,'templates/contact-section.html'),'utf8');

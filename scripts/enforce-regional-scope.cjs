@@ -1,3 +1,4 @@
+require('./lib/external-links.cjs').install();
 const fs=require('fs'),path=require('path'),{load}=require('cheerio');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'public'),config=require('../seo.config.json');
 function enforce(){let changed=0,links=0;function walk(dir){for(const e of fs.readdirSync(dir,{withFileTypes:true})){const file=path.join(dir,e.name);if(e.isDirectory()){walk(file);continue;}if(!file.endsWith('.html'))continue;const original=fs.readFileSync(file,'utf8'),$=load(original);let dirty=false;

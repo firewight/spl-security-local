@@ -1,3 +1,4 @@
+require('./lib/external-links.cjs').install();
 const fs=require('fs'),path=require('path'),{load}=require('cheerio');
 const root=path.resolve(__dirname,'..'),m=require('../page-import-manifest.json');
 const norm=s=>s.toLowerCase().replace(/[^a-z0-9]/g,'');

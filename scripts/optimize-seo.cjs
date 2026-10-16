@@ -1,3 +1,4 @@
+require('./lib/external-links.cjs').install();
 const fs=require('fs'),path=require('path'),crypto=require('crypto'),{load}=require('cheerio');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'public'),config=require('../seo.config.json'),audit=require('../source-seo-audit.json'),manifest=require('../page-import-manifest.json');
 const base=new URL(config.siteUrl),businessId=config.businessUrl+'#business';

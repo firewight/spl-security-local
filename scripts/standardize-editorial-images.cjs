@@ -1,3 +1,4 @@
+require('./lib/external-links.cjs').install();
 const fs=require('fs'),path=require('path'),crypto=require('crypto'),sharp=require('sharp'),{load}=require('cheerio');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'public');
 async function run({auditOnly=false}={}){

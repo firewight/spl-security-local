@@ -1,3 +1,4 @@
+require('./lib/external-links.cjs').install();
 const fs=require('fs'),path=require('path'),{load}=require('cheerio');
 function repair(){
  const root=path.resolve(__dirname,'..');

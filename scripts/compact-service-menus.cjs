@@ -1,3 +1,4 @@
+require('./lib/external-links.cjs').install();
 const fs=require('fs'),path=require('path'),{load}=require('cheerio');
 const root=path.resolve(__dirname,'..');
 const routes=['locksmith-services','locksmiths','commercial-locksmiths','security-systems','retail-security','locksmiths/lock-hardware','locksmiths/brisbane','security-systems/brisbane','security-systems/intercoms/gold-coast','locations/locksmith-northern-nsw'];

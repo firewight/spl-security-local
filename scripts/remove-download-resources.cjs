@@ -1,3 +1,4 @@
+require('./lib/external-links.cjs').install();
 const fs=require('fs'),path=require('path'),{load}=require('cheerio');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'public');
 function removeDownloads(){const m=JSON.parse(fs.readFileSync(path.join(root,'page-import-manifest.json'),'utf8')),files=['index.html',...m.pages.map(p=>p.file),...['cadell-52','timeless-safes','ajax-starterkit'].map(p=>'products/'+p+'.html')];const stats={pagesReviewed:files.length,pagesUpdated:[],resourceSectionsRemoved:0,downloadLinksRemoved:0,pdfAssetsRetired:0};

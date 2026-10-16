@@ -1,3 +1,4 @@
+require('./lib/external-links.cjs').install();
 const fs=require('fs'),path=require('path'),crypto=require('crypto'),{load}=require('cheerio');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'public'),dir=path.join(out,'assets/imported');fs.mkdirSync(dir,{recursive:true});
 const manifest=require('../page-import-manifest.json'),jobs=new Map(),records=[];

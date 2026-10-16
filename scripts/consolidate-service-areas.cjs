@@ -1,3 +1,4 @@
+require('./lib/external-links.cjs').install();
 const fs=require('fs'),path=require('path'),{load}=require('cheerio');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'public');
 const regions=[{name:'Gold Coast',file:'locations/locksmith-gold-coast/index.html'},{name:'Brisbane',file:'locksmiths/brisbane/index.html'},{name:'Northern NSW',file:'locations/locksmith-northern-nsw/index.html'}];

@@ -1,3 +1,4 @@
+require('./lib/external-links.cjs').install();
 // Rebuild the authorised SPL subpage redesign from current source snapshots.
 const fs=require('fs'),path=require('path'),crypto=require('crypto'),{load}=require('cheerio');
 const root=path.resolve(__dirname,'..'), out=path.join(root,'public'), cache=path.join(root,'.source-cache');
