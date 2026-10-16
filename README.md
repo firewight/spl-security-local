@@ -42,3 +42,9 @@ Edit `to_email` in the server's `api/config.php` from `support@spl.com.au` to `i
 
 - Homepage hero "Security Systems" slide (`public/assets/hero-product-security.*`): official Hikvision product photo of the **DS-2CD2347G2-LU** 4 MP ColorVu fixed turret network camera, from the Hikvision product page https://www.hikvision.com/en/products/IP-Products/Network-Cameras/Pro-Series-EasyIP-/ds-2cd2347g2-l-u-/ (served from assets.hikvision.com). It's used because SPL installs Hikvision products. It was cut out and graded to match the site.
 - The other hero products are SPL's own photos (keys) and a user-supplied safe photo, and an image from the old splsecurity.com.au site (lever).
+
+## Open Graph share images
+
+`node scripts/build-og-images.cjs` renders branded 1200x630 cards into `public/assets/og/` (dark background, gold glow, the original `spl-logo-white-600.png` artwork, title in Manrope) and writes `og:image` (+ width/height/alt), `og:title`, `og:description`, `og:url` and `twitter:card=summary_large_image` on every HTML page. Main and service pages get their own card; all other pages use `assets/og/default.png`. URLs use `siteUrl` in `seo.config.json` (currently the GitHub Pages demo). At launch, switch `siteUrl` to the spl.com.au domain and run `node scripts/build-og-images.cjs --meta-only`. Re-run it after `optimize-seo.cjs`, which rewrites the share tags.
+
+`node scripts/add-landing-pages.cjs` (idempotent) builds `/home-automation/` and `/holiday-security-tips/` from the intercom page template and adds their nav, footer and overview links.
