@@ -35,6 +35,11 @@ module.exports=function run(){const stats={blogImages:0,authors:0,related:0,head
      h=h.slice(0,at)+'<div class="editorial-block"><h2 id="section-related-articles">Related articles</h2></div>\n'+h.slice(at);stats.related++;}}
    const a=h.indexOf('<article class="editorial-content">'),e=h.indexOf('</article>',a);
    if(a>0&&e>a){let last=1,shift=0,from=9;const body=h.slice(a,e).replace(/<h([1-6])([^>]*)>([\s\S]*?)<\/h\1>/g,(m,l,at,t)=>{l=+l;if(l<from){shift=0;from=9;}let n=l-shift;if(n>last+1){shift+=n-(last+1);from=Math.min(from,l);n=last+1;}last=n;if(n===l)return m;stats.headingFixes++;return `<h${n}${at}>${t}</h${n}>`;});h=h.slice(0,a)+body+h.slice(e);}}
+  // Performance (Oct 2026): favicon hint so browsers pick the 32px icon, lazy map iframes, LCP image priority.
+  h=h.replace(/<link rel="icon" href="([^"]*spl-round-logo\.png[^"]*)" type="image\/png"/g,'<link rel="icon" href="$1" sizes="574x574" type="image/png"');
+  h=h.replace(/<iframe (?![^>]*loading=)([^>]*google\.com\/maps[^>]*)>/g,'<iframe loading="lazy" $1>');
+  if(/[\\/]locations[\\/]index\.html$/.test(f))h=h.replace(/(<figure class="showroom-photo"><picture>(?:(?!<\/picture>)[\s\S])*?<img )(?!fetchpriority)/,'$1fetchpriority="high" ');
+  if(/[\\/]blog[\\/]index\.html$/.test(f)){const i=h.indexOf('<li class="blog-card">'),j=i<0?-1:h.indexOf('>',h.indexOf('<img ',i));if(j>0){const tag=h.slice(h.indexOf('<img ',i),j+1);h=h.replace(tag,tag.replace('loading="lazy"','loading="eager"').replace(/^<img (?!fetchpriority)/,'<img fetchpriority="high" '));}}
   h=h.replace(/pages\.css\?v=[^"]*/,'pages.css?v='+PAGES_CSS_V);
   if(h!==b)fs.writeFileSync(f,h);}
  const cf=path.join(out,'pages.css');let css=fs.readFileSync(cf,'utf8');const n=css.replace(/\n?\/\* audit-quick-wins \*\/[\s\S]*?\/\* end audit-quick-wins \*\//,'').trimEnd()+'\n'+CSS+'\n';if(n!==css)fs.writeFileSync(cf,n);
