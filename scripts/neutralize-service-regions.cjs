@@ -52,6 +52,13 @@ const sectionLinks={
  'security-systems':[['cctv-system','Security Cameras &amp; CCTV'],['access-control-systems','Access Control Systems'],['intercom','Intercom Systems'],['alarm-system','Alarm Systems'],['alarm-monitoring','Security System Maintenance']],
  'door-hardware':[['architectural-door-hardware','Architectural Door Hardware'],['door-handles','Lever Door Handles'],['door-closers','Door Closers &amp; Seals'],['fire-door-hardware','Fire Door Hardware'],['locksmiths/lock-hardware','Lock Hardware']]};
 sectionLinks.locksmiths=sectionLinks['locksmith-services'];
+// Contextual links to otherwise-orphaned product pages and articles (one short paragraph before Explore more).
+const contextual={
+ 'alarm-system':'<p>Looking for a starting point? See the <a href="../products/ajax-starterkit.html">Ajax StarterKit</a>, a wireless alarm kit that can be expanded as your property changes.</p>',
+ 'safe':'<p>Browse the <a href="../products/timeless-safes.html">Sentinel Timeless safes</a> in our range.</p>',
+ 'residential-locksmith':'<p>Considering keyless entry for your home? See the <a href="../products/cadell-52.html">Cadell 52 smart digital lock</a>.</p>',
+ 'locksmiths/lock-hardware':'<p>Upgrading to keyless entry? See the <a href="../../products/cadell-52.html">Cadell 52 smart digital lock</a>.</p>',
+ 'cctv-system':'<p>Related reading: <a href="../blog/security-cameras-do-more-than-security/index.html">Security cameras do more than security</a>.</p>'};
 // Explore-more entries removed on request (page -> hrefs); applied on every rebuild.
 const dropLinks={'security-systems':['../retail-security/index.html']};
 // Length limits for every page (titles <= 60, descriptions <= 160). Long article titles get hand-written short forms.
@@ -100,6 +107,7 @@ for(const file of walk(out)){
   }
  }
  if(sectionLinks[key]){const $=load(html),sec=$('.related-links').first();if(sec.length){const up='../'.repeat(key.split('/').length);const want=sectionLinks[key].map(([p,l])=>`<a href="${up}${p}/index.html">${l} <span aria-hidden="true">↗</span></a>`).join('');sec.find('a').remove();sec.append(want);if($.html()!==load(html).html())html=$.html();}}
+ if(contextual[key]&&!html.includes('class="editorial-block related-product"')){const $=load(html),rl=$('.related-links').first();const blk=`<div class="editorial-block related-product">${contextual[key]}</div>\n`;if(rl.length)rl.before(blk);else $('.editorial-content').append(blk);html=$.html();}
  if(dropLinks[key]){const $=load(html);const hit=$('.related-links a').filter((i,e)=>dropLinks[key].includes($(e).attr('href')));if(hit.length){hit.remove();html=$.html();}}
  if(selfLinks[key]){const $=load(html);$('.related-links a').filter((i,e)=>$(e).attr('href')===selfLinks[key]).remove();if($.html()!==load(html).html())html=$.html();}
  if(html!==before){fs.writeFileSync(file,html);changed++;}
