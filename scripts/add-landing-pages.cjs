@@ -24,7 +24,7 @@ crumb:'Home Automation',h1:'Home Automation',
  related:[['../alarm-system/index.html','Alarm Systems'],['../cctv-system/index.html','Security Cameras &amp; CCTV'],['../security-systems/index.html','Security Systems Overview']]},
 {slug:'holiday-security-tips',crumb:'Holiday Security Tips',h1:'Holiday Security Tips for Homes and Businesses',
  title:'Holiday Security Tips for Homes & Businesses | SPL Security Solutions',
- description:'Going away or closing for the holidays? Practical security tips for homes and businesses on the Gold Coast and Northern NSW from SPL Security Solutions.',
+ description:'Going away or closing for the holidays? Practical security tips for homes and businesses across the Gold Coast, Brisbane and Northern NSW from SPL.',
  summary:'Before you go away or close up for the holidays, check your locks, test your alarm and cameras, make the property look occupied and know who to call if something goes wrong.',
  image:{src:'assets/imported/6eef8082bb259a186901.jpg',alt:'Key being turned in a door lock',w:1000,h:667},
  sections:[
