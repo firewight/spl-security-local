@@ -110,6 +110,7 @@ require('./clean-page-consistency.cjs')();
 require('./consolidate-action-buttons.cjs')();
 require('./clean-import-remnants.cjs')();
 require('./neutralize-service-regions.cjs')();
+require('./refresh-blog-posts.cjs')();
 require('./standardize-editorial-images.cjs')().catch(error=>{console.error(error);process.exitCode=1;});
 fs.writeFileSync(path.join(root,'backlink-migration.csv'),['original_url,preferred_production_url,demo_canonical_url,launch_action',...audit.pages.filter(p=>!(config.excludedPaths||[]).includes(p.path)).map(p=>[new URL(p.path,config.businessUrl).href,new URL(sourcePath(p.path),config.businessUrl).href,canonicalUrl(p.path),sourcePath(p.path)===p.path?'Preserve existing production path':'301 redirect alias on production host at launch'].map(csv).join(','))].join('\n')+'\n');
 require('./apply-regional-redirects.cjs')();
