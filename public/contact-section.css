@@ -32,3 +32,7 @@
 .home-showrooms .kicker{color:#6f5700}
 @media(max-width:760px){.showroom-grid{grid-template-columns:1fr}}
 .showroom-photo{margin:8px 0 20px}.showroom-photo img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;border:1px solid #d8d8cf}.showroom-photo figcaption{font-size:13px;color:#555;margin-top:8px}
+/* official profile icon row (footer + contact) */
+.profile-icons{display:flex;flex-wrap:wrap;align-items:center;gap:10px}.profile-icons>p{flex-basis:100%;margin:0 0 2px}.official-profiles.profile-icons a,.profile-icons .profile-icon{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;margin:0;border-radius:50%;background:#F7C600;color:#090909;text-decoration:none;transition:background .15s,transform .15s}.profile-icons .profile-icon:hover{background:#fff;color:#090909;transform:translateY(-1px)}.profile-icons .profile-icon:focus-visible{outline:3px solid #F7C600;outline-offset:3px}.profile-icons svg{display:block}
+.profile-icons>p{flex:0 0 100%;max-width:none}footer>.footer-socials.profile-icons{flex:0 0 auto;flex-wrap:nowrap}
+footer .footer-socials.profile-icons{position:static;background:none;padding:0;flex-direction:row;align-items:center;gap:10px}footer>span{white-space:nowrap}
