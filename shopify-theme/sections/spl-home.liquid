@@ -1,4 +1,4 @@
-<div class="service-bar">24/7 EMERGENCY LOCKSMITH <span>&bull;</span> Gold Coast &middot; Brisbane &middot; Northern NSW <a href="tel:0755888111">Call (07) 55 888 111</a></div>
+<div class="service-bar">24/7 EMERGENCY LOCKSMITH <span>&bull;</span> Gold Coast &middot; Brisbane &middot; Northern NSW <a href="tel:+61755888111">Call (07) 55 888 111</a></div>
 <header class="site-header">
   <a class="brand" href="#top" aria-label="SPL Security Solutions home"><img src="{{ 'spl-logo-white.png' | asset_url }}" alt="SPL Security Solutions"></a>
   <button class="menu-toggle" aria-expanded="false" aria-controls="main-nav">Menu</button>
@@ -31,7 +31,7 @@
   <section class="cta" id="enquire"><p class="kicker">LET'S GET YOUR SECURITY SORTED</p><h2>Protection starts<br>with a conversation.</h2><button class="light-cta" data-open-form>Talk to an SPL expert <span>&rsaquo;</span></button></section>
 </main>
 
-<footer><a class="brand footer-brand" href="#top"><img src="{{ 'spl-logo-white.png' | asset_url }}" alt="SPL Security Solutions"></a><p>SPL Security Solutions product collection.</p><a href="tel:0755888111">(07) 55 888 111</a></footer>
+<footer><a class="brand footer-brand" href="#top"><img src="{{ 'spl-logo-white.png' | asset_url }}" alt="SPL Security Solutions"></a><p>SPL Security Solutions product collection.</p><a href="tel:+61755888111">(07) 55 888 111</a></footer>
 
 <dialog id="enquiry-dialog"><button class="close" aria-label="Close">&times;</button><p class="kicker">SPL SECURITY SOLUTIONS</p><h2>Talk to an expert.</h2><p>Tell us what you need protected and we&rsquo;ll call you back.</p>{% form 'contact' %}<label>Name<input name="contact[name]" required autocomplete="name"></label><label>Phone<input name="contact[phone]" required type="tel" autocomplete="tel"></label><label>Email<input name="contact[email]" type="email" autocomplete="email"></label><label>Product or service<select name="contact[service]"><option>General enquiry</option><option>Timeless Safes</option><option>Cadell 52 Digital Lock</option><option>Ajax StarterKit</option></select></label><label class="full">How can we help?<textarea name="contact[body]" required rows="4"></textarea></label><button class="form-submit" type="submit">Send enquiry</button>{% if form.posted_successfully? %}<p class="form-status">Thanks — your enquiry has been sent.</p>{% endif %}{% if form.errors %}<p class="form-status error">Please check the form and try again.</p>{% endif %}{% endform %}</dialog>
 

@@ -12,7 +12,7 @@ $('.hero .links').html('<a href="#locksmiths">Explore our services <span>&rsaquo
 $('.ecosystem-head>p:last-child').text('From the right hardware to integrated electronic security, SPL services and local expertise work together to protect what matters.');
 $('.cta button').replaceWith('<a class="light-cta" href="./contact/index.html">Talk to an SPL expert <span>&rsaquo;</span></a>');
 $('footer>p').text('Master Locksmiths · Security Systems · Door Hardware · Retail & Trade. Servicing Gold Coast, Brisbane and Northern NSW.');
-$('.service-bar a').attr('href','tel:0755888111').text('Call (07) 55 888 111');
+$('.service-bar a').attr('href','tel:+61755888111').text('Call (07) 55 888 111');
 $('select[name="service"]').html('<option>General enquiry</option>'+categories.map(c=>`<option>${c.title}</option>`).join(''));
 if(!$('link[href^="./home-services.css"]').length)$('head').append('<link rel="stylesheet" href="./home-services.css?v=20261015">');
 fs.writeFileSync(file,$.html().split('\n').map(s=>s.trimEnd()).join('\n'));

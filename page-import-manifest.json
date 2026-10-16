@@ -1,7 +1,7 @@
 {
   "source": "https://www.splsecurity.com.au",
   "importedAt": "2026-10-15T03:33:14.618Z",
-  "homepageMainSha256": "95e538ff9ba1538dfc021a5d2d759d6e681a720d4a039f01f846d3c75f9852c5",
+  "homepageMainSha256": "8d850c15782ac79be9f0d2846c4f1962cc39413ce6c63c7d9b1c165fabb41aca",
   "pages": [
     {
       "url": "/blog/24-7-gold-coast-locksmith-secrets-to-our-success",
@@ -619,6 +619,6 @@
     }
   ],
   "failures": [],
-  "homepageUpdatedAt": "2026-10-16T05:10:18.398Z",
-  "homepageChange": "User-authorised: shortened Susan Horner review excerpt."
+  "homepageUpdatedAt": "2026-10-16T05:12:35.967Z",
+  "homepageChange": "User-authorised: international-format tel links."
 }
