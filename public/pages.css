@@ -35,4 +35,5 @@
 .page-toc a{position:relative}.page-toc a::after{content:"";position:absolute;inset:-6px 0}
 dd>a[href^="tel:"],p>a[href^="tel:"],p>a[href^="mailto:"],.links a{position:relative}dd>a[href^="tel:"]::after,p>a[href^="tel:"]::after,p>a[href^="mailto:"]::after,.links a::after{content:"";position:absolute;inset:-12px 0}
 .service-facts span{font-size:12px}
+body .answer-summary .kicker,body .expert-card .kicker,body .contact-option small,body .contact-options .contact-eyebrow,body .hero-copy .kicker{font-size:12px}
 /* end audit-quick-wins */

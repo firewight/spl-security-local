@@ -7,7 +7,7 @@
 const fs=require('fs'),path=require('path');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'public'),base=require('../seo.config.json').siteUrl;
 const walk=(d,a=[])=>{for(const e of fs.readdirSync(d,{withFileTypes:true})){const f=path.join(d,e.name);if(e.isDirectory())walk(f,a);else if(e.name.endsWith('.html'))a.push(f);}return a;};
-const PAGES_CSS_V='20261016-tapfix';
+const PAGES_CSS_V='20261016-labels';
 const GEO={'#gold-coast':{geo:{'@type':'GeoCoordinates',latitude:-28.0092643,longitude:153.4015131},hasMap:'https://www.google.com/maps/search/?api=1&query=-28.0092643%2C153.4015131'},
  '#ballina':{hasMap:'https://maps.google.com/maps?q=SPL%20Ballina%20Locksmiths%2C%20Unit%202%2F269%20River%20Street%2C%20Ballina%20NSW%202478'}};
 const CSS=`/* audit-quick-wins */
@@ -16,6 +16,7 @@ const CSS=`/* audit-quick-wins */
 .page-toc a{position:relative}.page-toc a::after{content:"";position:absolute;inset:-6px 0}
 dd>a[href^="tel:"],p>a[href^="tel:"],p>a[href^="mailto:"],.links a{position:relative}dd>a[href^="tel:"]::after,p>a[href^="tel:"]::after,p>a[href^="mailto:"]::after,.links a::after{content:"";position:absolute;inset:-12px 0}
 .service-facts span{font-size:12px}
+body .answer-summary .kicker,body .expert-card .kicker,body .contact-option small,body .contact-options .contact-eyebrow,body .hero-copy .kicker{font-size:12px}
 /* end audit-quick-wins */`;
 module.exports=function run(){const stats={blogImages:0,authors:0,related:0,headingFixes:0,geo:0,logos:0};
  for(const f of walk(out)){let h=fs.readFileSync(f,'utf8');const b=h;if(/http-equiv="refresh"/.test(h))continue;
