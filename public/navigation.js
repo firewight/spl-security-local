@@ -19,5 +19,5 @@
  nav?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nav.classList.remove('open');toggle?.setAttribute('aria-expanded','false');}));
  const search=document.querySelector('#page-search'),cards=[...document.querySelectorAll('[data-page-title]')];
  search?.addEventListener('input',()=>{const words=search.value.toLowerCase().trim().split(/\s+/);let count=0;cards.forEach(card=>{card.hidden=!words.every(word=>card.dataset.pageTitle.includes(word));if(!card.hidden)count++;});document.querySelector('#search-count').textContent=`${count} ${count===1?'page':'pages'}`;});
- document.querySelector('#contact-draft')?.addEventListener('submit',event=>{event.preventDefault();const data=Object.fromEntries(new FormData(event.currentTarget));const body=`Name: ${data.name}\nPhone: ${data.phone}\nEmail: ${data.email}\nService: ${data.service}\n\n${data.message}`;location.href=`mailto:info@spl.com.au?subject=${encodeURIComponent('Website enquiry — '+data.service)}&body=${encodeURIComponent(body)}`;event.currentTarget.querySelector('.form-status').textContent='Your email app has been requested. Review and send the draft there, or call SPL if it does not open.';});
+ /* #contact-draft is handled by forms.js (FormSubmit) */
 })();
