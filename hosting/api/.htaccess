@@ -1,0 +1,5 @@
+# Serve /api/contact from contact.php; block access to config, vendor and rate-limit data.
+Options -Indexes
+RewriteEngine On
+RewriteRule ^contact/?$ contact.php [L]
+RewriteRule ^(config\.php|config\.example\.php|composer\.(json|lock)|vendor/|ratelimit/) - [F,L]

@@ -14,15 +14,16 @@ function send(res, status, body, type = 'text/plain; charset=utf-8') {
 
 http.createServer((req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
-  if (req.method === 'POST' && url.pathname === '/api/enquiries') {
+  if (req.method === 'POST' && (url.pathname === '/api/contact' || url.pathname === '/api/enquiries')) {
     let body = '';
     req.on('data', chunk => { body += chunk; if (body.length > 20000) req.destroy(); });
     req.on('end', () => {
       try {
         const data = JSON.parse(body);
-        if (!data.name || !data.phone || !data.message) return send(res, 400, JSON.stringify({ error: 'Name, phone and message are required.' }), 'application/json');
+        if (data.website) return send(res, 200, JSON.stringify({ ok: true }), 'application/json');
+        if (!data.name || !data.phone || !data.email || !data.message) return send(res, 400, JSON.stringify({ error: 'Name, phone and message are required.' }), 'application/json');
         const current = fs.existsSync(submissions) ? JSON.parse(fs.readFileSync(submissions, 'utf8')) : [];
-        current.push({ id: Date.now(), receivedAt: new Date().toISOString(), name: String(data.name).slice(0, 120), phone: String(data.phone).slice(0, 50), email: String(data.email || '').slice(0, 160), service: String(data.service || '').slice(0, 100), message: String(data.message).slice(0, 3000) });
+        current.push({ id: Date.now(), receivedAt: new Date().toISOString(), formName: String(data.form_name || '').slice(0, 120), name: String(data.name).slice(0, 120), phone: String(data.phone).slice(0, 50), email: String(data.email || '').slice(0, 160), service: String(data.service || '').slice(0, 100), message: String(data.message).slice(0, 3000) });
         fs.writeFileSync(submissions, JSON.stringify(current, null, 2));
         send(res, 201, JSON.stringify({ ok: true }), 'application/json');
       } catch { send(res, 400, JSON.stringify({ error: 'Please check the form and try again.' }), 'application/json'); }
