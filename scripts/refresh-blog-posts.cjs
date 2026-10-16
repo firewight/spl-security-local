@@ -17,11 +17,46 @@ const edits={
  'reasons-people-need-an-emergency-locksmith':[['<a href="../../locksmith-services/index.html">Emergency locksmith</a>','<a href="../../emergency-locksmith/index.html">Emergency locksmith</a>']],
  'how-technology-is-changing-for-locksmiths':[['Changing for Locksmith’s','Changing for Locksmiths']],
 };
+
+// Oct 2026 decisions on the flagged items (SPL-approved): no expired offer, no 2020 prices, no fixed van count,
+// a sourced burglary statistic, current domain, author recredited, single byline.
+const ABS='https://www.abs.gov.au/statistics/people/crime-and-justice/recorded-crime-victims/2025';
+const costD='Having a home security system is integral in protecting your family and belongings, but they’re not cheap. Costs generally range from $300 to $4000 depending…';
+Object.assign(edits,{
+ 'gift-yourself-peace-of-mind-this-christmas':[
+  ['Be Quick… Call SPL now (07) 55 888 111 Right up until Christmas we can come out to give your place a free security audit. First in, best dressed. No…','Secure your home or business before the Christmas holidays. Call SPL Security Solutions on (07) 55 888 111 for advice.'],
+  ['<p>Be Quick… Call SPL now (07) 55 888 111 Right up until Christmas we can come out to give your place a free security audit.</p></section>','<p>Secure your home or business before the Christmas holidays. Call SPL on (07) 55 888 111 for advice.</p></section>'],
+  [/<p>Be Quick… Call SPL now\n<span>\(07\) 55 888 111<\/span> Right up until Christmas[\s\S]*?(<p>Christmas isn’t even here yet[^<]*<\/p>)[\s\S]*?areas restricted to those listed in our service area<\/p>/,'$1<p>Call SPL now\n<span>(07) 55 888 111</span> for advice on any invitation your property offers to burglars, before the holidays.</p>']],
+ 'how-much-does-a-home-security-system-cost':[
+  [costD,'Having a home security system is integral in protecting your family and belongings. Learn what affects the cost, and call SPL for a quote.'],
+  [' Costs generally range from $300 to $4000 depending on the size of your home, and the complexity of the system. On average, installing a hardwired system in a 130 square-metre home costs between $1,800 and $2,900.',' Costs depend on the size of your home and the complexity of the system.'],
+  ['Activation and installation typically range from $700 to $1,900, while monitoring averages $15 to $60 on a monthly plan.','Activation and installation costs vary, and monitoring is usually charged as a monthly plan.'],
+  ['A low-end camera (without installation costs) averages around $250, and an additional $30 per month in surveillance costs. In comparison, a high-end CCTV camera can cost upwards of $1,200, without installation or monthly surveillance costs.','High-end cameras cost more than entry-level models, before installation and any monthly surveillance costs.'],
+  ['Sensors can cost between $15 to $60 each, depending on if they are hardwired or wireless.','Sensor costs vary depending on whether they are hardwired or wireless.'],
+  [' Generally, alarms range from $30 to $50 per alarm, not including installation costs.',''],
+  ['Costs range from $600 to $1,400, with installation varying depending on the door size, type, and material.','Costs, including installation, vary depending on the door size, type, and material.'],
+  ['Call SPL Security Systems Gold Coast for more information and a quote','Call SPL Security Solutions on (07) 55 888 111 for more information and a quote']],
+ 'inside-the-mind-of-a-burglar':[
+  ['Is your home secure enough this Christmas? In Australia, there is one burglary every 3 minutes! Startling statistics, and yet during the holiday season…','Is your home secure enough this Christmas? Queensland police recorded 40,088 burglary victims in 2025 (ABS). See what burglars look for when casing a home.'],
+  ['<p>In Australia, there is one burglary every 3 minutes!</p></section>','<p>Queensland police recorded 40,088 victims of burglary in 2025, almost two-thirds of them at homes (ABS).</p></section>'],
+  ['<p>In Australia, there is one burglary every 3 minutes! Startling statistics, and yet during the holiday season, these numbers seem to skyrocket.<br><br></p>',`<p>Queensland police recorded 40,088 victims of burglary (unlawful entry with intent) in 2025, and almost two-thirds (64%) of those break-ins were at residential dwellings, according to the <a href="${ABS}">Australian Bureau of Statistics, Recorded Crime – Victims, 2025</a>.<br><br></p>`]],
+ '3-reasons-to-install-a-cctv-security-camera-at-your-home-or-business':[...edits['3-reasons-to-install-a-cctv-security-camera-at-your-home-or-business'],['visit the website www.splsecurity.com.au ,','visit the website spl.com.au,']],
+ '4-services-you-can-expect-from-your-local-locksmith':[
+  ['SPL Security has 8 mobile locksmith vans ready to assist you in your time of need, 24/7. Their fully equipped vans','SPL Security has a fleet of fully equipped mobile locksmith vans ready to assist you in your time of need, 24/7.'],
+  ['SPL Security has 8 mobile locksmith vans','SPL Security has a fleet of mobile locksmith vans'],
+  ['SPL Security has 8 mobile locksmith</a>','SPL Security has a fleet of mobile locksmith</a>']],
+ '5-questions-to-consider-when-buying-a-gun-safe':edits['5-questions-to-consider-when-buying-a-gun-safe'],
+ 'top-5-security-tips-for-your-home-or-business':[],
+});
+// Every post: author recredited, and the duplicate imported byline line ("Author • Month D, YYYY") removed.
+const postFix=h=>{if(!h.includes('class="article-byline"'))return h;
+ return h.split('"name":"AUSHost"').join('"name":"SPL Security Solutions"').split('data-seo-generated="">AUSHost ·').join('data-seo-generated="">SPL Security Solutions ·')
+  .replace(/<div class="editorial-block">[^<]*• [A-Z][a-z]+ \d{1,2}, \d{4}<\/div>\n?/,'');};
 // Labels that point at a renamed post, on any page.
 const siteWide=[['Changing for Locksmith’s','Changing for Locksmiths']];
 const walk=(d,a=[])=>{for(const e of fs.readdirSync(d,{withFileTypes:true})){const f=path.join(d,e.name);if(e.isDirectory())walk(f,a);else if(e.name.endsWith('.html'))a.push(f);}return a;};
 module.exports=function run(){const changed=[];
- for(const f of walk(out)){let h=fs.readFileSync(f,'utf8');const b=h;for(const [a,c]of siteWide)h=h.split(a).join(c);if(h!==b)fs.writeFileSync(f,h);}
+ for(const f of walk(out)){let h=fs.readFileSync(f,'utf8');const b=h;for(const [a,c]of siteWide)h=h.split(a).join(c);h=postFix(h);if(h!==b)fs.writeFileSync(f,h);}
  for(const [slug,list]of Object.entries(edits)){const f=path.join(out,'blog',slug,'index.html');let h=fs.readFileSync(f,'utf8');const b=h;
   for(const [a,c]of list)h=typeof a==='string'?h.split(a).join(c):h.replace(a,c);
   if(h!==b||!h.includes('Last updated <time')){
