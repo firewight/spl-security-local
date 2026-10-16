@@ -14,7 +14,8 @@ if(fs.existsSync(path.resolve(__dirname,'../seo-build-report.json'))){const conf
 const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+2);if(overflow)throw Error('Desktop overflow '+route);
 await page.screenshot({path:path.join(dir,(route.split('/')[0]||'home')+'-desktop.png'),fullPage:false});
 }
-await page.locator('#page-search').fill('locksmith');const visible=await page.locator('[data-page-title]:visible').count();if(!visible)throw Error('Directory search empty');
+if(await page.locator('a').filter({hasText:/all pages/i}).count())throw Error('Retired directory navigation remains');
+for(const label of ['Gold Coast','Brisbane','Northern NSW'])if(!await page.locator('.region-list a').filter({hasText:label}).count())throw Error('Missing regional link '+label);
 await page.goto(base,{waitUntil:'domcontentloaded'});await page.locator('#main-nav summary').filter({hasText:/^Locksmiths$/}).click();await page.getByRole('link',{name:'Commercial',exact:true}).click();await page.waitForURL('**/commercial-locksmith/index.html');
 await page.goto(base,{waitUntil:'domcontentloaded'});
 if(await page.locator('.service-feature').count()){
@@ -45,5 +46,5 @@ await page.screenshot({path:path.join(dir,'contact-layout-'+width+'.png'),fullPa
 await page.goto(base+'access-control-systems/index.html',{waitUntil:'domcontentloaded'});await page.locator('.related-links').scrollIntoViewIfNeeded();const regionsAlreadyListed=await page.locator('.region-list').count();for(const region of ['Gold Coast','Brisbane','Northern NSW']){if(await page.locator('.related-links a').filter({hasText:new RegExp('^'+region+'(?:\\s*↗)?$')}).count()!==(regionsAlreadyListed?0:1))throw Error('Repeated or missing related region '+region);}await page.screenshot({path:path.join(dir,'related-links-'+width+'.png'),fullPage:false});
 }
 if(errors.length)throw Error(JSON.stringify(errors));
-console.log('Passed desktop/mobile layouts, nested navigation, page directory search, no page errors.');await browser.close();
+console.log('Passed desktop/mobile layouts, nested navigation, three-region links and retired directory navigation, no page errors.');await browser.close();
 })().then(()=>process.exit(0)).catch(e=>{console.error(e);process.exit(1)});
