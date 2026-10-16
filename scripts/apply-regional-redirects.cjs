@@ -41,7 +41,7 @@ module.exports=function run(){
  }
  // launch 301 rows
  const cf=path.join(root,'backlink-migration.csv');const lines=fs.readFileSync(cf,'utf8').trimEnd().split('\n');const csv=s=>'"'+String(s).replaceAll('"','""')+'"';
- for(const [from,to]of Object.entries(map)){const row=[prod+from,prod+to,base+to.replace(/^\//,'')+'/',`301 redirect to ${to} at launch (regional service page consolidated${excluded.has(from)?'; retired, not on demo':'; demo uses meta refresh'})`].map(csv).join(',');
+ for(const [from,to]of Object.entries(map)){const row=[prod+from,prod+to,base+to.replace(/^\//,'')+'/',`301 redirect to ${to} at launch (${from.startsWith('/locations/')?'retired suburb location page':'regional service page consolidated'}${excluded.has(from)?'; retired, not on demo':'; demo uses meta refresh'})`].map(csv).join(',');
   const i=lines.findIndex(l=>l.startsWith(csv(prod+from)+','));if(i>=0)lines[i]=row;else lines.push(row);stats.csvRows++;}
  fs.writeFileSync(cf,lines.join('\n')+'\n');
  return stats;
