@@ -50,7 +50,7 @@ const sectionLinks={
  'retail-security':[['door-handles','Lever Door Handles'],['door-closers','Door Closers &amp; Seals'],['fire-door-hardware','Fire Door Hardware'],['locksmiths/lock-hardware','Lock Hardware'],['safe','Safes']],
  'locksmith-services':[['commercial-locksmith','Commercial Locksmiths'],['auto-locksmith','Auto Locksmiths'],['residential-locksmith','Residential Locksmiths'],['restricted-keys','Restricted Key Systems'],['emergency-locksmith','Emergency Locksmiths'],['locksmiths/24-7-mobile','24/7 Mobile Locksmiths']],
  'security-systems':[['cctv-system','Security Cameras &amp; CCTV'],['access-control-systems','Access Control Systems'],['intercom','Intercom Systems'],['alarm-system','Alarm Systems'],['alarm-monitoring','Security System Maintenance']],
- 'door-hardware':[['architectural-door-hardware','Architectural Door Hardware']]};
+ 'door-hardware':[['architectural-door-hardware','Architectural Door Hardware'],['door-handles','Lever Door Handles'],['door-closers','Door Closers &amp; Seals'],['fire-door-hardware','Fire Door Hardware'],['locksmiths/lock-hardware','Lock Hardware']]};
 sectionLinks.locksmiths=sectionLinks['locksmith-services'];
 // Explore-more entries removed on request (page -> hrefs); applied on every rebuild.
 const dropLinks={'security-systems':['../retail-security/index.html']};
