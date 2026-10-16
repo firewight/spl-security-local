@@ -22,6 +22,6 @@ for(const route of routes){
   description.append(block);for(const node of following)description.append(node);
   menu.find('.service-menu-descriptions').append(description);
  });
- $('link[href*="pages.css"]').attr('href',(i,v)=>v.replace(/\?.*$/,'')+'?v=20261016-imgstyle');
+ $('link[href*="pages.css"]').attr('href',(i,v)=>v.replace(/\?.*$/,'')+'?v=20261016-tapfix');
  fs.writeFileSync(file,$.html());console.log(route+': '+headings.length+' services');
 }
