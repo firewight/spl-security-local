@@ -1,11 +1,11 @@
-/* Homepage hero rotator: crossfade every 5s (instant switch every 7s with reduced motion), pause on hover or
-   keyboard focus, dot buttons, and a pause/play button (WCAG 2.2.2). */
+/* Homepage hero rotator: crossfade every 4s (instant switch every 6s with reduced motion), pause while hovering the dots/controls or
+   on keyboard focus, dot buttons, and a pause/play button (WCAG 2.2.2). */
 (function(){
   var root=document.querySelector('.hero-slider');if(!root)return;
   if(window.matchMedia&&matchMedia('(max-width: 760px)').matches)return; // mobile: static slide 1 only
   var slides=[].slice.call(root.querySelectorAll('.hero-slide')),dots=[].slice.call(root.querySelectorAll('.hero-dot'));
   var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var i=0,hover=false,kbFocus=false,stopped=false,last=Date.now(),interval=reduce?7000:5000;
+  var i=0,hover=false,kbFocus=false,stopped=false,last=Date.now(),interval=reduce?6000:4000;
   var bar=root.querySelector('.hero-dots');
   var btn=document.createElement('button');btn.type='button';btn.className='hero-toggle';
   function label(){btn.setAttribute('aria-label',stopped?'Play slideshow':'Pause slideshow');btn.setAttribute('aria-pressed',stopped?'true':'false');btn.textContent=stopped?'\u25B6':'\u275A\u275A';}
@@ -20,7 +20,8 @@
   setInterval(function(){if(stopped||hover||kbFocus||document.hidden){last=Date.now();return;}if(Date.now()-last>=interval)show(i+1);},250);
   dots.forEach(function(d,k){d.addEventListener('click',function(){show(k);kbFocus=false;});});
   btn.addEventListener('click',function(){stopped=!stopped;label();last=Date.now();});
-  root.addEventListener('mouseenter',function(){hover=true;});root.addEventListener('mouseleave',function(){hover=false;kbFocus=false;last=Date.now();});
+  // pause only while the pointer is over the dots/controls: the visual covers half the hero, so a resting cursor there must not stop rotation
+  var hz=bar||root;hz.addEventListener('mouseenter',function(){hover=true;});hz.addEventListener('mouseleave',function(){hover=false;kbFocus=false;last=Date.now();});
   root.addEventListener('focusin',function(e){var t=e.target;try{kbFocus=t.matches(':focus-visible');}catch(_){kbFocus=false;}});
   root.addEventListener('focusout',function(e){if(!root.contains(e.relatedTarget))kbFocus=false;});
   root.addEventListener('keydown',function(e){if(e.key==='ArrowRight'){show(i+1);dots[i].focus();}else if(e.key==='ArrowLeft'){show(i-1);dots[i].focus();}});
