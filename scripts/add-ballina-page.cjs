@@ -100,7 +100,7 @@ module.exports=function run(){
   const fig=`<figure class="editorial-image editorial-media editorial-media-natural"><img src="../assets/spl-ballina-van-lighthouse-full.webp" alt="SPL Ballina Locksmiths van parked on grass in front of a white lighthouse" width="1080" height="1000" loading="lazy" decoding="async"></figure>\n`;
   h=h.replace(/<figure class="editorial-image ballina-van">[\s\S]*?<\/figure>\n?/,'');
   h=h.replace(/(<div class="editorial-block"><h2 id="section-about-spl-ballina">[\s\S]*?<\/div>\n)/,`$1${fig}`);
-  h=h.replace(/editorial-media\.css\?v=[^"]*/,'editorial-media.css?v=20261016-natural');
+  h=h.replace(/editorial-media\.css\?v=[^"]*/,'editorial-media.css?v=20261016-values');
   if(h!==b)fs.writeFileSync(bf,h);}
  // /ballina/ footer only: Ballina phone, address and Ballina-relevant links (other pages keep the Gold Coast footer).
  {const bf=path.join(out,'ballina/index.html');let h=fs.readFileSync(bf,'utf8');const b=h;
