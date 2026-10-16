@@ -45,6 +45,13 @@ const body={
 };
 // Explore-more entries that point back at the locksmith overview itself.
 const selfLinks={'locksmith-services':'index.html','locksmiths':'../locksmith-services/index.html'};
+// Overview pages: Explore more lists only that section's own sub-pages, in main-menu order (paths from public/).
+const sectionLinks={
+ 'retail-security':[['door-handles','Lever Door Handles'],['door-closers','Door Closers &amp; Seals'],['fire-door-hardware','Fire Door Hardware'],['locksmiths/lock-hardware','Lock Hardware'],['safe','Safes']],
+ 'locksmith-services':[['commercial-locksmith','Commercial Locksmiths'],['auto-locksmith','Auto Locksmiths'],['residential-locksmith','Residential Locksmiths'],['restricted-keys','Restricted Key Systems'],['emergency-locksmith','Emergency Locksmiths']],
+ 'security-systems':[['cctv-system','Security Cameras &amp; CCTV'],['access-control-systems','Access Control Systems'],['intercom','Intercom Systems'],['alarm-system','Alarm Systems'],['alarm-monitoring','Security System Maintenance']],
+ 'door-hardware':[['architectural-door-hardware','Architectural Door Hardware']]};
+sectionLinks.locksmiths=sectionLinks['locksmith-services'];
 // Explore-more entries removed on request (page -> hrefs); applied on every rebuild.
 const dropLinks={'security-systems':['../retail-security/index.html']};
 const escA=s=>s.replaceAll('&','&amp;').replaceAll('"','&quot;'),escT=s=>s.replaceAll('&','&amp;');
@@ -65,6 +72,7 @@ for(const file of walk(out)){
    if(!regional(rel)){const $=load(html);if($('h1').first().text().trim()===a)swapAll(a,b);}
   }
  }
+ if(sectionLinks[key]){const $=load(html),sec=$('.related-links').first();if(sec.length){const up='../'.repeat(key.split('/').length);const want=sectionLinks[key].map(([p,l])=>`<a href="${up}${p}/index.html">${l} <span aria-hidden="true">↗</span></a>`).join('');sec.find('a').remove();sec.append(want);if($.html()!==load(html).html())html=$.html();}}
  if(dropLinks[key]){const $=load(html);const hit=$('.related-links a').filter((i,e)=>dropLinks[key].includes($(e).attr('href')));if(hit.length){hit.remove();html=$.html();}}
  if(selfLinks[key]){const $=load(html);$('.related-links a').filter((i,e)=>$(e).attr('href')===selfLinks[key]).remove();if($.html()!==load(html).html())html=$.html();}
  if(html!==before){fs.writeFileSync(file,html);changed++;}
