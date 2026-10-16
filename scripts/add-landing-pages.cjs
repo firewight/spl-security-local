@@ -34,7 +34,7 @@ crumb:'Home Automation',h1:'Home Automation',
   ['Closing your business for the holidays',`<ul><li>Review who has keys, cards or codes, and remove access for staff or contractors who no longer need it. <a href="../access-control-systems/index.html">Access control</a> lets you change permissions without rekeying.</li><li>Check that restricted or master key records are current and that no keys are unaccounted for.</li><li>Set alarm schedules and holiday hours, and update the after-hours contact list.</li><li>Remove cash and valuables from registers and display areas, and lock them away.</li><li>Check doors, closers and roller doors close and latch properly, including fire and rear exits.</li><li>Make sure intercoms, cameras and alarm communications are working before the last person leaves.</li></ul>`],
   ['When you get back',`<ul><li>Check doors, windows and fences for signs of tampering.</li><li>Review alarm and camera events for anything unusual.</li><li>If you've lost keys or think someone may have a copy, have the <a href="../residential-locksmith/index.html">locks rekeyed or changed</a>.</li></ul>`],
   ['Need a hand before you go?',`<p>If something needs fixing before you leave, from a lock that won't latch to an alarm or camera that needs servicing, call SPL on (07) 55 888 111 or <a href="../contact/index.html#contact-enquiry">send us an enquiry</a>. For a lockout or break-in while you're away, our <a href="../emergency-locksmith/index.html">24/7 emergency</a> line is the same number.</p>`]],
- related:[['../articles/index.html','Helpful Articles'],['../alarm-system/index.html','Alarm Systems'],['../locksmith-services/index.html','Locksmith Services']]}
+ related:[['../blog/index.html','Blog'],['../alarm-system/index.html','Alarm Systems'],['../locksmith-services/index.html','Locksmith Services']]}
 ];
 
 const template=fs.readFileSync(path.join(out,'intercom/index.html'),'utf8');
@@ -75,14 +75,14 @@ for(const file of walk(out)){
  const rel=t=>path.relative(path.dirname(file),path.join(out,t)).replaceAll('\\','/');
  // Footer: holiday tips link under the address.
  if(html.includes('class="expanded-footer"')&&!html.includes('class="footer-links"')){
-  html=html.replace(/(<footer class="expanded-footer">[\s\S]*?<p>101 Ashmore Rd, Bundall QLD 4217<\/p>)/,`$1<p class="footer-links"><a href="${rel('holiday-security-tips/index.html')}">Holiday security tips</a> · <a href="${rel('articles/index.html')}">Helpful articles</a></p>`);
+  html=html.replace(/(<footer class="expanded-footer">[\s\S]*?<p>101 Ashmore Rd, Bundall QLD 4217<\/p>)/,`$1<p class="footer-links"><a href="${rel('holiday-security-tips/index.html')}">Holiday security tips</a> · <a href="${rel('blog/index.html')}">Blog</a></p>`);
  }
  if(html!==before)fs.writeFileSync(file,html);
 }
 
 // Helpful Articles: feature the holiday tips first.
 {const f=path.join(out,'articles/index.html');const $=load(fs.readFileSync(f,'utf8'));
- if(!$('main a[href="../holiday-security-tips/index.html"]').length){
+ if(!/http-equiv="refresh"/i.test($.html())&&!$('main a[href="../holiday-security-tips/index.html"]').length){
   $('.service-facts').first().after(`\n<div class="editorial-block"><h3 id="section-holiday-security-tips"> <a href="../holiday-security-tips/index.html">Holiday Security Tips for Homes and Businesses</a></h3><p>A practical checklist for securing your home or business before you go away or close for the holidays.</p></div>\n`);
   $('.page-toc div').prepend('<a href="#section-holiday-security-tips">Holiday Security Tips for Homes and Businesses</a>');
   fs.writeFileSync(f,$.html());}}

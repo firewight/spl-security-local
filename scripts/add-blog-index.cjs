@@ -24,7 +24,7 @@ function run(){
  const list=posts(),url=base+'blog/';
  const title='Blog | Security & Locksmith Tips | SPL Security';
  const description='Security, locksmith, CCTV and door hardware articles from SPL Security Solutions for homes and businesses across the Gold Coast, Brisbane and Northern NSW.';
- const $=load(fs.readFileSync(path.join(out,'articles/index.html'),'utf8'));
+ const $=load(fs.readFileSync(path.join(out,'holiday-security-tips/index.html'),'utf8'));
  $('head>title').text(title);
  for(const s of ['meta[name="description"]','meta[property="og:description"]','meta[name="twitter:description"]'])$(s).attr('content',description);
  for(const s of ['meta[property="og:title"]','meta[name="twitter:title"]'])$(s).attr('content',title);
@@ -33,14 +33,16 @@ function run(){
  $('link[rel="canonical"]').attr('href',url);$('meta[property="og:url"]').attr('content',url);
  const graph=[{'@type':'WebSite','@id':base+'#website',url:base,name:config.siteName,inLanguage:'en-AU'},
   {'@type':'CollectionPage','@id':url+'#webpage',url,name:title,description,inLanguage:'en-AU',isPartOf:{'@id':base+'#website'},about:{'@id':config.businessUrl+'#business'},
-   mainEntity:{'@type':'ItemList',itemListElement:list.map((p,i)=>({'@type':'ListItem',position:i+1,url:base+p.slug+'/',name:p.title}))}},
+   mainEntity:{'@type':'ItemList',itemListElement:[{slug:'holiday-security-tips',title:'Holiday Security Tips for Homes and Businesses'},...list].map((p,i)=>({'@type':'ListItem',position:i+1,url:base+p.slug+'/',name:p.title}))}},
   {'@type':'BreadcrumbList','@id':url+'#breadcrumb',itemListElement:[{'@type':'ListItem',position:1,name:'Home',item:base},{'@type':'ListItem',position:2,name:'Blog',item:url}]}];
  $('script[data-seo-schema]').text(JSON.stringify({'@context':'https://schema.org','@graph':graph}).replaceAll('<','\\u003c'));
  // Paths: the page lives one level down, same depth as articles/.
- $('.page-hero .breadcrumbs').html('<a href="../index.html">Home</a> / Blog');$('.page-hero h1').text('Blog');
- const cards=list.map(p=>{const has=fs.existsSync(path.join(imgDir,p.file));
+ $('.page-hero .breadcrumbs').html('<a href="../index.html">Home</a> / Blog');$('.page-hero .kicker').text('SPL SECURITY SOLUTIONS');$('.page-hero h1').text('Blog');
+ const guide=load(fs.readFileSync(path.join(out,'holiday-security-tips/index.html'),'utf8'));
+ const guideCard=`<li class="blog-card"><a href="../holiday-security-tips/index.html"><img src="../assets/imported/6eef8082bb259a186901.jpg" alt="" width="1000" height="667" loading="lazy" decoding="async"><span class="blog-card-body"><time>Guide</time><strong>${esc(guide('h1').first().text().trim())}</strong><span>${esc(guide('meta[name="description"]').attr('content')||'')}</span></span></a></li>`;
+ const cards=guideCard+list.map(p=>{const has=fs.existsSync(path.join(imgDir,p.file));
   return `<li class="blog-card"><a href="../${p.slug}/index.html">${has?`<img src="../assets/blog/${p.file}" alt="" width="640" height="400" loading="lazy" decoding="async">`:'<span class="blog-card-noimg" aria-hidden="true"></span>'}<span class="blog-card-body"><time datetime="${esc(p.date.slice(0,10))}">${fmt(p.date)}</time><strong>${esc(p.title)}</strong><span>${esc(p.desc)}</span></span></a></li>`;}).join('');
- $('.editorial-layout').replaceWith(`<section class="blog-index" aria-labelledby="blog-list-title"><h2 id="blog-list-title" class="sr-only">All articles</h2><p class="blog-index-lead">${list.length} articles on locks, security systems, CCTV, safes and door hardware, newest first.</p><ul class="blog-grid">${cards}</ul></section>`);
+ $('.editorial-layout').replaceWith(`<section class="blog-index" aria-labelledby="blog-list-title"><h2 id="blog-list-title" class="sr-only">All articles</h2><p class="blog-index-lead">${list.length} articles and a holiday security guide on locks, security systems, CCTV, safes and door hardware, newest first.</p><ul class="blog-grid">${cards}</ul></section>`);
  fs.mkdirSync(path.join(out,'blog'),{recursive:true});fs.writeFileSync(path.join(out,'blog/index.html'),$.html());
  // Manifest + sitemap
  const mf=path.join(root,'page-import-manifest.json'),m=JSON.parse(fs.readFileSync(mf,'utf8'));
@@ -48,9 +50,14 @@ function run(){
  const smf=path.join(out,'sitemap.xml');let sm=fs.readFileSync(smf,'utf8');const loc=`<url><loc>${url}</loc></url>`;
  if(!sm.includes(`<loc>${url}</loc>`)){sm=sm.replace('</urlset>',loc+'\n</urlset>');fs.writeFileSync(smf,sm);
   const rf=path.join(root,'seo-build-report.json');if(fs.existsSync(rf)){const r=JSON.parse(fs.readFileSync(rf,'utf8'));r.sitemapUrls=(sm.match(/<loc>/g)||[]).length;fs.writeFileSync(rf,JSON.stringify(r,null,2));}}
- // 'Blog' in the About dropdown (after Helpful Articles) on every page.
+ // 'Blog' replaces 'Helpful Articles' (old /articles/ listing, now redirected to /blog/) in the About dropdown,
+ // footers and any other links; no duplicate Blog entries.
  let n=0;for(const f of walk(out)){let h=fs.readFileSync(f,'utf8');const b=h;
-  h=h.replace(/(<div class="nav-dropdown" id="nav-sub-about"[^>]*>[\s\S]*?<a href="([^"]*)articles\/index\.html">Helpful Articles<\/a>)(?!<a href="[^"]*blog\/index\.html">Blog<\/a>)/,(x,a,up)=>`${a}<a href="${up}blog/index.html">Blog</a>`);
+  const up=path.relative(path.dirname(f),out).replaceAll('\\','/'),blog=(up?up+'/':'')+'blog/index.html';
+  h=h.replace(/<a href="[^"]*">Helpful [Aa]rticles<\/a>/g,`<a href="${blog}">Blog</a>`);
+  h=h.replace(/(<div class="nav-dropdown" id="nav-sub-about"[^>]*>)([\s\S]*?)(<\/div>)/,(m,a,items,c)=>{const seen=new Set();items=items.replace(/<a href="([^"]*)">([^<]*)<\/a>/g,(x,hr,t)=>{if(seen.has(hr))return '';seen.add(hr);return x;});
+   if(!items.includes(`href="${blog}"`))items=items.replace(/(<a href="[^"]*major-projects\/index\.html">[^<]*<\/a>)/,`$1<a href="${blog}">Blog</a>`);return a+items+c;});
+  h=h.replace(/(<p class="footer-links">)([\s\S]*?)(<\/p>)/,(m,a,items,c)=>{const seen=new Set();const parts=items.split(' · ').filter(x=>{const k=(x.match(/href="([^"]*)"/)||[])[1];if(seen.has(k))return false;seen.add(k);return true;});return a+parts.join(' · ')+c;});
   if(h!==b){fs.writeFileSync(f,h);n++;}}
  return {posts:list.length,navUpdated:n};}
 module.exports=run;
