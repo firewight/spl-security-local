@@ -581,6 +581,20 @@
       "file": "blog/index.html",
       "blocks": 1,
       "addedAt": "2026-10-16"
+    },
+    {
+      "url": "/privacy-policy",
+      "title": "Privacy Policy",
+      "file": "privacy-policy/index.html",
+      "blocks": 10,
+      "addedAt": "2026-10-16"
+    },
+    {
+      "url": "/terms-of-use",
+      "title": "Terms of Use",
+      "file": "terms-of-use/index.html",
+      "blocks": 10,
+      "addedAt": "2026-10-16"
     }
   ],
   "failures": [],
