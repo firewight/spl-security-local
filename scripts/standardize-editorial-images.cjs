@@ -18,7 +18,7 @@ async function run({auditOnly=false}={}){
  $('.editorial-block').each((i,e)=>{if(/^(?:City skyline|Birthday Sparks|Fashion Magazine|Blurred Lines)$/i.test($(e).text().trim())){const ids=$(e).find('[id]').map((i,n)=>$(n).attr('id')).get();for(const id of ids)$('.page-toc a[href="#'+id+'"]').remove();$(e).remove();report.placeholderLabelsRemoved++;changed=true;}});
  if(removed.length)report.examples.push({url:page.url,duplicates:removed});
  if(changed)report.pagesChanged++;
- if(!auditOnly){$('head link[href*="editorial-media.css"]').remove();const href=path.relative(path.dirname(page.file),path.join(out,'editorial-media.css')).replaceAll('\\','/');$('head').append(`<link rel="stylesheet" href="${href}?v=20261016-values" data-editorial-media>`);fs.writeFileSync(page.file,$.html().split('\n').map(s=>s.trimEnd()).join('\n').trimEnd()+'\n');}
+ if(!auditOnly){$('head link[href*="editorial-media.css"]').remove();const href=path.relative(path.dirname(page.file),path.join(out,'editorial-media.css')).replaceAll('\\','/');$('head').append(`<link rel="stylesheet" href="${href}?v=20261016-areas" data-editorial-media>`);fs.writeFileSync(page.file,$.html().split('\n').map(s=>s.trimEnd()).join('\n').trimEnd()+'\n');}
  }
  if(!auditOnly)require('./fix-social-icons.cjs')();
  if(!auditOnly)fs.writeFileSync(path.join(root,'editorial-media-report.json'),JSON.stringify(report,null,2)+'\n');
