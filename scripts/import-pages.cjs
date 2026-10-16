@@ -4,7 +4,7 @@ const fs=require('fs'),path=require('path'),crypto=require('crypto'),{load}=requ
 const root=path.resolve(__dirname,'..'), out=path.join(root,'public'), cache=path.join(root,'.source-cache');
 fs.mkdirSync(cache,{recursive:true});
 const origin='https://www.splsecurity.com.au';
-const excluded=new Set(require('../seo.config.json').excludedPaths||[]);
+const excluded=new Set([...(require('../seo.config.json').excludedPaths||[]),...Object.keys(require('../seo.config.json').regionalRedirects||{})]);
 const esc=s=>String(s||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 const clean=s=>String(s||'').replace(/\s+/g,' ').trim();
 const homeFile=path.join(out,'index.html'), home=fs.readFileSync(homeFile,'utf8');
