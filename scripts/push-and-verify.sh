@@ -2,7 +2,10 @@
 # Run checks, refuse to push with uncommitted build outputs, push, then wait for the Pages deploy to succeed.
 set -euo pipefail
 cd "$(dirname "$0")/.."
-node scripts/verify-seo.cjs >/dev/null && node scripts/audit-consistency.cjs --check >/dev/null && node scripts/verify-contact-sections.cjs | tail -1
+for c in "node scripts/verify-seo.cjs" "node scripts/audit-consistency.cjs --check" "node scripts/verify-contact-sections.cjs"; do
+  if ! $c >/tmp/pv-check.log 2>&1; then echo "CHECK FAILED: $c"; tail -20 /tmp/pv-check.log; exit 1; fi
+done
+echo "All 3 checks passed"
 if [ -n "$(git status --porcelain)" ]; then echo "Uncommitted changes (commit them first):"; git status --short | head; exit 1; fi
 git push origin main
 sha=$(git rev-parse HEAD); sleep 8
