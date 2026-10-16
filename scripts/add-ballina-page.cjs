@@ -97,7 +97,7 @@ module.exports=function run(){
   if(h!==b)fs.writeFileSync(bf,h);}
  // Ballina van photo (old Ballina site, at the lighthouse) after the About section; replaces the earlier cut-out.
  {const bf=path.join(out,'ballina/index.html');let h=fs.readFileSync(bf,'utf8');const b=h;
-  const fig=`<figure class="editorial-image ballina-van"><img src="../assets/spl-ballina-van-lighthouse.jpg" srcset="../assets/spl-ballina-van-lighthouse-800.webp 800w, ../assets/spl-ballina-van-lighthouse.jpg 1165w" sizes="(max-width: 900px) 92vw, 760px" alt="SPL Ballina Locksmiths van parked on grass in front of a white lighthouse" width="1165" height="776" loading="lazy" decoding="async"></figure>\n`;
+  const fig=`<figure class="editorial-image editorial-media"><img src="../assets/spl-ballina-van-lighthouse.jpg" srcset="../assets/spl-ballina-van-lighthouse-800.webp 800w, ../assets/spl-ballina-van-lighthouse.jpg 1165w" sizes="(max-width: 900px) 92vw, 900px" alt="SPL Ballina Locksmiths van parked on grass in front of a white lighthouse" width="1165" height="776" loading="lazy" decoding="async"></figure>\n`;
   h=h.replace(/<figure class="editorial-image ballina-van">[\s\S]*?<\/figure>\n?/,'');
   h=h.replace(/(<div class="editorial-block"><h2 id="section-about-spl-ballina">[\s\S]*?<\/div>\n)/,`$1${fig}`);
   if(h!==b)fs.writeFileSync(bf,h);}
