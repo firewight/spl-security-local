@@ -714,29 +714,6 @@ footer > a:last-child {
   font: 700 18px Manrope;
   text-decoration: none;
 }
-dialog {
-  width: min(540px, calc(100% - 30px));
-  border: 0;
-  padding: 42px;
-  background: #f6f6f3;
-  box-shadow: 0 20px 90px #000b;
-}
-dialog h2 {
-  font-size: 44px;
-  line-height: 1;
-  margin: 0 0 10px;
-}
-dialog > p:not(.kicker) {
-  color: #666;
-  line-height: 1.5;
-}
-.close {
-  position: absolute;
-  right: 14px;
-  top: 9px;
-  background: transparent;
-  font-size: 28px;
-}
 form {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -773,9 +750,6 @@ textarea {
 }
 .form-status.error {
   color: #b00020;
-}
-dialog::backdrop {
-  background: #000b;
 }
 @media (max-width: 760px) {
   .service-bar {
