@@ -46,5 +46,10 @@ module.exports=function(){const r={merged:0,linksUpdated:0};
   const cf=path.join(root,'seo.config.json'),cfg=JSON.parse(fs.readFileSync(cf,'utf8'));const key=Object.keys(cfg).find(k=>cfg[k]&&cfg[k]['/articles']);if(key&&cfg[key]['/'+m.from]!=='/'+m.to){cfg[key]['/'+m.from]='/'+m.to;fs.writeFileSync(cf,JSON.stringify(cfg,null,2)+'\n');}
   const csv=path.join(root,'backlink-migration.csv');let c=fs.readFileSync(csv,'utf8');
   c=c.replace(new RegExp(`^"https://www\\.splsecurity\\.com\\.au/${m.from}","[^"]*","[^"]*","[^"]*"$`,'m'),`"https://www.splsecurity.com.au/${m.from}","https://www.splsecurity.com.au/${m.to}","${SITE}${m.to}/","301 redirect to /${m.to} at launch (post merged; demo uses meta refresh)"`);fs.writeFileSync(csv,c);}
+ // Complete the intruders post's On this page list: every real H2, with ids.
+ {const tf=path.join(out,'how-to-protect-your-home-from-intruders-effectively','index.html'),h=fs.readFileSync(tf,'utf8'),$=load(h);const toc=$('.page-toc > div');
+  if(toc.length){const items=[];$('main h2').each((i,e)=>{const el=$(e),t=el.text().replace(/\s+/g,' ').trim();if(el.attr('id')==='contact-options-title'||/^(Explore more|Related articles)$/i.test(t)||el.closest('.page-toc,.service-menu').length)return;if(!el.attr('id'))el.attr('id','section-'+t.toLowerCase().replace(/&/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''));items.push(`<a href="#${el.attr('id')}">${$('<i>').text(t).html()}</a>`);});toc.html(items.join(''));const o=$.html();if(o!==h)fs.writeFileSync(tf,o);}}
+ // Real space in the contact heading (text otherwise extracts as 'localsecurity').
+ for(const f of walk(out).filter(f=>f.endsWith('.html'))){const h=fs.readFileSync(f,'utf8');if(h.includes('local<br>security')){fs.writeFileSync(f,h.split('local<br>security').join('local <br>security'));r.headingFixed=(r.headingFixed||0)+1;}}
  return r;};
 if(require.main===module)console.log('merge-posts',module.exports());
