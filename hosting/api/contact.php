@@ -113,12 +113,18 @@ if (($cfg['transport'] ?? 'smtp') === 'log') {
 
 $mail = new PHPMailer(true);
 try {
-    $mail->isSMTP();
-    $mail->Host = $cfg['smtp_host']; $mail->Port = (int)$cfg['smtp_port'];
-    $mail->SMTPAuth = (bool)$cfg['smtp_auth'];
-    if ($mail->SMTPAuth) { $mail->Username = $cfg['smtp_user']; $mail->Password = $cfg['smtp_pass']; }
-    $mail->SMTPSecure = $cfg['smtp_secure'] === 'ssl' ? PHPMailer::ENCRYPTION_SMTPS : ($cfg['smtp_secure'] === 'tls' ? PHPMailer::ENCRYPTION_STARTTLS : '');
-    $mail->SMTPAutoTLS = $cfg['smtp_secure'] !== '';
+    if (($cfg['transport'] ?? 'smtp') === 'mail') {
+        // cPanel/HostPapa local mail (PHP mail() via sendmail). Envelope sender = from_email for SPF/DMARC alignment.
+        $mail->isMail();
+        $mail->Sender = $cfg['from_email'];
+    } else {
+        $mail->isSMTP();
+        $mail->Host = $cfg['smtp_host']; $mail->Port = (int)$cfg['smtp_port'];
+        $mail->SMTPAuth = (bool)$cfg['smtp_auth'];
+        if ($mail->SMTPAuth) { $mail->Username = $cfg['smtp_user']; $mail->Password = $cfg['smtp_pass']; }
+        $mail->SMTPSecure = $cfg['smtp_secure'] === 'ssl' ? PHPMailer::ENCRYPTION_SMTPS : ($cfg['smtp_secure'] === 'tls' ? PHPMailer::ENCRYPTION_STARTTLS : '');
+        $mail->SMTPAutoTLS = $cfg['smtp_secure'] !== '';
+    }
     $mail->CharSet = 'UTF-8';
     $mail->setFrom($cfg['from_email'], $cfg['from_name']);
     $mail->addAddress($cfg['to_email']);
