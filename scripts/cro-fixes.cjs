@@ -1,4 +1,4 @@
-// CRO fixes: 24/7-first hours, hero proof line, "How it works" strip, Google reviews high on landing pages, Brisbane links -> #brisbane. Idempotent.
+// CRO fixes: 24/7-first hours, hero proof line, "How it works" strip, Google reviews high on landing pages (Brisbane menu link intentionally stays #gold-coast: serviced from Gold Coast office). Idempotent.
 const fs=require('fs'),path=require('path');
 const pub=path.join(__dirname,'..','public');
 const LANDING=['emergency-locksmith','locksmith-services','residential-locksmith','commercial-locksmith','auto-locksmith','locations'];
@@ -21,7 +21,6 @@ module.exports=function(){
   for(const f of walk(pub)){
     let h=fs.readFileSync(f,'utf8'),o=h;
     h=h.replace(/<(p|section)[^>]*data-cro=""[^>]*>[\s\S]*?<\/\1>/g,'').replace(/<section class="trust-(strip|quotes)"[^>]*data-cro-copy=""[\s\S]*?<\/section>/g,'').replace(/<link[^>]*data-cro=""[^>]*>/g,'');
-    h=h.replace(/#gold-coast">Brisbane</g,'#brisbane">Brisbane<');
     h=hours(h);
     const rel=path.relative(pub,f).replace(/\\/g,'/'),dir=rel.split('/')[0],up='../'.repeat(rel.split('/').length-1)||'./';
     if(rel==='index.html'){h=h.replace(/(<section class="hero[^>]*>[\s\S]*?<\/h1>)/,`$1${PROOF}`).replace(/(<section class="trust-quotes"[\s\S]*?<\/section>)/,`$1${HOW}`);}
