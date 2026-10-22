@@ -37,12 +37,12 @@ const FAQ={
   ['How long has SPL been in business?','SPL was founded in 1990 as Surfers Paradise Locksmiths and has been securing the Gold Coast ever since. Today our team is close to 100 staff.'],
   ['What areas do you service?','We service the Gold Coast from our Bundall office, Brisbane from our Gold Coast office, and Northern NSW from our Ballina showroom.'],
   ['Are you licensed and accredited?','Yes. We hold QLD Security Licence 3247282 and NSW Security Licence 000102071, and we are members of the Master Locksmiths Association of Australia and the Australian Security Industry Association Limited (ASIAL member C908). All our locksmiths and technicians hold the correct QLD and NSW security licences.'],
-  ['Do you offer free quotes?',`Yes, free quotes are available. Call ${T} or send us an enquiry through our <a href="__CF__">contact form</a>.`]],
+  ['Do you offer free quotes?',`Yes, free quotes are available. Call ${T} or use our <a href="__CF__">contact form</a>.`]],
  'locksmith-services/index.html':[
   ['What locksmith services do you offer?','We cover homes, businesses and vehicles, from lockouts, lock repairs and key duplication to master key and restricted key systems, with 24/7 emergency help.'],
   ['Is SPL a member of the Master Locksmiths Association?','Yes. SPL is a member of the Master Locksmiths Association of Australia (member 6386).'],
   ['Can you help with car keys and vehicle lockouts?',`Yes. Our automotive locksmiths can help if you are locked out of your car, have a jammed ignition or need a car key cut. Call ${T}.`],
-  ['Do you offer free locksmith quotes?',`Yes, free quotes are available. Call ${T} or send us an enquiry through our <a href="__CF__">contact form</a>.`]],
+  ['Do you offer free locksmith quotes?',`Yes, free quotes are available. Call ${T} or use our <a href="__CF__">contact form</a>.`]],
  'emergency-locksmith/index.html':[
   ['Is your emergency locksmith service available 24/7?',`Yes. Our emergency locksmith and electronic security technicians are available 24 hours a day, 7 days a week. Call ${T}.`],
   ['What emergencies can you help with?','Lockouts from your home, office or vehicle, lost or broken keys, securing your property after a break-in, and electronic lock, access control and security system issues.'],
@@ -175,4 +175,16 @@ const LINKFIX={'locksmith-services/index.html':[['<a href="index.html">commercia
  'door-hardware/index.html':[['<a href="../index.html">fire-rated hardware</a>','<a href="../fire-door-hardware/index.html">fire-rated hardware</a>']],
  'locksmiths/lock-hardware/index.html':[['<a href="../../locksmiths/lock-hardware/index.html">lock hardware</a>','lock hardware']]};
 function linkFix(h,rel){for(const [a,b] of LINKFIX[rel]||[])h=h.split(a).join(b);return h;}
-module.exports={commercialFaq,warranty,linkFix,lsSections,writeIcons,footerPay,claims,kind,buttons,projects,faq,offsite,phones,sticky,form,images,CSS,FAQ};
+// ---- Contact prompts in body copy link to the enquiry form (Oct 2026). Skips links, menus, buttons, headings, forms, header/footer. ----
+const CONTACT_PHRASE=/\b(contact us|contact our team|contact the team|contact SPL|get in touch|send us an enquiry|request a quote|ask our team)\b/gi;
+const SKIP_TAGS=['a','script','style','textarea','select','option','title','button','summary','h1','h2','h3','h4','h5','h6','nav','header','footer','label','noscript','svg','form'];
+function contactLinks(h,rel,up){const keep=[];h=h.replace(/<section class="(?:related-links|service-menu|contact-options|how-it-works)[\s\S]*?<\/section>|<p class="breadcrumbs[\s\S]*?<\/p>|<div class="(?:mobile-cta|page-directory|contextual-links)[\s\S]*?<\/div>/g,m=>{keep.push(m);return `\u0000${keep.length-1}\u0000`;});
+  const out=contactLinks2(h,rel,up);return out.replace(/\u0000(\d+)\u0000/g,(m,n)=>keep[+n]);}
+function contactLinks2(h,rel,up){const i=h.indexOf('<body'),j=h.lastIndexOf('</body>');if(i<0||j<0)return h;const href=rel==='contact/index.html'?'#contact-enquiry':up+'contact/#contact-enquiry';
+  const parts=h.slice(i,j).split(/(<[^>]+>)/);const depth={};let skip=0;
+  for(let k=0;k<parts.length;k++){const p=parts[k];
+    if(p.startsWith('<')){const t=((p.match(/^<\/?([a-zA-Z0-9]+)/)||[])[1]||'').toLowerCase();if(!SKIP_TAGS.includes(t)||p.endsWith('/>'))continue;if(p[1]==='/'){if(depth[t]>0){depth[t]--;skip--;}}else{depth[t]=(depth[t]||0)+1;skip++;}continue;}
+    if(skip>0||!p.trim())continue;
+    parts[k]=p.replace(CONTACT_PHRASE,m=>`<a class="cro-contact-link" data-cro-cf="" href="${href}">${m}</a>`);}
+  return h.slice(0,i)+parts.join('')+h.slice(j);}
+module.exports={contactLinks,commercialFaq,warranty,linkFix,lsSections,writeIcons,footerPay,claims,kind,buttons,projects,faq,offsite,phones,sticky,form,images,CSS,FAQ};
