@@ -120,4 +120,5 @@ require('./add-ballina-page.cjs')();
 require('./add-blog-index.cjs')();
 require('./nav-heading-links.cjs')();
 require('./service-area-cards.cjs')();
+require('./optimize-images.cjs')().catch(error=>{console.error(error);process.exitCode=1;});
 process.once('beforeExit',()=>require('./cro-fixes.cjs')());

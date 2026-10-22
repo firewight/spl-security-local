@@ -80,7 +80,10 @@ $data = [
     'service'   => $get('service', 80),
     'message'   => $get('message', 3000),
 ];
-$services = ['General enquiry', 'Locksmiths', 'Electronic security', 'Door hardware', 'Retail & trade'];
+// 'What do you need?' options from the contact form (Oct 2026), plus the earlier values for old cached pages.
+// Anything else (tampered or missing) is stored as 'General enquiry'; unknown extra fields are never read or emailed.
+$services = ['General enquiry', 'Locksmiths', 'Electronic security', 'Door hardware', 'Retail & trade',
+    'Locksmith', 'Emergency lockout', 'Security system', 'Access control', 'CCTV', 'Alarm', 'Intercom', 'Other'];
 if (!in_array($data['service'], $services, true)) $data['service'] = 'General enquiry';
 $errors = [];
 if ($data['name'] === '') $errors['name'] = 'Please enter your name.';
