@@ -59,9 +59,23 @@ const FAQ={
   ['What are your opening hours?','In Bundall, the retail showroom is open Monday–Friday, 8:00 am–5:00 pm, and the trade counter Monday–Friday, 7:00 am–4:30 pm. The Ballina showroom is open Monday–Friday, 8:00 am–5:00 pm. Both showrooms are closed on weekends, and our emergency line is open 24/7.'],
   ['How do I get a free quote?',`Fill in the enquiry form on this page or call ${T}. If you are locked out, please call rather than using the form.`],
   ['Who do I contact in Northern NSW?',`Call SPL Ballina Locksmiths on ${TB} or email ballina@spl.com.au.`]]};
+// ---- Payments (facts supplied by SPL, Oct 2026). Icons are local SVG files written by this script (no CDN). ----
+const PAY_Q='What payment methods do you accept?',PAY_A='We accept all major payment methods, including Visa, Mastercard, American Express, EFTPOS, Apple Pay and Google Pay. If you’d like to use another method, just ask our team before we start.';
+const badge=(inner)=>`<svg xmlns="http://www.w3.org/2000/svg" width="48" height="30" viewBox="0 0 48 30"><rect x=".5" y=".5" width="47" height="29" rx="4" fill="#fff" stroke="#d0d0d0"/>${inner}</svg>\n`;
+const txt=(t,fill,size,extra='')=>`<text x="24" y="19.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="${size}" fill="${fill}"${extra}>${t}</text>`;
+const PAY=[['visa','Visa',badge(txt('VISA','#1a1f71',12,' font-style="italic" letter-spacing=".5"'))],
+ ['mastercard','Mastercard',badge('<circle cx="19.5" cy="15" r="8" fill="#eb001b"/><circle cx="28.5" cy="15" r="8" fill="#f79e1b" fill-opacity=".9"/>')],
+ ['amex','American Express',badge('<rect x="4" y="5" width="40" height="20" rx="2" fill="#2e77bc"/>'+txt('AMEX','#fff',10.5))],
+ ['eftpos','EFTPOS',badge(txt('eftpos','#111',10.5))],
+ ['apple-pay','Apple Pay',badge('<path fill="#111" d="M12.6 10.2c.5-.6.8-1.4.7-2.2-.7 0-1.6.5-2.1 1.1-.5.5-.8 1.3-.7 2.1.8.1 1.6-.4 2.1-1zm.7 1.1c-1.2-.1-2.2.7-2.7.7s-1.4-.6-2.3-.6a3.4 3.4 0 0 0-2.9 1.8c-1.2 2.1-.3 5.3.9 7 .6.8 1.3 1.8 2.2 1.7.9 0 1.2-.6 2.3-.6s1.4.6 2.3.6c1 0 1.6-.9 2.2-1.7.7-1 1-2 1-2a3.1 3.1 0 0 1-1.9-2.9 3.2 3.2 0 0 1 1.5-2.7 3.3 3.3 0 0 0-2.6-1.3z"/>'+'<text x="31" y="19.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="10" fill="#111">Pay</text>')],
+ ['google-pay','Google Pay',badge('<text x="14" y="19.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="12"><tspan fill="#4285f4">G</tspan></text><text x="29" y="19.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="10" fill="#3c4043">Pay</text>')]];
+function writeIcons(){const d=path.join(pub,'assets','payments');fs.mkdirSync(d,{recursive:true});for(const [f,,svg] of PAY){const p=path.join(d,f+'.svg');if(!fs.existsSync(p)||fs.readFileSync(p,'utf8')!==svg)fs.writeFileSync(p,svg);}}
+const payRow=(up,cls)=>`<span class="${cls}">${PAY.map(([f,alt])=>`<img src="${up}assets/payments/${f}.svg" alt="${alt}" width="48" height="30" loading="lazy" decoding="async">`).join('')}</span>`;
+function footerPay(h,up){return h.replace(/<\/footer>/,`<p class="cro-pay" data-cro=""><span class="cro-pay-label">We accept</span>${payRow(up,'cro-pay-icons')}</p></footer>`);}
+for(const k of Object.keys(FAQ))FAQ[k].push([PAY_Q,PAY_A]);
 const strip=s=>s.replace(/<[^>]+>/g,'').replace(/&amp;/g,'&');
-function faq(h,rel){const list=FAQ[rel];if(!list)return h;
-  const html=`<section class="cro-faq" data-cro="" aria-labelledby="cro-faq-title"><h2 id="cro-faq-title">Frequently asked questions</h2>${list.map(([q,a])=>`<details><summary>${q}</summary><p>${a}</p></details>`).join('')}</section>`;
+function faq(h,rel,up){const list=FAQ[rel];if(!list)return h;
+  const html=`<section class="cro-faq" data-cro="" aria-labelledby="cro-faq-title"><h2 id="cro-faq-title">Frequently asked questions</h2>${list.map(([q,a])=>`<details><summary>${q}</summary><p>${a}</p>${q===PAY_Q?payRow(up,'cro-pay-icons cro-pay-faq'):''}</details>`).join('')}</section>`;
   const ld={'@context':'https://schema.org','@type':'FAQPage',mainEntity:list.map(([q,a])=>({'@type':'Question',name:strip(q),acceptedAnswer:{'@type':'Answer',text:strip(a)}}))};
   return h.replace(/(<section class="contact-options")/,html+'$1').replace(/<\/head>/,`<script type="application/ld+json" data-cro="">${JSON.stringify(ld).replace(/</g,'\\u003c')}</script>\n</head>`);}
 
@@ -116,8 +130,10 @@ const CSS=`
 @media print{.mobile-cta{display:none}}
 .cro-projects{max-width:1200px;margin:0 auto;padding:28px max(5vw,24px)}.cro-projects a{display:inline-block;font-weight:700;color:#111;background:var(--yellow,#f7c600);padding:12px 18px;border-radius:6px;text-decoration:none}.cro-projects a::after{content:" ↗"}.cro-projects a:focus-visible{outline:3px solid #111;outline-offset:3px}
 .cro-faq{max-width:1000px;margin:0 auto;padding:48px max(5vw,24px)}.cro-faq h2{font-size:clamp(26px,3vw,36px);margin:0 0 18px}.cro-faq details{border-top:1px solid #ddd;padding:4px 0}.cro-faq details:last-child{border-bottom:1px solid #ddd}.cro-faq summary{cursor:pointer;font-weight:700;padding:14px 28px 14px 0;position:relative;list-style:none}.cro-faq summary::-webkit-details-marker{display:none}.cro-faq summary::after{content:"+";position:absolute;right:4px;top:10px;font-size:22px;color:#725c00}.cro-faq details[open] summary::after{content:"−"}.cro-faq summary:focus-visible{outline:3px solid #725c00;outline-offset:2px}.cro-faq p{margin:0 0 16px;line-height:1.7}
+.cro-pay-icons{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.cro-pay-icons img{display:block;width:48px;height:30px;border-radius:4px}.cro-pay-faq{margin:0 0 16px}
+.cro-pay{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:18px 0 0;padding-top:16px;border-top:1px solid #333;width:100%;flex-basis:100%;grid-column:1/-1}.cro-pay-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#bbb}
 .contact-draft .form-urgent{margin:0;padding:12px 16px;background:#fff8d6;border-left:4px solid var(--yellow,#f7c600);font-weight:600}.contact-draft .form-urgent a{color:#111}
 `;
 // No response-time claims (agreed brief).
 function claims(h){return h.replace('Emergency locksmiths understand the urgency of your situation. Most services aim to reach you within 30 to 60 minutes, depending on your location.','Emergency locksmiths understand the urgency of your situation. When you call, ask how long it will take for a locksmith to reach your location.');}
-module.exports={claims,kind,buttons,projects,faq,offsite,phones,sticky,form,images,CSS,FAQ};
+module.exports={writeIcons,footerPay,claims,kind,buttons,projects,faq,offsite,phones,sticky,form,images,CSS,FAQ};

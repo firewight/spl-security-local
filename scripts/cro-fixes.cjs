@@ -18,6 +18,7 @@ const strip=(home.match(/<section class="trust-strip"[\s\S]*?<\/section>/)||[])[
 const css=fs.readFileSync(path.join(pub,'home-services.css'),'utf8').split('\n').filter(l=>/^\.trust-(strip|quote)/.test(l)&&!/padding-top:18px/.test(l)).join('\n');
 fs.writeFileSync(path.join(pub,'cro.css'),css+'\n.hero-proof{margin:12px 0 0;font-size:15px;letter-spacing:.04em;color:#c9a227;font-weight:600}\n.how-it-works{background:var(--yellow,#f7c600);color:#111;padding:28px max(6vw,24px)}.how-it-works a{color:inherit;text-decoration:underline;text-underline-offset:3px}.how-it-works .how-free{background:#111;color:var(--yellow,#f7c600);padding:1px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:.04em}.how-it-works h2{max-width:1200px;margin:0 auto 14px;font-size:22px}.how-it-works ol{list-style:none;margin:0 auto;padding:0;max-width:1200px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.how-it-works li{display:flex;gap:12px;align-items:center;font-weight:600}.how-it-works li>span:first-child{flex:none;width:34px;height:34px;border-radius:50%;background:#111;color:#fff;display:grid;place-items:center}@media(max-width:760px){.how-it-works ol{grid-template-columns:1fr}}\n.contact-section dt.hours-emergency,.contact-section dd.hours-emergency,dt.hours-emergency{font-weight:700}\n'+X.CSS);
 module.exports=function(){
+  X.writeIcons();
   for(const f of walk(pub)){
     let h=fs.readFileSync(f,'utf8'),o=h;
     h=h.replace(/Master Locksmiths Association of Australasia/g,'Master Locksmiths Association of Australia'); // agreed name (Oct 2026): text, attributes and JSON-LD
@@ -31,7 +32,7 @@ module.exports=function(){
        .replace(/(<section class="page-hero"[\s\S]*?<\/section>)/,`$1${strip.replace('class="trust-strip"','class="trust-strip" data-cro-copy=""')}${quotes.replace('class="trust-quotes"','class="trust-quotes" data-cro-copy=""')}${HOW.replace('__UP__',up)}`)
        ;}
     h=h.replace(/<\/head>/,`<link rel="stylesheet" href="${up}cro.css?v=20261022b" data-cro="">\n</head>`);
-    const k=X.kind(rel);h=X.form(h,rel);h=X.buttons(h,k);h=X.projects(h,rel,up);h=X.faq(h,rel);h=X.offsite(h);h=X.claims(h);h=X.images(h);h=X.sticky(h,rel,up);h=X.phones(h);
+    const k=X.kind(rel);h=X.form(h,rel);h=X.buttons(h,k);h=X.projects(h,rel,up);h=X.faq(h,rel,up);h=X.footerPay(h,up);h=X.offsite(h);h=X.claims(h);h=X.images(h);h=X.sticky(h,rel,up);h=X.phones(h);
     if(h!==o){fs.writeFileSync(f,h);if(rel==='index.html'){const mf=path.join(pub,'..','page-import-manifest.json'),mm=JSON.parse(fs.readFileSync(mf,'utf8'));mm.homepageMainSha256=require('crypto').createHash('sha256').update(h.match(/<main[\s\S]*?<\/main>/)[0]).digest('hex');fs.writeFileSync(mf,JSON.stringify(mm,null,2));}}
   }
 };
