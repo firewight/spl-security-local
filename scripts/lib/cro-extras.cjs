@@ -36,7 +36,7 @@ const FAQ={
   ['Is SPL available 24/7 for emergencies?',`Yes. Our emergency locksmith and electronic security technicians are available 24 hours a day, 7 days a week. Call ${T}.`],
   ['How long has SPL been in business?','SPL was founded in 1990 as Surfers Paradise Locksmiths and has been securing the Gold Coast ever since. Today our team is close to 100 staff.'],
   ['What areas do you service?','We service the Gold Coast from our Bundall office, Brisbane from our Gold Coast office, and Northern NSW from our Ballina showroom.'],
-  ['Are you licensed and accredited?','Yes. We hold QLD Security Licence 3247282 and NSW Security Licence 000102071, and we are members of the Master Locksmiths Association of Australia and the Australian Security Industry Association Limited (ASIAL member C908).'],
+  ['Are you licensed and accredited?','Yes. We hold QLD Security Licence 3247282 and NSW Security Licence 000102071, and we are members of the Master Locksmiths Association of Australia and the Australian Security Industry Association Limited (ASIAL member C908). All our locksmiths and technicians hold the correct QLD and NSW security licences.'],
   ['Do you offer free quotes?',`Yes, free quotes are available. Call ${T} or send us an enquiry through our contact form.`]],
  'locksmith-services/index.html':[
   ['What locksmith services do you offer?','We cover homes, businesses and vehicles, from lockouts, lock repairs and key duplication to master key and restricted key systems, with 24/7 emergency help.'],
