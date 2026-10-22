@@ -1,5 +1,15 @@
-# Serve /api/contact from contact.php; block access to config, vendor and rate-limit data.
+# Serve /api/contact from contact.php; block access to config, vendor, composer files, logs and rate-limit data.
 Options -Indexes
 RewriteEngine On
 RewriteRule ^contact/?$ contact.php [L]
-RewriteRule ^(config\.php|config\.example\.php|composer\.(json|lock)|vendor/|ratelimit/) - [F,L]
+RewriteRule ^(config\.php|config\.example\.php|composer\.(json|lock)|vendor/|ratelimit/|logs?/) - [F,L]
+# Fallback where rewrites are unavailable or path-prefixed (e.g. ~user staging URLs).
+<FilesMatch "^(config(\.example)?\.php|composer\.(json|lock)|.*\.(log|lock|md|dist|sh|json))$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
