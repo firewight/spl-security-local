@@ -32,7 +32,7 @@ module.exports=function(){
        .replace(/(<section class="page-hero"[\s\S]*?<\/section>)/,`$1${strip.replace('class="trust-strip"','class="trust-strip" data-cro-copy=""')}${quotes.replace('class="trust-quotes"','class="trust-quotes" data-cro-copy=""')}${HOW.replace('__UP__',up)}`)
        ;}
     h=h.replace(/<\/head>/,`<link rel="stylesheet" href="${up}cro.css?v=20261022b" data-cro="">\n</head>`);
-    const k=X.kind(rel);h=X.form(h,rel);h=X.buttons(h,k);h=X.projects(h,rel,up);h=X.faq(h,rel,up);h=X.footerPay(h,up);h=X.offsite(h);h=X.claims(h);h=X.images(h);h=X.sticky(h,rel,up);h=X.phones(h);
+    const k=X.kind(rel);h=X.form(h,rel);h=X.lsSections(h,rel);h=X.buttons(h,k);h=X.projects(h,rel,up);h=X.faq(h,rel,up);h=X.footerPay(h,up);h=X.offsite(h);h=X.claims(h);h=X.images(h);h=X.sticky(h,rel,up);h=X.phones(h);
     if(h!==o){fs.writeFileSync(f,h);if(rel==='index.html'){const mf=path.join(pub,'..','page-import-manifest.json'),mm=JSON.parse(fs.readFileSync(mf,'utf8'));mm.homepageMainSha256=require('crypto').createHash('sha256').update(h.match(/<main[\s\S]*?<\/main>/)[0]).digest('hex');fs.writeFileSync(mf,JSON.stringify(mm,null,2));}}
   }
 };
