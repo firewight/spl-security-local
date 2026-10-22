@@ -9,6 +9,7 @@ module.exports=function run(){const h=fs.readFileSync(f,'utf8');
  n=n.replace(/(?:<div class="editorial-block"><p><strong>(?:Commitment To Excellence|Customer-Centric Approach|Superior Service Delivery|Quality Products|Continuous Evolution &amp; Expansion|Skilled &amp; Experienced Team)<\/strong><\/p><\/div>\n?){6}/,grid);
  // Tagline instead of a partial services list under the Kylie photo (region line kept).
  n=n.replace('<h2 id="section-locksmith-security-systems-door-hardware">Locksmiths, Security Systems &amp; Door Hardware</h2>','<h2 id="section-be-secure-in-our-knowledge">Be secure in our knowledge</h2>').replace('<a href="#section-locksmith-security-systems-door-hardware">Locksmiths, Security Systems &amp; Door Hardware</a>','<a href="#section-be-secure-in-our-knowledge">Be secure in our knowledge</a>');
+ n=n.replace(/(<h2 id="section-gold-coast-brisbane-northern-nsw">)&nbsp;([^<]*)(?:<br>)*<\/h2>/,'$1$2</h2>');
  n=n.replace(/editorial-media\.css\?v=[^"]*/,'editorial-media.css?v=20261016-areas');
  if(n!==h)fs.writeFileSync(f,n);return n!==h;};
 if(require.main===module)console.log(module.exports());
