@@ -20,6 +20,7 @@ fs.writeFileSync(path.join(pub,'cro.css'),css+'\n.hero-proof{margin:12px 0 0;fon
 module.exports=function(){
   for(const f of walk(pub)){
     let h=fs.readFileSync(f,'utf8'),o=h;
+    h=h.replace(/Master Locksmiths Association of Australasia/g,'Master Locksmiths Association of Australia'); // agreed name (Oct 2026): text, attributes and JSON-LD
     if(/http-equiv="refresh"/i.test(h))continue;
     h=h.replace(/<(p|section|nav|div|script)[^>]*data-cro=""[^>]*>[\s\S]*?<\/\1>\n?/g,'').replace(/<section class="trust-(strip|quotes)"[^>]*data-cro-copy=""[\s\S]*?<\/section>/g,'').replace(/<link[^>]*data-cro=""[^>]*>\n?/g,'');
     h=hours(h);
