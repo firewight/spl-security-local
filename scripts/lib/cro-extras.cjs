@@ -149,4 +149,9 @@ function lsSections(h,rel){if(rel!=='locksmith-services/index.html')return h;
   const html=`<section class="cro-ls" data-cro="">${LS_SECTIONS.map(([id,t,body,cta])=>`<div class="editorial-block"><h2 id="${id}">${t}</h2><p>${body}</p><p class="cro-ls-cta"><a href="../contact/#contact-enquiry">${cta}</a></p></div>`).join('')}</section>`;
   h=h.replace(/(<div class="editorial-block"> <h2 id="section-master-locksmith-services">)/,html+'$1');
   return h.replace(/(<a href="#section-master-locksmith-services">)/,LS_SECTIONS.map(([id,t])=>`<a href="#${id}">${t}</a>`).join('')+'$1');}
-module.exports={lsSections,writeIcons,footerPay,claims,kind,buttons,projects,faq,offsite,phones,sticky,form,images,CSS,FAQ};
+// ---- In-body service links that pointed at the page itself or the homepage (approved Oct 2026) ----
+const LINKFIX={'locksmith-services/index.html':[['<a href="index.html">commercial locksmith</a>','<a href="../commercial-locksmith/index.html">commercial locksmith</a>'],['<a href="../index.html">restricted key systems</a>','<a href="../restricted-keys/index.html">restricted key systems</a>']],
+ 'door-hardware/index.html':[['<a href="../index.html">fire-rated hardware</a>','<a href="../fire-door-hardware/index.html">fire-rated hardware</a>']],
+ 'locksmiths/lock-hardware/index.html':[['<a href="../../locksmiths/lock-hardware/index.html">lock hardware</a>','lock hardware']]};
+function linkFix(h,rel){for(const [a,b] of LINKFIX[rel]||[])h=h.split(a).join(b);return h;}
+module.exports={linkFix,lsSections,writeIcons,footerPay,claims,kind,buttons,projects,faq,offsite,phones,sticky,form,images,CSS,FAQ};
