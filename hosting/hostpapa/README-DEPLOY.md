@@ -22,7 +22,7 @@
 ## 1. Before uploading (cPanel)
 
 1. **Set the PHP version.** In MultiPHP Manager, set spl.com.au to **PHP 8.2 or 8.3**. The minimum is 8.1, because `contact.php` uses `never` and `str_contains`.
-2. **Create the form's sender mailbox.** Under Email Accounts, create `website@spl.com.au`. This is a placeholder name; use another if you prefer, and change `from_email` in `api/config.php` to match.
+2. **Create the form's sender mailbox.** Under Email Accounts, create `info@spl.com.au`. This is a placeholder name; use another if you prefer, and change `from_email` in `api/config.php` to match.
 3. **Back up the existing files.** If `public_html` already contains anything, such as a HostPapa default page or a WordPress install from the AU-WP plan, download a backup first, then remove it. The WP plan may have pre-installed WordPress, and its `index.php` and `.htaccess` would conflict with this site.
 
 ## 2. Upload
@@ -64,7 +64,7 @@ curl -I --resolve spl.com.au:80:66.102.137.241 http://spl.com.au/
 ## 4. Testing the contact form
 
 - `api/config.php` uses `transport => 'mail'`, which sends through the server's own mail service, with no password stored.
-- The sender is `website@spl.com.au` (a placeholder) and the recipient is **support@spl.com.au** (for testing).
+- The sender is `info@spl.com.au` (a placeholder) and the recipient is **support@spl.com.au** (for testing).
 - For more reliable delivery, switch to `transport => 'smtp'` using that mailbox's settings (cPanel → Email Accounts → Connect Devices). Set `smtp_pass` **on the server only**.
 - **SPF/DKIM:** spl.com.au's SPF and DKIM records must cover this server, or mail may land in spam. Check cPanel → Email Deliverability once DNS is managed here. Until then, this has to be done wherever spl.com.au's DNS is hosted.
 - **Rate-limit files** go in `/home/splco501/spl-ratelimit/`, which is outside the web root and created automatically.

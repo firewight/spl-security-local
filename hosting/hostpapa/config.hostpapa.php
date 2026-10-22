@@ -4,7 +4,7 @@
 return [
     'transport'   => 'mail',                  // 'mail' (cPanel local mail) | 'smtp' (authenticated mailbox, better deliverability) | 'log' (testing, sends nothing)
     // PLACEHOLDER: must be a real mailbox on spl.com.au (create in cPanel > Email Accounts), and spl.com.au SPF/DKIM must cover this server.
-    'from_email'  => 'website@spl.com.au',
+    'from_email'  => 'info@spl.com.au',
     'from_name'   => 'SPL Security website',
     'to_email'    => 'support@spl.com.au',    // TESTING. Switch to info@spl.com.au at launch.
     // Only used when transport = 'smtp' (cPanel > Email Accounts > Connect Devices shows these):
