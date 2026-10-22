@@ -25,7 +25,7 @@ for(const f of walk(web).filter(f=>TEXT.test(f))){let s=fs.readFileSync(f,'utf8'
  if(INDEX&&f.endsWith('.html')&&!isStub(s)&&!/(^|\/)(404\.html|thank-you\/index\.html)$/.test(path.relative(web,f))){const b=s;s=s.replace(/<meta name="robots" content="noindex, ?follow"/g,'<meta name="robots" content="index, follow"');if(s!==b)indexed++;}
  if(s!==o){fs.writeFileSync(f,s);rewritten++;}}
 // robots.txt for the host root
-fs.writeFileSync(path.join(web,'robots.txt'),`User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: ${SITE}sitemap.xml\n`);
+fs.writeFileSync(path.join(web,'robots.txt'),INDEX?`User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: ${SITE}sitemap.xml\n`:`# Staging: hidden from search engines until launch\nUser-agent: *\nDisallow: /\n`);
 // Contact API
 const api=path.join(web,'api');fs.mkdirSync(api,{recursive:true});
 execSync(`cp -a "${root}/hosting/api/contact.php" "${root}/hosting/api/composer.json" "${root}/hosting/api/composer.lock" "${root}/hosting/api/vendor" "${root}/hosting/api/config.example.php" "${api}/"`);

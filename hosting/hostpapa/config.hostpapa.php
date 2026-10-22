@@ -12,7 +12,7 @@ return [
     'smtp_port'   => 465,
     'smtp_secure' => 'ssl',
     'smtp_auth'   => true,
-    'smtp_user'   => 'website@spl.com.au',
+    'smtp_user'   => 'info@spl.com.au',
     'smtp_pass'   => 'CHANGE_ME',             // set on the server only; never commit
     'allowed_origins' => ['https://spl.com.au', 'https://www.spl.com.au'],  // add http://spl.com.au only if testing before SSL
     'min_fill_seconds' => 3,
