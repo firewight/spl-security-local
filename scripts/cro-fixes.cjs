@@ -1,7 +1,7 @@
 // CRO fixes: 24/7-first hours, hero proof line, "How it works" strip, Google reviews high on landing pages (Brisbane menu link intentionally stays #gold-coast: serviced from Gold Coast office). Idempotent.
 const fs=require('fs'),path=require('path');
 const pub=path.join(__dirname,'..','public');
-const LANDING=['emergency-locksmith','locksmith-services','residential-locksmith','commercial-locksmith','auto-locksmith','locations'];
+const LANDING=['emergency-locksmith','locksmith-services','residential-locksmith','commercial-locksmith','auto-locksmith','locations','security-systems','access-control-systems','alarm-system','cctv-system','intercom','alarm-monitoring'];
 const PROOF='<p class="hero-proof" data-cro="">Securing the Gold Coast since 1990</p>';
 const HOW='<section class="how-it-works" data-cro="" aria-labelledby="how-it-works-title"><h2 id="how-it-works-title">How it works</h2><ol><li><span>1</span>Call or send the form</li><li><span>2</span>We confirm details and give you a free quote</li><li><span>3</span>A licensed technician gets the job done</li></ol></section>';
 const walk=d=>fs.readdirSync(d,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(d,e.name)):e.name.endsWith('.html')?[path.join(d,e.name)]:[]);
