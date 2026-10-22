@@ -7,7 +7,7 @@ return [
     'smtp_auth'   => true,
     'smtp_user'   => 'website@spl.com.au',
     'smtp_pass'   => 'CHANGE_ME',
-    'from_email'  => 'website@spl.com.au',    // must be a mailbox the SMTP account may send as
+    'from_email'  => 'info@spl.com.au',    // must be a mailbox the SMTP account may send as
     'from_name'   => 'SPL Security website',
     'to_email'    => 'support@spl.com.au',    // testing; switch to info@spl.com.au at launch
     // Origins allowed to post (scheme + host, no trailing slash)
