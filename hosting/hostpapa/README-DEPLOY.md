@@ -93,3 +93,14 @@ curl -I --resolve spl.com.au:80:66.102.137.241 http://spl.com.au/
 - **After DNS changes:** point spl.com.au's A (and www) records back to the previous host's IP. Keep a note of the old values *before* changing them. With a TTL of 300, most visitors return within minutes to an hour. Leave the old site untouched until the new one has been stable for at least two weeks.
 - **A bad upload on HostPapa:** re-upload the previous zip, which you should keep every package, or restore `public_html` from cPanel → Backup (JetBackup), if the plan includes it.
 - **Indexing:** if the indexable build went out by mistake before launch, re-upload the staging build. noindex takes effect on the next crawl.
+
+## Publishing (staging preview — the main way to publish until the domain moves)
+
+GitHub Pages is no longer relied on. After every change on `main`:
+
+```bash
+git checkout hostpapa-package && git rebase main
+HOSTPAPA_CPANEL_TOKEN=… scripts/deploy-hostpapa-staging.sh
+```
+
+It builds the noindex staging package, uploads and extracts it via the cPanel API, keeps the server's `api/config.php`, `.well-known`, `cgi-bin` and cPanel's PHP lines, prunes files from earlier deploys, deletes the zip, and checks the preview at http://66.102.137.241/~splco501/. Options: `--no-build`, `--no-prune`, `--verify-only`.
