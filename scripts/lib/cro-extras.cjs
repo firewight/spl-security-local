@@ -78,7 +78,12 @@ const F_PRICE=['Will I know the price before you start?','Yes. We give you a fix
  F_AH=['Do you charge more after hours?','Yes, an after-hours rate applies outside business hours. We’ll confirm the price with you before we come out.'],
  F_ACC=['Do you offer business accounts?','Yes, we offer commercial accounts for businesses. Contact our team to set one up.'],
  F_WAR=['Is your work guaranteed?','Yes. All our work comes with a 12-month warranty on parts and labour.'];
-const ADD={'index.html':[F_PRICE,F_ACC,F_WAR],'locksmith-services/index.html':[F_PRICE,F_AH,F_WAR],'emergency-locksmith/index.html':[F_PRICE,F_AH],'security-systems/index.html':[F_ACC,F_WAR],'contact/index.html':[F_PRICE,F_AH,F_ACC,F_WAR]};
+// Other-installer servicing and wider coverage confirmed by SPL (Oct 2026). No brand lists, no suburb lists.
+const F_OTH_SEC=['Do you service or repair security systems installed by other companies?','Yes. We service, repair and maintain alarm systems, CCTV and access control, including systems installed by other companies.'],
+ F_OTH_ALL=['Do you service or repair security systems installed by other companies?','Yes. We service, repair and maintain locks, alarm systems, CCTV and access control, including systems installed by other companies.'],
+ F_OTH_LS=['Do you service or repair locks installed by other companies?','Yes. We service, repair and maintain locks and locking systems, including those installed by other companies.'],
+ F_WIDE=['Do you cover areas outside the Gold Coast, Brisbane and Northern NSW?',`Yes. We cover a wide area beyond the Gold Coast, Brisbane and Northern NSW. Get in touch to check we cover your area: call ${T} or use our <a href="__CF__">contact form</a>.`];
+const ADD={'index.html':[F_PRICE,F_ACC,F_WAR,F_OTH_ALL,F_WIDE],'locksmith-services/index.html':[F_PRICE,F_AH,F_WAR,F_OTH_LS,F_WIDE],'emergency-locksmith/index.html':[F_PRICE,F_AH,F_WIDE],'security-systems/index.html':[F_ACC,F_WAR,F_OTH_SEC,F_WIDE],'contact/index.html':[F_PRICE,F_AH,F_ACC,F_WAR,F_OTH_ALL,F_WIDE]};
 for(const [k,v] of Object.entries(ADD)){const i=FAQ[k].findIndex(x=>x[0]===PAY_Q);FAQ[k].splice(i,0,...v);}
 // Commercial locksmith already has an FAQ (seo build): add the accounts question to its list and its FAQPage node.
 function commercialFaq(h,rel){if(rel!=='commercial-locksmith/index.html')return h;
