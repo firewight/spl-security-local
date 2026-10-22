@@ -23,6 +23,7 @@ for(const f of files){const file=path.join(out,f),html=fs.readFileSync(file,'utf
  if(f==='index.html'){assert.equal(crypto.createHash('sha256').update(html.match(/<main[\s\S]*?<\/main>/)[0]).digest('hex'),manifest.homepageMainSha256,'Homepage unchanged');}
 }
 assert.equal(broken.length,0,JSON.stringify(broken.slice(0,8)));assert.equal(missingAlts.length,0);assert.equal(faqs,report.faqPages);
+{const robots=fs.readFileSync(path.join(out,'robots.txt'),'utf8');assert(robots.split('\n').includes('Sitemap: '+config.productionSitemapUrl),'robots.txt Sitemap must point to '+config.productionSitemapUrl);assert(!/firewight|github\.io/.test(robots),'robots.txt must not reference the preview host');}
 const contact=load(fs.readFileSync(path.join(out,'contact/index.html'),'utf8'));assert(contact('.business-hours').text().includes('7:00 am'));assert(contact('.business-hours').text().includes('8:00 am'));assert.equal(contact('.official-profiles a').length,5);
 const about=load(fs.readFileSync(path.join(out,'about/index.html'),'utf8'));for(const [id,label]of [['OurValues','Our Values'],['OurStory','Our Story']]){assert.equal(about('[id="'+id+'"]').length,1);assert.equal(about('[id="'+id+'"]').text().trim(),label);}
 assert(contact('.business-hours').next().is('.contact-draft'),'Contact form must follow visit details');assert.equal(contact('.contact-socials img').length,5);assert(!contact('.editorial-content h2').toArray().some(e=>contact(e).text().trim()==='Contact Details'),'Duplicate contact details heading');

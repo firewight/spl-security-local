@@ -1,5 +1,5 @@
-# GitHub project-site robots.txt is informational; host-root robots.txt controls crawling.
 # Preview pages use HTML noindex; allow crawling so crawlers can read that directive.
+# Sitemap points at the launch domain; the HostPapa staging build replaces this file with Disallow: /.
 User-agent: *
 Allow: /
-Sitemap: https://firewight.github.io/spl-security-local/sitemap.xml
+Sitemap: https://spl.com.au/sitemap.xml

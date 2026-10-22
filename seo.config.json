@@ -1,5 +1,6 @@
 {
   "siteUrl": "https://firewight.github.io/spl-security-local/",
+  "productionSitemapUrl": "https://spl.com.au/sitemap.xml",
   "indexing": "preview",
   "excludedPaths": [
     "/brochures",
