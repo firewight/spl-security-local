@@ -69,6 +69,7 @@ for p in / about/ contact/ locations/ ballina/ commercial-locksmith/ emergency-l
 curl -s -m 30 "$PREVIEW/robots.txt" | grep -qx 'Disallow: /' && echo "  robots.txt: Disallow: / OK" || { echo "  robots.txt: Disallow missing"; fail=1; }
 curl -sI -m 30 "$PREVIEW/" | grep -qi '^x-robots-tag: noindex' && echo "  X-Robots-Tag noindex OK" || { echo "  X-Robots-Tag missing"; fail=1; }
 c=$(curl -s -m 30 -o /dev/null -w '%{http_code}' "$PREVIEW/api/config.php"); [ "$c" = 403 ] && echo "  api/config.php blocked (403) OK" || { echo "  api/config.php returned $c"; fail=1; }
+for f in vendor/autoload.php vendor/composer/installed.php vendor/phpmailer/phpmailer/src/PHPMailer.php composer.json composer.lock config.example.php; do c=$(curl -s -m 30 -o /dev/null -w '%{http_code}' "$PREVIEW/api/$f"); case $c in 403|404) echo "  api/$f blocked ($c) OK";; *) echo "  api/$f returned $c"; fail=1;; esac; done
 python3 - "$PREVIEW" <<'PY' || fail=1
 import re,sys,urllib.request as u,urllib.parse as up
 B=sys.argv[1].rstrip('/')+'/';seen=set();bad=[]

@@ -30,7 +30,7 @@ fs.writeFileSync(path.join(web,'robots.txt'),INDEX?`User-agent: *\nAllow: /\nDis
 const api=path.join(web,'api');fs.mkdirSync(api,{recursive:true});
 execSync(`cp -a "${root}/hosting/api/contact.php" "${root}/hosting/api/composer.json" "${root}/hosting/api/composer.lock" "${root}/hosting/api/vendor" "${root}/hosting/api/config.example.php" "${api}/"`);
 fs.writeFileSync(path.join(api,'config.php'),fs.readFileSync(path.join(root,'hosting/hostpapa/config.hostpapa.php'),'utf8'));
-fs.writeFileSync(path.join(api,'.htaccess'),`Options -Indexes\n<FilesMatch "^(config|config\\.example)\\.php$|^composer\\.(json|lock)$">\n  Require all denied\n</FilesMatch>\nRedirectMatch 404 ^/api/vendor/\n`);
+fs.copyFileSync(path.join(root,'hosting/api/.htaccess'),path.join(api,'.htaccess')); // vendor/.htaccess comes with cp -a vendor
 // .htaccess with redirects
 const redirects=new Map();const norm=p=>'/'+p.replace(/^https?:\/\/[^/]+/,'').replace(/^\/+|\/+$/g,'');
 for(const[k,v]of Object.entries(config.regionalRedirects||{}))redirects.set(norm(k),norm(v));
