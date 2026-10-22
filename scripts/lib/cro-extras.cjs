@@ -73,6 +73,25 @@ function writeIcons(){const d=path.join(pub,'assets','payments');fs.mkdirSync(d,
 const payRow=(up,cls)=>`<span class="${cls}">${PAY.map(([f,alt])=>`<img src="${up}assets/payments/${f}.svg" alt="${alt}" width="48" height="30" loading="lazy" decoding="async">`).join('')}</span>`;
 function footerPay(h,up){return h.replace(/<\/footer>/,`<p class="cro-pay" data-cro=""><span class="cro-pay-label">We accept</span>${payRow(up,'cro-pay-icons')}</p></footer>`);}
 for(const k of Object.keys(FAQ))FAQ[k].push([PAY_Q,PAY_A]);
+// Pricing, accounts and warranty facts confirmed by SPL (Oct 2026). No dollar figures.
+const F_PRICE=['Will I know the price before you start?','Yes. We give you a fixed price before we come out, so you know the cost upfront.'],
+ F_AH=['Do you charge more after hours?','Yes, an after-hours rate applies outside business hours. We’ll confirm the price with you before we come out.'],
+ F_ACC=['Do you offer business accounts?','Yes, we offer commercial accounts for businesses. Contact our team to set one up.'],
+ F_WAR=['Is your work guaranteed?','Yes. All our work comes with a 12-month warranty on parts and labour.'];
+const ADD={'index.html':[F_PRICE,F_ACC,F_WAR],'locksmith-services/index.html':[F_PRICE,F_AH,F_WAR],'emergency-locksmith/index.html':[F_PRICE,F_AH],'security-systems/index.html':[F_ACC,F_WAR],'contact/index.html':[F_PRICE,F_AH,F_ACC,F_WAR]};
+for(const [k,v] of Object.entries(ADD)){const i=FAQ[k].findIndex(x=>x[0]===PAY_Q);FAQ[k].splice(i,0,...v);}
+// Commercial locksmith already has an FAQ (seo build): add the accounts question to its list and its FAQPage node.
+function commercialFaq(h,rel){if(rel!=='commercial-locksmith/index.html')return h;
+  h=h.replace(/<li data-cro-faq="">[\s\S]*?<\/li>/g,'');
+  const i=h.indexOf('id="section-frequently-asked-questions"');if(i<0)return h;const j=h.indexOf('</ul>',i);if(j<0)return h;
+  h=h.slice(0,j)+`<li data-cro-faq=""><h3>${F_ACC[0]}</h3><p>${F_ACC[1]}</p></li>`+h.slice(j);
+  return h.replace(/(<script type="application\/ld\+json" data-seo-schema="">)([\s\S]*?)(<\/script>)/,(m,a,json,c)=>{const d=JSON.parse(json),n=(d['@graph']||[]).find(x=>x['@type']==='FAQPage');if(!n)return m;
+    n.mainEntity=n.mainEntity.filter(q=>q.name!==F_ACC[0]);n.mainEntity.push({'@type':'Question',name:F_ACC[0],acceptedAnswer:{'@type':'Answer',text:F_ACC[1]}});return a+JSON.stringify(d)+c;});}
+// Warranty badge beside the contact panel and above the contact page form.
+const SHIELD='<svg aria-hidden="true" focusable="false" width="22" height="22" viewBox="0 0 24 24"><path fill="#f7c600" d="M12 2 4 5v6c0 5 3.4 9.7 8 11 4.6-1.3 8-6 8-11V5l-8-3z"/><path fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="m8.5 12.2 2.4 2.4 4.8-5"/></svg>';
+const WBADGE=`<p class="cro-warranty" data-cro="">${SHIELD}<span>12-month warranty on all parts &amp; labour</span></p>`;
+function warranty(h,rel){h=h.replace(/(<div class="contact-options-copy">[\s\S]*?)(<\/div>)/,`$1${WBADGE}$2`);
+  if(rel==='contact/index.html')h=h.replace(/(<form id="contact-draft")/,WBADGE.replace('class="cro-warranty"','class="cro-warranty cro-warranty-light"')+'$1');return h;}
 const strip=s=>s.replace(/<[^>]+>/g,'').replace(/&amp;/g,'&');
 function faq(h,rel,up){const list=FAQ[rel];if(!list)return h;
   const html=`<section class="cro-faq" data-cro="" aria-labelledby="cro-faq-title"><h2 id="cro-faq-title">Frequently asked questions</h2>${list.map(([q,a])=>`<details><summary>${q}</summary><p>${a}</p>${q===PAY_Q?payRow(up,'cro-pay-icons cro-pay-faq'):''}</details>`).join('')}</section>`;
@@ -111,7 +130,7 @@ function form(h,rel){if(rel!=='contact/index.html')return h;
      '<label>Email<input name="email" type="email" required="" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" enterkeyhint="next"></label>'+
      `<label>What do you need?<select name="service" required=""><option value="">Please choose</option>${NEEDS.map(n=>`<option>${n}</option>`).join('')}</select></label>`+
      '<label class="full">How can we help?<textarea name="message" rows="5" required="" autocomplete="off" enterkeyhint="send"></textarea></label>'+
-     '<button type="submit">Get my free quote</button><p class="full form-status" role="status" aria-live="polite"></p>'+
+     '<button type="submit">Get my free quote</button><p class="full form-fixed" data-cro-form="">Fixed price quoted upfront, before we come out.</p><p class="full form-status" role="status" aria-live="polite"></p>'+
      `<p class="full form-privacy">We only use your details to respond to your enquiry. See our <a href="${privacyLink}">Privacy policy</a>.</p>`+close;});}
 
 // ---- 8. Image cheap wins ----
@@ -133,6 +152,8 @@ const CSS=`
 .cro-pay-icons{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.cro-pay-icons img{display:block;width:48px;height:30px;border-radius:4px}.cro-pay-faq{margin:0 0 16px}
 .cro-pay{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:18px 0 0;padding-top:16px;border-top:1px solid #333;width:100%;flex-basis:100%;grid-column:1/-1}.cro-pay-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#bbb}
 .cro-ls-cta{margin:4px 0 8px}.cro-ls-cta a,.editorial-content .cro-ls-cta a{display:inline-block;font-weight:700;color:#111;background:var(--yellow,#f7c600);padding:12px 18px;border-radius:6px;text-decoration:none}.cro-ls-cta a::after{content:" ↗"}.cro-ls-cta a:focus-visible{outline:3px solid #111;outline-offset:3px}
+.cro-warranty{display:inline-flex;align-items:center;gap:10px;margin:22px 0 0;padding:10px 14px;border:1px solid #f7c600;border-radius:6px;color:#f7c600;font-weight:700;font-size:14px;line-height:1.3;max-width:100%}.cro-warranty span{color:#fff}.cro-warranty svg{flex:none}.contact-options-copy>p:nth-last-child(2){color:#bbb;font-size:14px;line-height:1.8;margin:0}
+.cro-warranty-light{background:#111;margin:0 0 18px}.contact-draft .form-fixed{margin:-8px 0 0;font-size:14px;font-weight:600;color:#333}
 .contact-draft .form-urgent{margin:0;padding:12px 16px;background:#fff8d6;border-left:4px solid var(--yellow,#f7c600);font-weight:600}.contact-draft .form-urgent a{color:#111}
 `;
 // No response-time claims (agreed brief).
@@ -154,4 +175,4 @@ const LINKFIX={'locksmith-services/index.html':[['<a href="index.html">commercia
  'door-hardware/index.html':[['<a href="../index.html">fire-rated hardware</a>','<a href="../fire-door-hardware/index.html">fire-rated hardware</a>']],
  'locksmiths/lock-hardware/index.html':[['<a href="../../locksmiths/lock-hardware/index.html">lock hardware</a>','lock hardware']]};
 function linkFix(h,rel){for(const [a,b] of LINKFIX[rel]||[])h=h.split(a).join(b);return h;}
-module.exports={linkFix,lsSections,writeIcons,footerPay,claims,kind,buttons,projects,faq,offsite,phones,sticky,form,images,CSS,FAQ};
+module.exports={commercialFaq,warranty,linkFix,lsSections,writeIcons,footerPay,claims,kind,buttons,projects,faq,offsite,phones,sticky,form,images,CSS,FAQ};
