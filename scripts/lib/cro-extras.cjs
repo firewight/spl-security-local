@@ -188,5 +188,5 @@ function contactLinks2(h,rel,up){const i=h.indexOf('<body'),j=h.lastIndexOf('</b
     parts[k]=p.replace(CONTACT_PHRASE,m=>`<a class="cro-contact-link" data-cro-cf="" href="${href}">${m}</a>`);}
   return h.slice(0,i)+parts.join('')+h.slice(j);}
 // 'Explore more' lists: the plain-text contact item becomes a link to the enquiry form (Oct 2026).
-function relatedContact(h,up){return h.replace(/(<section class="related-links">[\s\S]*?)<span>Contact SPL Security Solutions <span aria-hidden="true">↗<\/span><\/span>/g,`$1<a href="${up}contact/#contact-enquiry">Contact SPL Security Solutions <span aria-hidden="true">↗</span></a>`);}
+function relatedContact(h,up){return h.replace(/<section class="related-links"[^>]*>[\s\S]*?<\/section>/g,sec=>sec.split('<span>Contact SPL Security Solutions <span aria-hidden="true">↗</span></span>').join(`<a href="${up}contact/#contact-enquiry">Contact SPL Security Solutions <span aria-hidden="true">↗</span></a>`));}
 module.exports={relatedContact,contactLinks,commercialFaq,warranty,linkFix,lsSections,writeIcons,footerPay,claims,kind,buttons,projects,faq,offsite,phones,sticky,form,images,CSS,FAQ};
