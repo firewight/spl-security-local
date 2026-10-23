@@ -156,6 +156,7 @@ const CSS=`
 .cro-warranty{display:inline-flex;align-items:center;gap:10px;margin:22px 0 0;padding:10px 14px;border:1px solid #f7c600;border-radius:6px;color:#f7c600;font-weight:700;font-size:14px;line-height:1.3;max-width:100%}.cro-warranty span{color:#fff}.cro-warranty svg{flex:none}.contact-options-copy>p:nth-last-child(2){color:#bbb;font-size:14px;line-height:1.8;margin:0}
 .cro-warranty-light{background:#111;margin:0 0 18px}.contact-draft .form-fixed{margin:-8px 0 0;font-size:14px;font-weight:600;color:#333}
 .contact-draft .form-urgent{margin:0;padding:12px 16px;background:#fff8d6;border-left:4px solid var(--yellow,#f7c600);font-weight:600}.contact-draft .form-urgent a{color:#111}
+.service-art picture{display:block;width:100%;height:100%}
 /* rings + highlight over the photo only while the team slide is active; product slides keep the original glow */.hero-device:has(.hero-team.is-active):before,.hero-device:has(.hero-team.is-active):after{z-index:2;pointer-events:none}.hero-device:has(.hero-team.is-active) .hub-light{z-index:2;mix-blend-mode:screen;opacity:.16}
 .hero-team{position:relative;display:grid;place-items:center}.hero-team picture,.hero-team img{display:block;width:min(740px,50vw);height:auto}.hero-team img{filter:drop-shadow(0 0 40px #f7c60014)}
 .hero-team-copy{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(520px,52vw);text-align:center;z-index:3;color:#f5f5f5;text-shadow:0 2px 18px #000,0 0 4px #000}
@@ -213,4 +214,8 @@ function teamSlide(h,rel,up){if(rel!=='index.html'||!/class="hero-slides"/.test(
   h=h.replace('<div class="hero-slides">',`<div class="hero-slides">${TEAM_SLIDE(up).replace('1 of 6',`1 of ${total}`)}`);
   h=h.replace('<div class="hero-dots" role="group" aria-label="Choose slide">','<div class="hero-dots" role="group" aria-label="Choose slide"><button type="button" class="hero-dot" aria-label="Show slide 1: Our team" aria-current="true"></button>');
   return h;}
-module.exports={teamSlide,relatedContact,contactLinks,commercialFaq,warranty,linkFix,lsSections,writeIcons,footerPay,claims,kind,buttons,projects,faq,offsite,phones,sticky,form,images,CSS,FAQ};
+
+// ---- Homepage Door Hardware section image (Oct 2026): Keeler Hardware commercial lever (source + permission note in assets/source/README.md). ----
+function hardwareArt(h,rel){if(rel!=='index.html'||!fs.existsSync(path.join(pub,'assets/home-hardware-handle.webp')))return h;
+  return h.replace(/(<section class="[^"]*" id="hardware">[\s\S]*?<a class="service-art"[^>]*>)([\s\S]*?)(<\/a><\/section>)/,(m,a,inner,b)=>a+'<picture><source type="image/webp" srcset="./assets/home-hardware-handle.webp"><img src="./assets/home-hardware-handle.jpg" alt="Dark grey commercial lever handle with privacy indicator on a grey door" width="900" height="400" loading="lazy" decoding="async"></picture>'+b);}
+module.exports={hardwareArt,teamSlide,relatedContact,contactLinks,commercialFaq,warranty,linkFix,lsSections,writeIcons,footerPay,claims,kind,buttons,projects,faq,offsite,phones,sticky,form,images,CSS,FAQ};
