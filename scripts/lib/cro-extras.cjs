@@ -157,6 +157,7 @@ const CSS=`
 .cro-warranty-light{background:#111;margin:0 0 18px}.contact-draft .form-fixed{margin:-8px 0 0;font-size:14px;font-weight:600;color:#333}
 .contact-draft .form-urgent{margin:0;padding:12px 16px;background:#fff8d6;border-left:4px solid var(--yellow,#f7c600);font-weight:600}.contact-draft .form-urgent a{color:#111}
 .service-art picture{display:block;width:100%;height:100%}
+#hardware .service-art{aspect-ratio:3.2}@media(max-width:760px){#hardware .service-art{aspect-ratio:2}}
 /* rings + highlight over the photo only while the team slide is active; product slides keep the original glow */.hero-device:has(.hero-team.is-active):before,.hero-device:has(.hero-team.is-active):after{z-index:2;pointer-events:none}.hero-device:has(.hero-team.is-active) .hub-light{z-index:2;mix-blend-mode:screen;opacity:.16}
 .hero-team{position:relative;display:grid;place-items:center}.hero-team picture,.hero-team img{display:block;width:min(740px,50vw);height:auto}.hero-team img{filter:drop-shadow(0 0 40px #f7c60014)}
 .hero-team-copy{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(520px,52vw);text-align:center;z-index:3;color:#f5f5f5;text-shadow:0 2px 18px #000,0 0 4px #000}
@@ -217,5 +218,5 @@ function teamSlide(h,rel,up){if(rel!=='index.html'||!/class="hero-slides"/.test(
 
 // ---- Homepage Door Hardware section image (Oct 2026): Keeler Hardware commercial lever (source + permission note in assets/source/README.md). ----
 function hardwareArt(h,rel){if(rel!=='index.html'||!fs.existsSync(path.join(pub,'assets/home-hardware-handle.webp')))return h;
-  return h.replace(/(<section class="[^"]*" id="hardware">[\s\S]*?<a class="service-art"[^>]*>)([\s\S]*?)(<\/a><\/section>)/,(m,a,inner,b)=>a+'<picture><source type="image/webp" srcset="./assets/home-hardware-handle.webp"><img src="./assets/home-hardware-handle.jpg" alt="Dark grey commercial lever handle with privacy indicator on a grey door" width="900" height="400" loading="lazy" decoding="async"></picture>'+b);}
+  return h.replace(/(<section class="[^"]*" id="hardware">[\s\S]*?<a class="service-art"[^>]*>)([\s\S]*?)(<\/a><\/section>)/,(m,a,inner,b)=>a+'<picture><source type="image/webp" srcset="./assets/home-hardware-handle.webp?v=2"><img src="./assets/home-hardware-handle.jpg?v=2" alt="Dark grey commercial lever handle with privacy indicator on a grey door at the end of an office corridor" width="1280" height="400" style="object-position:100% 50%" loading="lazy" decoding="async"></picture>'+b);}
 module.exports={hardwareArt,teamSlide,relatedContact,contactLinks,commercialFaq,warranty,linkFix,lsSections,writeIcons,footerPay,claims,kind,buttons,projects,faq,offsite,phones,sticky,form,images,CSS,FAQ};
