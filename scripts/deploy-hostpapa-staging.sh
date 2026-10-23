@@ -64,7 +64,7 @@ fi
 
 # Verify
 fail=0
-for p in / about/ contact/ locations/ ballina/ commercial-locksmith/ emergency-locksmith/ access-control-systems/ alarm-system/ robots.txt; do
+for p in / about/ contact/ locations/ ballina/ locksmith-services/ emergency-locksmith/ access-control-systems/ alarm-system/ robots.txt; do
   c=$(curl -s -m 30 -o /dev/null -w '%{http_code}' "$PREVIEW/$p"); printf '  %s %s\n' "$c" "/$p"; [ "$c" = 200 ] || fail=1; done
 curl -s -m 30 "$PREVIEW/robots.txt" | grep -qx 'Disallow: /' && echo "  robots.txt: Disallow: / OK" || { echo "  robots.txt: Disallow missing"; fail=1; }
 curl -sI -m 30 "$PREVIEW/" | grep -qi '^x-robots-tag: noindex' && echo "  X-Robots-Tag noindex OK" || { echo "  X-Robots-Tag missing"; fail=1; }
