@@ -244,4 +244,11 @@ function locksmithMerge(h,rel,up){
   // self-links left by the redirect repointing become plain text
   const i=h.indexOf('<article'),j=h.indexOf('</article>');if(i>=0&&j>i)h=h.slice(0,i)+h.slice(i,j).replace(/<a href="index\.html">([\s\S]*?)<\/a>/g,'$1')+h.slice(j);
   return h.replace(/(<section class="service-menu" aria-label="Explore services">)/,LS_MERGED(up)+'$1');}
-module.exports={locksmithMerge,majorProjects,hardwareArt,teamSlide,relatedContact,contactLinks,commercialFaq,warranty,linkFix,lsSections,writeIcons,footerPay,claims,kind,buttons,projects,faq,offsite,phones,sticky,form,images,CSS,FAQ};
+
+// ---- door-handles/: 'Easy to Use & Secure Door Handles' image -> SPL showroom wall photo (Oct 2026; source in assets/source/). Idempotent. ----
+function handlesArt(h,rel){if(rel!=='door-handles/index.html')return h;
+  // Oct 2026: 'Supported brands' + 'Digital Locks' brand lists removed (user request); 'Service Areas' onwards kept.
+  h=h.replace(/<div class="editorial-block"> <h2 id="section-supported-brands">[\s\S]*?(?=<div class="editorial-block"> <h3>Service Areas<\/h3>)/,'');
+  h=h.replace(/<a href="#section-(?:supported-brands|lockwood|dormakaba|iver|allegion|zanda|carbine|schlage)">[^<]*<\/a>/g,'');
+  return h.replace(/(id="section-easy-to-use-secure-door-handles">[^<]*<\/h2>\s*<\/div><figure class="editorial-image editorial-media">)[\s\S]*?(<\/figure>)/,'$1<picture><source type="image/webp" srcset="../assets/door-handles-showroom.webp?v=1"><img loading="lazy" src="../assets/door-handles-showroom.jpg?v=1" alt="Display wall of door handles and levers in the SPL showroom" width="1000" height="667" decoding="async"></picture>$2');}
+module.exports={handlesArt,locksmithMerge,majorProjects,hardwareArt,teamSlide,relatedContact,contactLinks,commercialFaq,warranty,linkFix,lsSections,writeIcons,footerPay,claims,kind,buttons,projects,faq,offsite,phones,sticky,form,images,CSS,FAQ};
