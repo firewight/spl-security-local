@@ -82,6 +82,13 @@ const F_OTH_SEC=['Do you service or repair security systems installed by other c
 const F_WHEN=['When should I call a locksmith?','Any time you need help with the locks at your home or business: if you need new keys made, want to change the locks after a move, renovation or staff change, or are locked out.'],
  F_TYPES=['Do you work on all types of locks?','Yes. We work on all types of locks, including deadbolts, knob and lever locks, high-security locks and cylinders, and master key systems. We also service safes.'];
 const ADD={'index.html':[F_PRICE,F_ACC,F_WAR,F_OTH_ALL,F_WIDE],'locksmith-services/index.html':[F_WHEN,F_TYPES,F_PRICE,F_AH,F_ACC,F_WAR,F_OTH_LS,F_WIDE],'emergency-locksmith/index.html':[F_PRICE,F_AH,F_WIDE],'security-systems/index.html':[F_ACC,F_WAR,F_OTH_SEC,F_WIDE],'contact/index.html':[F_PRICE,F_AH,F_ACC,F_WAR,F_OTH_ALL,F_WIDE]};
+FAQ['intercom/index.html']=[
+ ['What types of intercom systems do you offer?','Intercom systems come in various forms, from simple audio-only versions to advanced video intercoms with integrated access control. We offer a range of intercom products for homes and businesses. <a href="__CF__">Ask us for an obligation-free quote</a>.'],
+ ['How can an intercom help at home?','A home intercom lets you talk to people at your property boundary, fence line or gate, and control who enters. With remote gate or door release, you can let expected guests, deliveries or tradespeople in without leaving where you are.'],
+ ['What intercom options are there for businesses?','Our business intercom solutions include advanced video intercoms with integrated access control, such as key fob or card entry. They can be programmed with different levels of access for employees and visitors, so only authorised people can enter specific areas.'],
+ ['Can I use my intercom remotely?','Yes. Our intercom systems offer features like remote access and integration with mobile devices, so you can stay connected to your home or business wherever you are.'],
+ ['Do you service or repair intercom systems installed by other companies?','Yes. We repair and maintain all makes of intercom systems, including video entry and access control systems, for local councils, body corporates, businesses and homes.'],
+ F_WIDE];
 for(const [k,v] of Object.entries(ADD)){const i=FAQ[k].findIndex(x=>x[0]===PAY_Q);FAQ[k].splice(i,0,...v);}
 // Commercial locksmith already has an FAQ (seo build): add the accounts question to its list and its FAQPage node.
 function commercialFaq(h,rel){if(rel!=='commercial-locksmith/index.html')return h;
@@ -283,4 +290,28 @@ const MP_CSS=`.mp-grid{margin:8px 0 40px}.mp-hint{color:#666;font-size:14px;marg
 .mp-over{position:absolute;inset:0;padding:16px 18px;display:flex;flex-direction:column;justify-content:center;background:#0b0b0bf0;color:#eee;opacity:0;transition:opacity .25s;overflow:hidden;font-size:14px;line-height:1.4}.mp-over h3{margin:0 0 6px;color:#f7c600;font:800 17px/1.15 Manrope,sans-serif}.mp-over p{margin:0}.mp-over ul{margin:6px 0 0;padding:0 0 0 16px}.mp-over li{margin:0 0 4px}.mp-over li::marker{color:#f7c600}.mp-over strong{color:#fff}
 .mp-tile:hover .mp-over,.mp-tile:focus .mp-over,.mp-tile:focus-within .mp-over,.mp-tile.is-open .mp-over{opacity:1}.mp-tile:focus-visible{outline:3px solid #f7c600;outline-offset:3px}.mp-tile:hover img{transform:scale(1.03)}
 @media(max-width:1000px){.mp-tiles{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.mp-tiles{grid-template-columns:1fr}}@media(prefers-reduced-motion:reduce){.mp-tile img,.mp-over{transition:none}}`;
-module.exports={majorProjectsGrid,MP_CSS,lockHardwareTrim,fireDoorsTrim,handlesArt,locksmithMerge,majorProjects,hardwareArt,teamSlide,relatedContact,contactLinks,commercialFaq,warranty,linkFix,lsSections,writeIcons,footerPay,claims,kind,buttons,projects,faq,offsite,phones,sticky,form,images,CSS,FAQ};
+
+// ---- Old-style page FAQs (H2 + <ul><li><h3>Q</h3>answer</li>, or H2 + H3/P pairs) become the site's .cro-faq accordion (Oct 2026).
+// The page's FAQPage JSON-LD node (data-seo-schema graph) is rebuilt from the visible accordion so it always matches. Idempotent. ----
+const decode=t=>t.replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#0?39;|&apos;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&rsquo;/g,'’').replace(/&ndash;/g,'–');
+const faqTxt=t=>decode(t.replace(/<[^>]+>/g,'')).replace(/\s+/g,' ').trim();
+const cleanA=a=>a.replace(/<br\s*\/?>/g,' ').replace(/\s+/g,' ').replace(/<\/li>\s*<li>/g,'</li> <li>').replace(/>\s+</g,(m)=>m.includes(' ')?'> <':'><').trim();
+const faqTitle=t=>/^(faqs|frequently asked questions)$/i.test(t.trim())?'Frequently asked questions':t.trim();
+function faqAccordion(id,title,items){return `<section class="cro-faq cro-faq-inline" data-cro-faq-inline="" aria-labelledby="${id}"><h2 id="${id}">${faqTitle(title)}</h2>${items.map(([q,a])=>`<details><summary>${q.trim()}</summary>${/^<(p|ul|ol)/.test(a)?a:'<p>'+a+'</p>'}</details>`).join('')}</section>`;}
+function oldFaqs(h,rel){
+  let changed=false;
+  h=h.replace(/<div class="editorial-block"> <h2 id="(section-(?:frequently-asked-questions|faqs))">([^<]*)<\/h2>\s*<\/div>\s*<div class="editorial-block"><ul>([\s\S]*?)<\/ul><\/div>/,(m,id,title,body)=>{
+    const items=[...body.matchAll(/<li>\s*<h3[^>]*>([\s\S]*?)<\/h3>([\s\S]*?)<\/li>\s*(?=<li>\s*<h3|$)/g)].map(x=>[x[1],cleanA(x[2])]);
+    if(!items.length)return m;changed=true;return faqAccordion(id,title,items);});
+  h=h.replace(/<div class="editorial-block"><h2 id="(section-[a-z-]*faqs)">([^<]*)<\/h2>((?:<h3>[\s\S]*?<\/h3><p>[\s\S]*?<\/p>)+)<\/div>/,(m,id,title,body)=>{
+    const items=[...body.matchAll(/<h3>([\s\S]*?)<\/h3>(<p>[\s\S]*?<\/p>)/g)].map(x=>[x[1],cleanA(x[2])]);changed=true;return faqAccordion(id,title,items);});
+  const sec=h.match(/<section class="cro-faq cro-faq-inline"[\s\S]*?<\/section>/);if(!sec)return h;
+  // On this page: drop links to the old per-question H3 anchors; heading link text follows the new title
+  const ids=new Set([...h.matchAll(/\sid="([^"]+)"/g)].map(x=>x[1]));
+  h=h.replace(/(<details class="page-toc"[\s\S]*?<\/details>)/,toc=>toc.replace(/<a href="#([^"]+)">([^<]*)<\/a>/g,(m,id,l)=>!ids.has(id)?'':(sec[0].includes(`id="${id}"`)?`<a href="#${id}">${faqTitle(l.replace(/&amp;/g,'&'))}</a>`:m)));
+  const qa=[...sec[0].matchAll(/<details><summary>([\s\S]*?)<\/summary>([\s\S]*?)<\/details>/g)].map(x=>({'@type':'Question',name:faqTxt(x[1]),acceptedAnswer:{'@type':'Answer',text:faqTxt(x[2])}}));
+  return h.replace(/(<script type="application\/ld\+json" data-seo-schema="">)([\s\S]*?)(<\/script>)/,(m,a,json,c)=>{const d=JSON.parse(json),g=d['@graph']||[];let n=g.find(x=>x['@type']==='FAQPage');
+    if(!n){const wp=g.find(x=>x['@type']==='WebPage'||x.url);n={'@type':'FAQPage','@id':((wp&&(wp.url||wp['@id']))||'').replace(/#.*$/,'')+'#faq'};g.push(n);}
+    n.mainEntity=qa;return a+JSON.stringify(d).replace(/</g,'\\u003c')+c;});}
+const FAQ_INLINE_CSS=`.cro-faq-inline{max-width:none;margin:8px 0 28px;padding:0}.cro-faq-inline ul{margin:0 0 16px;padding-left:22px;line-height:1.7}.cro-faq-inline li::marker{color:#725c00}.cro-faq-inline details>*:last-child{margin-bottom:16px}`;
+module.exports={oldFaqs,FAQ_INLINE_CSS,majorProjectsGrid,MP_CSS,lockHardwareTrim,fireDoorsTrim,handlesArt,locksmithMerge,majorProjects,hardwareArt,teamSlide,relatedContact,contactLinks,commercialFaq,warranty,linkFix,lsSections,writeIcons,footerPay,claims,kind,buttons,projects,faq,offsite,phones,sticky,form,images,CSS,FAQ};
