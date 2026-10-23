@@ -218,4 +218,9 @@ function teamSlide(h,rel,up){if(rel!=='index.html'||!/class="hero-slides"/.test(
 // ---- Homepage Door Hardware section image (Oct 2026): Keeler Hardware commercial lever (source + permission note in assets/source/README.md). ----
 function hardwareArt(h,rel){if(rel!=='index.html'||!fs.existsSync(path.join(pub,'assets/home-hardware-handle.webp')))return h;
   return h.replace(/(<section class="[^"]*" id="hardware">[\s\S]*?<a class="service-art"[^>]*>)([\s\S]*?)(<\/a><\/section>)/,(m,a,inner,b)=>a+'<picture><source type="image/webp" srcset="./assets/home-hardware-handle.webp?v=4"><img src="./assets/home-hardware-handle.jpg?v=4" alt="Dark grey commercial lever handle with privacy indicator on a grey door in a commercial building" width="1400" height="622" style="object-position:100% 50%" loading="lazy" decoding="async"></picture>'+b);}
-module.exports={hardwareArt,teamSlide,relatedContact,contactLinks,commercialFaq,warranty,linkFix,lsSections,writeIcons,footerPay,claims,kind,buttons,projects,faq,offsite,phones,sticky,form,images,CSS,FAQ};
+
+// ---- Major Projects: remove the 'Top Tier Security Systems & Solutions' section (Oct 2026; image file kept in assets). Idempotent. ----
+function majorProjects(h,rel){if(rel!=='major-projects/index.html')return h;
+  h=h.replace(/\n?<div class="editorial-block"> <h2 id="section-top-tier-security-systems-solutions">[\s\S]*?today\.<\/p><\/div>\n?/,'\n');
+  return h.replace(/<a href="#section-top-tier-security-systems-solutions">[^<]*<\/a>/,'');}
+module.exports={majorProjects,hardwareArt,teamSlide,relatedContact,contactLinks,commercialFaq,warranty,linkFix,lsSections,writeIcons,footerPay,claims,kind,buttons,projects,faq,offsite,phones,sticky,form,images,CSS,FAQ};
