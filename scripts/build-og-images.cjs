@@ -51,7 +51,9 @@ h1{font-family:'Manrope';font-weight:800;font-size:${c.title.length>34?62:76}px;
 async function render(){
  const {chromium}=require('playwright');fs.mkdirSync(ogDir,{recursive:true});
  const logo='data:image/png;base64,'+fs.readFileSync(path.join(out,'assets/spl-logo-white-600.png')).toString('base64');
- const browser=await chromium.launch(),page=await browser.newPage({viewport:{width:1200,height:630}});
+ const chromeCandidates=[process.env.CHROME_PATH,'C:/Program Files/Google/Chrome/Application/chrome.exe','C:/Program Files (x86)/Google/Chrome/Application/chrome.exe','/Applications/Google Chrome.app/Contents/MacOS/Google Chrome','/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/chromium','/usr/bin/chromium-browser'].filter(Boolean);
+ const executablePath=chromeCandidates.find(p=>{try{return fs.statSync(p).isFile();}catch{return false;}});
+ const browser=await chromium.launch(executablePath?{executablePath}:{}),page=await browser.newPage({viewport:{width:1200,height:630}});
  for(const [slug,c]of Object.entries(cards)){await page.setContent(cardHtml(c,logo));await page.evaluate(()=>document.fonts.ready);
   const fonts=await page.evaluate(()=>[...document.fonts].length);
   const buf=await page.screenshot({type:'png'});
