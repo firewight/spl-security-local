@@ -261,4 +261,25 @@ function fireDoorsTrim(h,rel){if(rel!=='fire-door-hardware/index.html')return h;
 // ---- locksmiths/lock-hardware/: remove brass lever + cylinder deadlock image (Oct 2026; file kept in assets). Idempotent. ----
 function lockHardwareTrim(h,rel){if(rel!=='locksmiths/lock-hardware/index.html')return h;
   return h.replace(/\n?<figure class="editorial-image editorial-media"><img[^>]*spl-gold-lever-handle-lock-cylinder-white\.jpg"[^>]*><\/figure>/,'');}
-module.exports={lockHardwareTrim,fireDoorsTrim,handlesArt,locksmithMerge,majorProjects,hardwareArt,teamSlide,relatedContact,contactLinks,commercialFaq,warranty,linkFix,lsSections,writeIcons,footerPay,claims,kind,buttons,projects,faq,offsite,phones,sticky,form,images,CSS,FAQ};
+
+// ---- Major Projects grid (Oct 2026): image tiles with a hover/focus/tap overlay of the work done; project pages retired
+// (301 to /major-projects/ via seo.config.json). Text taken verbatim from the old project pages; Q1 has no description on the old site. Idempotent. ----
+const MP_TILES=[
+ ['Q1','spl-q1-residential-tower-building.jpg','Q1 residential tower, Gold Coast',800,745,'<p>Building.</p>'],
+ ['Circle On Cavill','spl-circle-cavill-towers.jpg','Circle On Cavill towers, Surfers Paradise',480,481,'<p>Circle on Cavill was SPL’s biggest project they had ever undertaken. SPL was responsible for installing the restricted keying system, architectural door hardware and bathroom accessories, while SPL’s Electronic division covered off on all the CCTV, access control, intercom system for both towers and MATV.</p>'],
+ ['The Oracle on Broadbeach','spl-oracle-broadbeach-towers.jpg','The Oracle towers, Broadbeach',451,450,'<p>SPL were responsible for the restricted keying system on both towers as well as the Architectural door hardware.</p>']];
+const mpSlug=t=>t.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const MP_GRID=()=>`<section class="mp-grid" data-cro="" aria-labelledby="section-our-projects"><h2 id="section-our-projects">Our projects</h2><p class="mp-hint">Hover, tab to or tap a project to see the work we did.</p><ul class="mp-tiles">${MP_TILES.map(([t,img,alt,w,hh,txt])=>`<li class="mp-tile" id="section-${mpSlug(t)}" tabindex="0" aria-label="${t}: work done"><img loading="lazy" src="../assets/imported/${img}" alt="${alt}" width="${w}" height="${hh}" decoding="async"><h3 class="mp-name">${t}</h3><div class="mp-over"><h3>${t}</h3>${txt}</div></li>`).join('')}</ul><script>document.querySelectorAll('.mp-tile').forEach(t=>{t.addEventListener('click',()=>{const o=t.classList.toggle('is-open');document.querySelectorAll('.mp-tile.is-open').forEach(x=>{if(x!==t)x.classList.remove('is-open')});});t.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();t.click();}});});</script></section>\n`;
+function majorProjectsGrid(h,rel){
+  if(rel!=='major-projects/index.html')return h;
+  h=h.replace(/<section class="mp-grid"[\s\S]*?<\/section>\n?/,'');
+  h=h.replace(/(<\/div>)\s*<figure class="editorial-image editorial-media"><img[^>]*spl-q1-residential[\s\S]*?id="section-the-oracle-on-broadbeach">[\s\S]*?<\/h2>\s*<\/div>\s*/,'$1\n');
+  h=h.replace(/(<section class="related-links")/,MP_GRID()+'$1');
+  return h.replace(/<a href="#section-circle-on-cavill">Circle On Cavill<\/a><a href="#section-the-oracle-on-broadbeach">The Oracle on Broadbeach<\/a>/,'<a href="#section-our-projects">Our projects</a>');}
+const MP_CSS=`.mp-grid{margin:8px 0 40px}.mp-hint{color:#666;font-size:14px;margin:0 0 16px}.mp-tiles{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.mp-tile{position:relative;aspect-ratio:1/1;overflow:hidden;border-radius:14px;background:#111;cursor:pointer;outline:none;box-shadow:0 10px 30px #0002}.mp-tile img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+.mp-name{position:absolute;left:0;right:0;bottom:0;margin:0;padding:40px 18px 16px;font:800 20px/1.15 Manrope,sans-serif;color:#fff;background:linear-gradient(#0000,#000d);border-bottom:4px solid #f7c600}
+.mp-over{position:absolute;inset:0;padding:22px;display:flex;flex-direction:column;justify-content:center;background:#0b0b0beb;color:#eee;opacity:0;transition:opacity .25s;overflow:auto;font-size:15px;line-height:1.55}.mp-over h3{margin:0 0 10px;color:#f7c600;font:800 20px/1.15 Manrope,sans-serif}.mp-over p{margin:0}
+.mp-tile:hover .mp-over,.mp-tile:focus .mp-over,.mp-tile:focus-within .mp-over,.mp-tile.is-open .mp-over{opacity:1}.mp-tile:focus-visible{outline:3px solid #f7c600;outline-offset:3px}.mp-tile:hover img{transform:scale(1.03)}
+@media(max-width:1000px){.mp-tiles{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.mp-tiles{grid-template-columns:1fr}}@media(prefers-reduced-motion:reduce){.mp-tile img,.mp-over{transition:none}}`;
+module.exports={majorProjectsGrid,MP_CSS,lockHardwareTrim,fireDoorsTrim,handlesArt,locksmithMerge,majorProjects,hardwareArt,teamSlide,relatedContact,contactLinks,commercialFaq,warranty,linkFix,lsSections,writeIcons,footerPay,claims,kind,buttons,projects,faq,offsite,phones,sticky,form,images,CSS,FAQ};
