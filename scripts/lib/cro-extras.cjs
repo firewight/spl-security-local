@@ -156,6 +156,13 @@ const CSS=`
 .cro-warranty{display:inline-flex;align-items:center;gap:10px;margin:22px 0 0;padding:10px 14px;border:1px solid #f7c600;border-radius:6px;color:#f7c600;font-weight:700;font-size:14px;line-height:1.3;max-width:100%}.cro-warranty span{color:#fff}.cro-warranty svg{flex:none}.contact-options-copy>p:nth-last-child(2){color:#bbb;font-size:14px;line-height:1.8;margin:0}
 .cro-warranty-light{background:#111;margin:0 0 18px}.contact-draft .form-fixed{margin:-8px 0 0;font-size:14px;font-weight:600;color:#333}
 .contact-draft .form-urgent{margin:0;padding:12px 16px;background:#fff8d6;border-left:4px solid var(--yellow,#f7c600);font-weight:600}.contact-draft .form-urgent a{color:#111}
+.hero-device:before,.hero-device:after{z-index:2;pointer-events:none}.hub-light{z-index:2;mix-blend-mode:screen;opacity:.16}
+.hero-team{position:relative;display:grid;place-items:center}.hero-team picture,.hero-team img{display:block;width:min(620px,58vw);height:auto}.hero-team img{filter:drop-shadow(0 0 40px #f7c60014)}
+.hero-team-copy{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);width:min(520px,52vw);text-align:center;z-index:3;color:#f5f5f5;text-shadow:0 2px 18px #000,0 0 4px #000}
+.hero-team-kicker{display:inline-flex;align-items:center;gap:8px;margin:0 0 10px;font:700 14px/1 Manrope,sans-serif;letter-spacing:.04em;text-transform:uppercase}.hero-team-kicker:before{content:"";width:8px;height:8px;border-radius:50%;background:#f7c600;box-shadow:0 0 10px #f7c600}
+.hero-team-title{margin:0;font:800 clamp(28px,3vw,42px)/1 Manrope,sans-serif;letter-spacing:-.05em}.hero-team-title em{font-style:normal;color:#f7c600}.hero-team-sub{margin:8px 0 12px;color:#e2e2e2;font-size:15px}
+.hero-team-cta{color:#f7c600;font-weight:700;font-size:15px;text-decoration:none}.hero-team-cta span{font-size:24px;line-height:0;vertical-align:-2px;margin-left:3px}.hero-team-cta:hover{text-decoration:underline;text-underline-offset:4px}.hero-team-cta:focus-visible{outline:2px solid #f7c600;outline-offset:4px}
+@media(max-width:760px){.hero-team picture,.hero-team img{width:min(440px,96vw);opacity:.55}.hero-team-copy{display:none}}
 `;
 // No response-time claims (agreed brief).
 function claims(h){return h.replace('Emergency locksmiths understand the urgency of your situation. Most services aim to reach you within 30 to 60 minutes, depending on your location.','Emergency locksmiths understand the urgency of your situation. When you call, ask how long it will take for a locksmith to reach your location.');}
@@ -190,4 +197,18 @@ function contactLinks2(h,rel,up){const i=h.indexOf('<body'),j=h.lastIndexOf('</b
   return h.slice(0,i)+parts.join('')+h.slice(j);}
 // 'Explore more' lists: the plain-text contact item becomes a link to the enquiry form (Oct 2026).
 function relatedContact(h,up){return h.replace(/<section class="related-links"[^>]*>[\s\S]*?<\/section>/g,sec=>sec.replace(/<span>Contact SPL Security Solutions <span(?: aria-hidden="true")?>↗<\/span><\/span>/g,()=>`<a href="${up}contact/#contact-enquiry">Contact SPL Security Solutions <span aria-hidden="true">↗</span></a>`));}
-module.exports={relatedContact,contactLinks,commercialFaq,warranty,linkFix,lsSections,writeIcons,footerPay,claims,kind,buttons,projects,faq,offsite,phones,sticky,form,images,CSS,FAQ};
+
+// ---- Homepage hero slider: team photo as first slide (Oct 2026). Photo is a small, darkened, feathered cut-out (anonymity by composition). Idempotent. ----
+const TEAM_SLIDE=up=>`<div class="hero-slide hero-team is-active" role="group" aria-roledescription="slide" aria-label="1 of 6: Our team"><picture><source type="image/webp" srcset="./assets/hero-team.webp"><img src="./assets/hero-team.png" alt="The SPL Security team with the SPL van fleet on the Gold Coast" width="760" height="384" decoding="async"></picture><div class="hero-team-copy"><p class="hero-team-kicker">Our team</p><p class="hero-team-title">A team you can <em>count on.</em></p><p class="hero-team-sub">Your local security and locksmith team.</p><a class="hero-team-cta" href="${up}about/index.html">Meet the team <span>&rsaquo;</span></a></div></div>`;
+function teamSlide(h,rel,up){if(rel!=='index.html'||!/class="hero-slides"/.test(h))return h;
+  h=h.replace(/<div class="hero-slide hero-team[\s\S]*?<\/a><\/div><\/div>/,'');
+  h=h.replace(/<button type="button" class="hero-dot" aria-label="Show slide 1: Our team"[^>]*><\/button>/,'');
+  // renumber remaining slides and dots
+  let n=1;h=h.replace(/(<div class="hero-slide)( is-active)?(" role="group" aria-roledescription="slide" aria-label=")(\d) of \d/g,(m,a,act,b)=>{n++;return `${a}${b}${n} of 6`;});
+  h=h.replace(/(<div class="hero-slide"[^>]*aria-label="2 of 6")(?![^>]*aria-hidden)/,'$1 aria-hidden="true"');
+  h=h.replace(/aria-label="2 of 6"/,'aria-label="2 of 6: SPL"');
+  let d=1;h=h.replace(/<button type="button" class="hero-dot" aria-label="Show slide \d: ([^"]+)"( aria-current="true")?><\/button>/g,(m,l)=>{d++;return `<button type="button" class="hero-dot" aria-label="Show slide ${d}: ${l}"></button>`;});
+  h=h.replace('<div class="hero-slides">',`<div class="hero-slides">${TEAM_SLIDE(up)}`);
+  h=h.replace('<div class="hero-dots" role="group" aria-label="Choose slide">','<div class="hero-dots" role="group" aria-label="Choose slide"><button type="button" class="hero-dot" aria-label="Show slide 1: Our team" aria-current="true"></button>');
+  return h;}
+module.exports={teamSlide,relatedContact,contactLinks,commercialFaq,warranty,linkFix,lsSections,writeIcons,footerPay,claims,kind,buttons,projects,faq,offsite,phones,sticky,form,images,CSS,FAQ};
