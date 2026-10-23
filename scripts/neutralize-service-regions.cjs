@@ -119,7 +119,7 @@ let changed=0;
 module.exports=function run(){
 for(const file of walk(out)){
  const rel=path.relative(out,file).replaceAll('\\','/');
- if(rel==='locations/index.html'){const h=fs.readFileSync(file,'utf8'),n=h.replace('<h3 id="ballina">SPL Ballina Security</h3>','<h3 id="ballina">SPL Ballina, Northern NSW</h3>');if(n!==h){fs.writeFileSync(file,n);changed++;}}
+ if(rel==='locations/index.html'){const h=fs.readFileSync(file,'utf8'),n=h.replace('<h3 id="ballina">SPL Ballina Locksmiths</h3>','<h3 id="ballina">SPL Ballina, Northern NSW</h3>');if(n!==h){fs.writeFileSync(file,n);changed++;}}
  if(rel.startsWith('locations/'))continue;
  const key=rel.replace(/\/index\.html$/,'');let html=fs.readFileSync(file,'utf8');const before=html;
  const swapAll=(a,b)=>{if(!a||a===b)return;for(const [x,y] of [[a,b],[escT(a),escT(b)],[escA(a),escA(b)],[JSON.stringify(a).slice(1,-1),JSON.stringify(b).slice(1,-1)]])html=html.split(x).join(y);};

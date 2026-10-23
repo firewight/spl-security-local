@@ -31,7 +31,7 @@ const cards={
  'retail-trade':{title:'Retail & Trade',pages:['retail-security/index.html']},
  'about':{title:'About SPL Security Solutions',pages:['about/index.html']},
  'contact':{title:'Contact SPL Security Solutions',pages:['contact/index.html']},
- 'ballina':{title:'SPL Ballina Security',kicker:'LOCKSMITH & SECURITY · NORTHERN NSW',pages:['ballina/index.html']},
+ 'ballina':{title:'SPL Ballina Locksmiths',kicker:'LOCKSMITH & SECURITY · NORTHERN NSW',pages:['ballina/index.html']},
  'locations':{title:'Locations & Service Areas',pages:['locations/index.html']},
  'articles':{title:'Helpful Articles',pages:['articles/index.html']},
  'holiday-security-tips':{title:'Holiday Security Tips for Homes & Businesses',pages:['holiday-security-tips/index.html']},
