@@ -3,7 +3,10 @@ const fs=require('fs'),path=require('path');
 const localServer=process.env.VERIFY_URL?null:require('child_process').spawn(process.execPath,[path.resolve(__dirname,'../server.js')],{env:{...process.env,PORT:'18187'},windowsHide:true,stdio:'ignore'});
 process.on('exit',()=>localServer?.kill());
 (async()=>{
-const browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
+// Browser: CHROME_PATH if set, else an installed Chrome/Chromium, else Playwright's bundled Chromium.
+const chromeCandidates=[process.env.CHROME_PATH,'C:/Program Files/Google/Chrome/Application/chrome.exe','C:/Program Files (x86)/Google/Chrome/Application/chrome.exe','/Applications/Google Chrome.app/Contents/MacOS/Google Chrome','/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/chromium','/usr/bin/chromium-browser'].filter(Boolean);
+const executablePath=chromeCandidates.find(p=>{try{return fs.statSync(p).isFile();}catch{return false;}});
+const browser=await chromium.launch({...(executablePath?{executablePath}:{}),headless:true});
 const page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
 const base=process.env.VERIFY_URL||'http://127.0.0.1:18187/';
 const dir=path.resolve(__dirname,'../verification');fs.mkdirSync(dir,{recursive:true});
@@ -15,7 +18,9 @@ const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>inne
 await page.screenshot({path:path.join(dir,(route.split('/')[0]||'home')+'-desktop.png'),fullPage:false});
 }
 if(await page.locator('a').filter({hasText:/all pages/i}).count())throw Error('Retired directory navigation remains');
-for(const label of ['Gold Coast','Brisbane','Northern NSW'])if(!await page.locator('.region-list a').filter({hasText:label}).count())throw Error('Missing regional link '+label);
+// Service areas are cards on /locations/ since d88b87b (the old .region-list and /service-area/ page are retired). Brisbane is serviced from the Gold Coast office, so its card deliberately links to #gold-coast.
+await page.goto(base+'locations/index.html',{waitUntil:'domcontentloaded'});
+for(const [label,href] of [['Gold Coast',/#gold-coast$/],['Brisbane',/#gold-coast$/],['Northern NSW',/ballina\/index\.html$/]]){const card=page.locator('.service-area-cards .values-card').filter({has:page.locator('h3',{hasText:label})});if(await card.count()!==1)throw Error('Missing service-area card '+label);const h=await card.locator('a').getAttribute('href');if(!href.test(h||''))throw Error('Service-area card '+label+' links to '+h);}
 await page.goto(base,{waitUntil:'domcontentloaded'});await page.locator('#main-nav .nav-top-link').filter({hasText:/^Locksmiths$/}).hover();await page.getByRole('link',{name:'Commercial',exact:true}).click();await page.waitForURL('**/commercial-locksmith/index.html');
 await page.goto(base,{waitUntil:'domcontentloaded'});
 const groups=await page.locator('#main-nav .nav-group').all();
@@ -62,7 +67,7 @@ for(const [id,label]of [['OurValues','Our Values'],['OurStory','Our Story']]){if
 await page.goto(base+'contact/index.html',{waitUntil:'domcontentloaded'});if(!await page.locator('.business-hours + .contact-draft').count())throw Error('Contact form order incorrect');
 await page.locator('.contact-socials').scrollIntoViewIfNeeded();for(const img of await page.locator('.contact-socials img').all()){await img.evaluate(el=>el.decode());const size=await img.boundingBox();if(size.width>40||size.height>40)throw Error('Oversized contact social icon');}
 await page.screenshot({path:path.join(dir,'contact-layout-'+width+'.png'),fullPage:false});
-await page.goto(base+'access-control-systems/index.html',{waitUntil:'domcontentloaded'});await page.locator('.related-links').scrollIntoViewIfNeeded();const regionsAlreadyListed=await page.locator('.region-list').count();for(const region of ['Gold Coast','Brisbane','Northern NSW']){if(await page.locator('.related-links a').filter({hasText:new RegExp('^'+region+'(?:\\s*↗)?$')}).count()!==(regionsAlreadyListed?0:1))throw Error('Repeated or missing related region '+region);}await page.screenshot({path:path.join(dir,'related-links-'+width+'.png'),fullPage:false});
+await page.goto(base+'access-control-systems/index.html',{waitUntil:'domcontentloaded'});await page.locator('.related-links').scrollIntoViewIfNeeded();const regionsAlreadyListed=await page.locator('.region-list,.service-area-cards').count();for(const region of ['Gold Coast','Brisbane','Northern NSW']){if(await page.locator('.related-links a').filter({hasText:new RegExp('^'+region+'(?:\\s*↗)?$')}).count()!==(regionsAlreadyListed?0:1))throw Error('Repeated or missing related region '+region);}await page.screenshot({path:path.join(dir,'related-links-'+width+'.png'),fullPage:false});
 }
 if(errors.length)throw Error(JSON.stringify(errors));
 console.log('Passed desktop/mobile layouts, nested navigation, three-region links and retired directory navigation, no page errors.');await browser.close();
