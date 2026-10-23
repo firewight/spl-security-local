@@ -257,4 +257,8 @@ function handlesArt(h,rel){if(rel!=='door-handles/index.html'&&rel!=='door-close
 function fireDoorsTrim(h,rel){if(rel!=='fire-door-hardware/index.html')return h;
   h=h.replace(/\n*<div class="editorial-block"> <h2 id="section-public-vs-non-public-fire-doors">[\s\S]*?spl-fire-exit-door-push-bar-beside\.jpg"[^>]*><\/figure>\s*/,'\n\n');
   return h.replace(/<a href="#section-public-vs-non-public-fire-doors">[^<]*<\/a>/g,'');}
-module.exports={fireDoorsTrim,handlesArt,locksmithMerge,majorProjects,hardwareArt,teamSlide,relatedContact,contactLinks,commercialFaq,warranty,linkFix,lsSections,writeIcons,footerPay,claims,kind,buttons,projects,faq,offsite,phones,sticky,form,images,CSS,FAQ};
+
+// ---- locksmiths/lock-hardware/: remove brass lever + cylinder deadlock image (Oct 2026; file kept in assets). Idempotent. ----
+function lockHardwareTrim(h,rel){if(rel!=='locksmiths/lock-hardware/index.html')return h;
+  return h.replace(/\n?<figure class="editorial-image editorial-media"><img[^>]*spl-gold-lever-handle-lock-cylinder-white\.jpg"[^>]*><\/figure>/,'');}
+module.exports={lockHardwareTrim,fireDoorsTrim,handlesArt,locksmithMerge,majorProjects,hardwareArt,teamSlide,relatedContact,contactLinks,commercialFaq,warranty,linkFix,lsSections,writeIcons,footerPay,claims,kind,buttons,projects,faq,offsite,phones,sticky,form,images,CSS,FAQ};
