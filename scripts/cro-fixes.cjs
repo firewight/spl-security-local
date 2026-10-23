@@ -4,7 +4,7 @@ const pub=path.join(__dirname,'..','public');
 const LANDING=['emergency-locksmith','locksmith-services','residential-locksmith','commercial-locksmith','auto-locksmith','locations','security-systems','access-control-systems','alarm-system','cctv-system','intercom','alarm-monitoring'];
 const PROOF='<p class="hero-proof" data-cro="">Securing the Gold Coast since 1990</p>';
 const HOW='<section class="how-it-works" data-cro="" aria-labelledby="how-it-works-title"><h2 id="how-it-works-title">How it works</h2><ol><li><span>1</span><span class="how-text"><a href="tel:+61755888111">Call</a> or <a href="__UP__contact/#contact-enquiry">Contact us</a> <strong class="how-free">anytime</strong></span></li><li><span>2</span><span class="how-text">Chat with us and get a <strong class="how-free">free</strong> quote</span></li><li><span>3</span><span class="how-text">Our licensed staff get the job done <strong class="how-free">fast</strong></span></li></ol></section>';
-const walk=d=>fs.readdirSync(d,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(d,e.name)):e.name.endsWith('.html')?[path.join(d,e.name)]:[]);
+const walk=d=>fs.readdirSync(d,{withFileTypes:true}).flatMap(e=>e.isDirectory()?(d===pub&&e.name==='assets'?[]:walk(path.join(d,e.name))):e.name.endsWith('.html')?[path.join(d,e.name)]:[]);
 function hours(h){return h.replace(/<dl>((?:(?!<\/dl>)[\s\S])*?)<\/dl>/g,(m,b)=>{
   if(!/showroom|Trade counter/i.test(b)||!/24\/7 emergency/.test(b))return m;
   const tel=(b.match(/<dt>24\/7 emergency[^<]*<\/dt><dd>(<a href="tel:[^"]+">[^<]+<\/a>)<\/dd>/)||[])[1];
@@ -31,7 +31,7 @@ module.exports=function(){
       h=h.replace(/(<section class="page-hero"[\s\S]*?<\/h1>)/,`$1${PROOF}`)
        .replace(/(<section class="page-hero"[\s\S]*?<\/section>)/,`$1${strip.replace('class="trust-strip"','class="trust-strip" data-cro-copy=""')}${quotes.replace('class="trust-quotes"','class="trust-quotes" data-cro-copy=""')}${HOW.replace('__UP__',up)}`)
        ;}
-    h=h.replace(/<\/head>/,`<link rel="stylesheet" href="${up}cro.css?v=20261023a" data-cro="">\n</head>`);
+    h=h.replace(/<\/head>/,`<link rel="stylesheet" href="${up}cro.css?v=20261023b" data-cro="">\n</head>`);
     const k=X.kind(rel);h=X.form(h,rel);h=X.lsSections(h,rel);h=X.linkFix(h,rel);h=X.commercialFaq(h,rel);h=X.warranty(h,rel);h=X.buttons(h,k);h=X.projects(h,rel,up);h=X.faq(h,rel,up);h=X.footerPay(h,up);h=X.offsite(h);h=X.claims(h);h=X.images(h);h=X.sticky(h,rel,up);h=X.phones(h);h=X.relatedContact(h,up);h=X.contactLinks(h,rel,up);h=X.teamSlide(h,rel,up);
     if(h!==o){fs.writeFileSync(f,h);if(rel==='index.html'){const mf=path.join(pub,'..','page-import-manifest.json'),mm=JSON.parse(fs.readFileSync(mf,'utf8'));mm.homepageMainSha256=require('crypto').createHash('sha256').update(h.match(/<main[\s\S]*?<\/main>/)[0]).digest('hex');fs.writeFileSync(mf,JSON.stringify(mm,null,2));}}
   }

@@ -1,0 +1,40 @@
+<!doctype html>
+<!-- Archived Oct 2026: the original illustrated "SPL hub" card slide from the homepage hero slider (removed from the live slider by
+     teamSlide() in scripts/lib/cro-extras.cjs). Markup + CSS copied verbatim from public/index.html and public/styles.css. Not linked from the site. -->
+<html lang="en-AU"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Archived: SPL hub slide</title>
+<style>
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 48% 45%,#4c4c4c 0,#1d1d1d 28%,#080808 68%)}
+.hub-face {
+  position: relative;
+  width: 250px;
+  height: 330px;
+  border-radius: 34px;
+  background: linear-gradient(135deg, #454545, #151515 52%, #333);
+  box-shadow:
+    20px 35px 75px #000b,
+    -18px -12px 38px #aaa2;
+  transform: rotate(18deg);
+  padding: 35px;
+  display: flex;
+  gap: 9px;
+  align-items: flex-end;
+}
+.hub-face i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #f5c700;
+  box-shadow: 0 0 13px #f5c700;
+}
+.hub-face strong {
+  position: absolute;
+  bottom: 25px;
+  right: 28px;
+  font: 800 24px Manrope;
+  letter-spacing: -0.1em;
+  color: #eee;
+}
+/* mobile (max-width: 900px) on the live site: .hub-face { transform: scale(0.74) rotate(18deg); } */
+</style></head><body>
+<div class="hero-slide" role="group" aria-roledescription="slide" aria-label="SPL"><div class="hub-face" role="img" aria-label="Illustration of a fictional SPL security hub"><i></i><i></i><i></i><strong>SPL</strong></div></div>
+</body></html>

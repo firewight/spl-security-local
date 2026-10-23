@@ -196,36 +196,6 @@ h1 em {
   filter: blur(90px);
   opacity: 0.22;
 }
-.hub-face {
-  position: relative;
-  width: 250px;
-  height: 330px;
-  border-radius: 34px;
-  background: linear-gradient(135deg, #454545, #151515 52%, #333);
-  box-shadow:
-    20px 35px 75px #000b,
-    -18px -12px 38px #aaa2;
-  transform: rotate(18deg);
-  padding: 35px;
-  display: flex;
-  gap: 9px;
-  align-items: flex-end;
-}
-.hub-face i {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: #f5c700;
-  box-shadow: 0 0 13px #f5c700;
-}
-.hub-face strong {
-  position: absolute;
-  bottom: 25px;
-  right: 28px;
-  font: 800 24px Manrope;
-  letter-spacing: -0.1em;
-  color: #eee;
-}
 .announcement {
   min-height: 105px;
   background: #fff;
@@ -800,9 +770,6 @@ textarea {
     right: 0;
     bottom: 0;
     height: 360px;
-  }
-  .hub-face {
-    transform: scale(0.74) rotate(18deg);
   }
   .product {
     grid-template-columns: 1fr;
