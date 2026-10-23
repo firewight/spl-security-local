@@ -252,4 +252,9 @@ function handlesArt(h,rel){if(rel!=='door-handles/index.html'&&rel!=='door-close
   h=h.replace(/<a href="#section-(?:supported-brands|lockwood(?:-[a-z-]+)?|dormakaba|iver|allegion(?:australia)?|zanda|carbine(?:radius)?|schlage)">[^<]*<\/a>/g,'');
   if(rel!=='door-handles/index.html')return h;
   return h.replace(/(id="section-easy-to-use-secure-door-handles">[^<]*<\/h2>\s*<\/div><figure class="editorial-image editorial-media">)[\s\S]*?(<\/figure>)/,'$1<picture><source type="image/webp" srcset="../assets/door-handles-showroom.webp?v=1"><img loading="lazy" src="../assets/door-handles-showroom.jpg?v=1" alt="Display wall of door handles and levers in the SPL showroom" width="1000" height="667" decoding="async"></picture>$2');}
-module.exports={handlesArt,locksmithMerge,majorProjects,hardwareArt,teamSlide,relatedContact,contactLinks,commercialFaq,warranty,linkFix,lsSections,writeIcons,footerPay,claims,kind,buttons,projects,faq,offsite,phones,sticky,form,images,CSS,FAQ};
+
+// ---- fire-door-hardware/: remove 'Public vs Non-Public Fire Doors' section incl. bullets + hose-reel image (Oct 2026; image kept in assets). Idempotent. ----
+function fireDoorsTrim(h,rel){if(rel!=='fire-door-hardware/index.html')return h;
+  h=h.replace(/\n*<div class="editorial-block"> <h2 id="section-public-vs-non-public-fire-doors">[\s\S]*?spl-fire-exit-door-push-bar-beside\.jpg"[^>]*><\/figure>\s*/,'\n\n');
+  return h.replace(/<a href="#section-public-vs-non-public-fire-doors">[^<]*<\/a>/g,'');}
+module.exports={fireDoorsTrim,handlesArt,locksmithMerge,majorProjects,hardwareArt,teamSlide,relatedContact,contactLinks,commercialFaq,warranty,linkFix,lsSections,writeIcons,footerPay,claims,kind,buttons,projects,faq,offsite,phones,sticky,form,images,CSS,FAQ};
