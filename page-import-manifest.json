@@ -94,12 +94,6 @@
       "blocks": 3
     },
     {
-      "url": "/commercial-locksmith",
-      "title": "Commercial Locksmiths",
-      "file": "commercial-locksmith/index.html",
-      "blocks": 39
-    },
-    {
       "url": "/locations",
       "title": "Locations & Service Areas",
       "file": "locations/index.html",
@@ -332,12 +326,6 @@
       "title": "Repair vs Replacement: What to Do When a Lock Fails",
       "file": "repair-vs-replacement-what-to-do-when-a-lock-fails/index.html",
       "blocks": 38
-    },
-    {
-      "url": "/residential-locksmith",
-      "title": "Residential Locksmiths",
-      "file": "residential-locksmith/index.html",
-      "blocks": 27
     },
     {
       "url": "/restricted-keys",

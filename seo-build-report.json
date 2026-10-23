@@ -2,7 +2,7 @@
   "mode": "preview",
   "siteUrl": "https://firewight.github.io/spl-security-local/",
   "pages": 109,
-  "faqPages": 9,
+  "faqPages": 7,
   "questions": 201,
   "articles": 65,
   "aliases": [
@@ -23,5 +23,5 @@
   "tablesOfContents": 167,
   "imagesSized": 1381,
   "contextualLinkPages": 143,
-  "sitemapUrls": 100
+  "sitemapUrls": 98
 }

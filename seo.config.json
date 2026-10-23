@@ -154,6 +154,8 @@
     "/locksmiths": "/locksmith-services",
     "/commercial-locksmiths": "/locksmith-services",
     "/how-to-protect-your-home-from-intruders": "/how-to-protect-your-home-from-intruders-effectively",
-    "/why-every-business-needs-a-trusted-commercial-locksmith": "/commercial-locksmith"
+    "/why-every-business-needs-a-trusted-commercial-locksmith": "/locksmith-services",
+    "/residential-locksmith": "/locksmith-services",
+    "/commercial-locksmith": "/locksmith-services"
   }
 }
