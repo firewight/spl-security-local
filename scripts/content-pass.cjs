@@ -15,4 +15,5 @@ const fixes={
  'locksmiths/lock-hardware/index.html':[['<section class="service-menu-description"></section>','']],
 };
 let n=0;for(const[f,rs]of Object.entries(fixes)){let s=fs.readFileSync(P(f),'utf8'),o=s;for(const[a,b]of rs)s=s.split(a).join(b);if(s!==o){fs.writeFileSync(P(f),s);n++}}
+require('./apply-alarm-monitoring-copy.cjs')();
 module.exports=()=>n;if(require.main===module)console.log('content-pass',n);
