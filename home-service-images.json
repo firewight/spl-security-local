@@ -1,9 +1,12 @@
 {
   "locksmiths": {
-    "file": "A-Residential-Emergency-Locksmith-1920w.jpg",
-    "alt": "Locksmith working on a door lock",
+    "file": "locksmith-hands-mortice-hero.jpg",
+    "alt": "SPL locksmith working on a mortice lock at the workbench",
     "src": "assets/home-locksmiths.webp",
-    "source": "https://irp.cdn-website.com/b85feeb6/dms3rep/multi/opt/A-Residential-Emergency-Locksmith-1920w.jpg"
+    "source": "assets/source/locksmith-hands-mortice-hero.jpg",
+    "width": 1400,
+    "height": 848,
+    "cache": "2"
   },
   "security": {
     "file": "IMG_1016-1920w.JPG",

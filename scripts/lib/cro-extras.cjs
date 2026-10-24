@@ -144,7 +144,7 @@ function form(h,rel){if(rel!=='contact/index.html')return h;
      `<p class="full form-privacy">We only use your details to respond to your enquiry. See our <a href="${privacyLink}">Privacy policy</a>.</p>`+close;});}
 
 // ---- 8. Image cheap wins ----
-const VARIANTS={'home-locksmiths.webp':['home-locksmiths-800.webp',1000,667],'home-security.webp':['home-security-800.webp',1400,1050],'home-retail-trade.webp':['home-retail-trade-800.webp',1400,933]};
+const VARIANTS={'home-locksmiths.webp':['home-locksmiths-800.webp',1400,848],'home-security.webp':['home-security-800.webp',1400,1050],'home-retail-trade.webp':['home-retail-trade-800.webp',1400,933]};
 function images(h){
   if(fs.existsSync(path.join(pub,'assets/imported/spl-black-lever-handle-fingerprint-reader-showroom-900.webp')))
     h=h.replace(/<img\b[^>]*spl-black-lever-handle-fingerprint-reader-showroom\.jpg[^>]*>/g,t=>t.replace('showroom.jpg','showroom-900.webp').replace('width="1536"','width="900"').replace('height="2048"','height="1200"'));
