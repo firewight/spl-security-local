@@ -35,6 +35,7 @@ const cards={
  'locations':{title:'Locations & Service Areas',pages:['locations/index.html']},
  'articles':{title:'Helpful Articles',pages:['articles/index.html']},
  'holiday-security-tips':{title:'Holiday Security Tips for Homes & Businesses',pages:['holiday-security-tips/index.html']},
+ 'qld-security-grants':{title:'Queensland Security Grants for Small Businesses',pages:['qld-security-grants/index.html']},
 };
 const esc=s=>String(s).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;');
 function cardHtml(c,logo){return `<!doctype html><html><head><style>

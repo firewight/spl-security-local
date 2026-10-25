@@ -1,7 +1,7 @@
 {
   "source": "https://www.splsecurity.com.au",
   "importedAt": "2026-10-15T03:33:14.618Z",
-  "homepageMainSha256": "cdd736fe4e5332e30c2863d6f79223ab07d98ea452fcaf37c48b6293e3f454f4",
+  "homepageMainSha256": "ee80be00d3928cb534836646af3ecd2e42c7320e6bd8de4161d378119eca2093",
   "pages": [
     {
       "url": "/blog/24-7-gold-coast-locksmith-secrets-to-our-success",
@@ -559,6 +559,13 @@
       "file": "terms-of-use/index.html",
       "blocks": 10,
       "addedAt": "2026-10-16"
+    },
+    {
+      "url": "/qld-security-grants",
+      "title": "Queensland security grants for small businesses",
+      "file": "qld-security-grants/index.html",
+      "blocks": 9,
+      "addedAt": "2026-10-26"
     }
   ],
   "failures": [],
