@@ -17,3 +17,6 @@ Supplied by SPL Security (Oct 2026): hands working a mortice lock on the workben
 
 ## aramex-brisbane-warehouse.jpg
 Downloaded from https://www.aramex.com.au/media/2070/aramexwarehouse_720.jpg (Aramex Australia Brisbane warehousing facilities page: https://www.aramex.com.au/brisbane/warehousing-facilities/, 26 Oct 2026). Source is 720x478 (highest resolution published on that site). Used on major-projects/ (Aramex Warehouse tile) as public/assets/imported/spl-aramex-warehouse.{webp,jpg}: centred square crop upscaled to 800x800. SPL indicated the image may be used for this project. Credit: Photo: Aramex (hover).
+
+## dats-warehouse-distribution-drive.jpg
+Downloaded from https://www.dats.com.au/Documents/Static/Our_Company_1.jpg (DATS Our Company page: https://www.dats.com.au/ourcompany, 26 Oct 2026). Exterior of DATS facility with signage at Distribution Drive, 2435x1624. Used on major-projects/ (DATS Warehouse tile) as public/assets/imported/spl-dats-warehouse.{webp,jpg}: right-biased square crop to 800x800 (keeps DATS pylon). Credit: Photo: DATS (hover).
