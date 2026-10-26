@@ -37,3 +37,7 @@ Downloaded from https://www.hutchinsonbuilders.com.au/generated/1920w-16-9/hb-c-
 
 ## cbus-stadium-western-grandstand.jpg
 "Western Grandstand of Robina Stadium.jpg" by Jason L, Wikimedia Commons: https://commons.wikimedia.org/wiki/File:Western_Grandstand_of_Robina_Stadium.jpg. Licence: CC BY-SA 4.0. Western stand of Robina Stadium / Cbus Super Stadium with visible "cbus super" signage on the corporate level, 4128x2322. Used on major-projects/ (CBUS Stadium tile) as public/assets/imported/spl-cbus-stadium.{webp,jpg}: left-biased square crop from top of frame to keep CBUS branding readable at 800x800. Credit in hover (cropped). Replaced unbranded Robina side exterior (26 Oct 2026) — no CC street-exterior with clear CBUS lettering was found on Commons.
+
+## spl-team-fleet-gold-coast-hero.png
+Supplied by SPL Security (26 Oct 2026): elevated hero shot of the SPL team and branded van fleet with the 3D SPL sign on grass against the Gold Coast skyline, 1920x988. Used on our-team/ under "The SPL SECURITY Team" as `public/assets/imported/spl-team-fleet-gold-coast-hero.jpg`: centred 16:9 crop (full height; trims ~82px each side) to 1756x988 so the SPL sign, central staff, and vans stay readable. Replaces the smiling headset staff crop. Homepage slider (`hero-team.webp`/`.png`) is a separate asset and was not changed. No photo credit line (SPL-supplied).
+
