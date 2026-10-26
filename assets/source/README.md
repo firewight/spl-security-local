@@ -26,3 +26,6 @@ Supplied by SPL Security (26 Oct 2026): Building F architectural visualisation, 
 
 ## miles-residence.png
 Supplied by SPL Security (26 Oct 2026): Miles Residence beachfront high-rise, 1920x1278. Used on major-projects/ (Miles Residence tile) as public/assets/imported/spl-miles-residence.{webp,jpg}: centred square crop scaled to 800x800. No photo credit line (SPL-supplied).
+
+## cbus-stadium-robina-olszewski.jpg
+"Robina Stadium, Queensland.jpg" by Chris Olszewski, Wikimedia Commons: https://commons.wikimedia.org/wiki/File:Robina_Stadium,_Queensland.jpg. Licence: CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/). Side view of Robina Stadium (Cbus Super Stadium / CBUS Stadium), Gold Coast, 3849x2839. Used on major-projects/ (CBUS Stadium tile) as public/assets/imported/spl-cbus-stadium.{webp,jpg}: centred square crop scaled to 800x800. Credit shown in hover (cropped).
