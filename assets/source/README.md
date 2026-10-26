@@ -23,3 +23,6 @@ Downloaded from https://www.dats.com.au/Images/Our%20Team%20Image.jpg (DATS Our 
 
 ## usq-ipswich-building-f.png
 Supplied by SPL Security (26 Oct 2026): Building F architectural visualisation, University of Southern Queensland Ipswich campus, 621x449. Used on major-projects/ (USQ Ipswich tile) as public/assets/imported/spl-usq-ipswich.{webp,jpg}: slightly right-biased square crop (atrium, gold roof overhang, Building F signage) scaled to 800x800. No photo credit line (SPL-supplied).
+
+## miles-residence.png
+Supplied by SPL Security (26 Oct 2026): Miles Residence beachfront high-rise, 1920x1278. Used on major-projects/ (Miles Residence tile) as public/assets/imported/spl-miles-residence.{webp,jpg}: centred square crop scaled to 800x800. No photo credit line (SPL-supplied).
