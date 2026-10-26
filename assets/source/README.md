@@ -20,3 +20,6 @@ Downloaded from https://www.aramex.com.au/media/2070/aramexwarehouse_720.jpg (Ar
 
 ## dats-warehouse-interior.jpg
 Downloaded from https://www.dats.com.au/Images/Our%20Team%20Image.jpg (DATS Our Company page: https://www.dats.com.au/ourcompany, 26 Oct 2026). Interior of DATS warehouse (racking, mezzanine, forklift), 4724x2067. Used on major-projects/ (DATS Warehouse tile) as public/assets/imported/spl-dats-warehouse.{webp,jpg}: slightly right-biased square crop to 800x800. Credit: Photo: DATS (hover).
+
+## usq-ipswich-building-f.png
+Supplied by SPL Security (26 Oct 2026): Building F architectural visualisation, University of Southern Queensland Ipswich campus, 621x449. Used on major-projects/ (USQ Ipswich tile) as public/assets/imported/spl-usq-ipswich.{webp,jpg}: slightly right-biased square crop (atrium, gold roof overhang, Building F signage) scaled to 800x800. No photo credit line (SPL-supplied).
