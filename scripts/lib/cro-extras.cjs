@@ -272,7 +272,7 @@ function lockHardwareTrim(h,rel){if(rel!=='locksmiths/lock-hardware/index.html')
 // ---- Major Projects grid (Oct 2026): image tiles with a hover/focus/tap overlay of the work done; project pages retired
 // (301 to /major-projects/ via seo.config.json). Text taken verbatim from the old project pages; Q1 has no description on the old site. Idempotent. ----
 const MP_TILES=[
- ['Q1','spl-q1-residential-tower-building.jpg','Q1 residential tower, Gold Coast',800,745,'<p>Building.</p>'],
+ ['Q1','spl-q1-residential-tower-building.jpg','Q1 residential tower, Gold Coast',800,745,'<p>Electronic security for Q1.</p><ul><li>CCTV</li><li>Access control</li><li>Intercom</li></ul>'],
  ['Circle On Cavill','spl-circle-cavill-towers.jpg','Circle On Cavill towers, Surfers Paradise',480,481,'<ul><li><strong>SPL:</strong> restricted keying, architectural door hardware, bathroom accessories</li><li><strong>Electronic division (both towers):</strong> CCTV, access control, intercoms, MATV</li></ul>'],
  ['The Oracle on Broadbeach','spl-oracle-broadbeach-towers.jpg','The Oracle towers, Broadbeach',451,450,'<p>Restricted keying system on both towers, plus the architectural door hardware.</p>'],
  ['Jewel','spl-jewel-surfers-paradise.jpg','Jewel towers, Surfers Paradise',800,800,'<p>Electronic security for Jewel, Surfers Paradise.</p><ul><li>CCTV</li><li>Access control</li></ul><p class="mp-credit">Photo: Chris Olszewski, <a href="https://commons.wikimedia.org/wiki/File:Jewel,_Gold_Coast,_2026,_01.jpg" rel="noopener">Wikimedia Commons</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license noopener">CC BY-SA 4.0</a> (cropped)</p>'],
