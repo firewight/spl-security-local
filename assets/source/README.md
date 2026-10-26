@@ -29,3 +29,9 @@ Supplied by SPL Security (26 Oct 2026): Miles Residence beachfront high-rise, 19
 
 ## cbus-stadium-robina-olszewski.jpg
 "Robina Stadium, Queensland.jpg" by Chris Olszewski, Wikimedia Commons: https://commons.wikimedia.org/wiki/File:Robina_Stadium,_Queensland.jpg. Licence: CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/). Side view of Robina Stadium (Cbus Super Stadium / CBUS Stadium), Gold Coast, 3849x2839. Used on major-projects/ (CBUS Stadium tile) as public/assets/imported/spl-cbus-stadium.{webp,jpg}: centred square crop scaled to 800x800. Credit shown in hover (cropped).
+
+## youi-hq-hutchinson-builders.jpg
+Downloaded from https://www.hutchinsonbuilders.com.au/generated/1920w-16-9/hb-c-youihq-1-lowres-jpg.jpg (Youi HQ project page: https://www.hutchinsonbuilders.com.au/projects/commercial/youi-headquarters, 26 Oct 2026). Exterior of Youi Headquarters, Sippy Downs, 1920x1080. Used on major-projects/ (Youi tile) as public/assets/imported/spl-youi.{webp,jpg}: centred square crop to 800x800. Credit: Photo: Hutchinson Builders (hover), same pattern as Mondrian.
+
+## oceans-meriton-olszewski.jpg
+"Skylines of Surfers Paradise, Queensland, autumn 2023, 02 (cropped).jpg" by Chris Olszewski, Wikimedia Commons: https://commons.wikimedia.org/wiki/File:Skylines_of_Surfers_Paradise,_Queensland,_autumn_2023,_02_(cropped).jpg. Licence: CC BY-SA 4.0. Ocean (Meriton) tower, Surfers Paradise, 1931x3124. Used on major-projects/ (Oceans Meriton tile) as public/assets/imported/spl-oceans-meriton.{webp,jpg}: upper-biased square crop to 800x800. Credit shown in hover (cropped).
