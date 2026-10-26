@@ -14,3 +14,6 @@ Supplied by SPL Security (Oct 2026): showroom wall of door handles, 6000x4000. U
 Supplied by SPL Security (Oct 2026): hands working a mortice lock on the workbench with SPL chest logo, 6000x4000. Used for:
 - Homepage Locksmiths *section* (Explore Locksmiths service-art): `public/assets/home-locksmiths.webp` / `-800.webp` via `scripts/prepare-home-locksmiths.cjs` (landscape crop keeping hands, lock, orange tool, SPL logo; 1400x848).
 - Homepage hero Locksmiths hub-float cutout: `public/assets/hero-product-locksmiths.png` / `.webp` via `scripts/prepare-hero-product-locksmiths.py` (separate; leave alone when only the section image changes).
+
+## aramex-brisbane-warehouse.jpg
+Downloaded from https://www.aramex.com.au/media/2070/aramexwarehouse_720.jpg (Aramex Australia Brisbane warehousing facilities page: https://www.aramex.com.au/brisbane/warehousing-facilities/, 26 Oct 2026). Source is 720x478 (highest resolution published on that site). Used on major-projects/ (Aramex Warehouse tile) as public/assets/imported/spl-aramex-warehouse.{webp,jpg}: centred square crop upscaled to 800x800. SPL indicated the image may be used for this project. Credit: Photo: Aramex (hover).
