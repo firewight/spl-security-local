@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 """Rebuild the CBUS Stadium tile image on /major-projects/ from
-assets/source/cbus-stadium-robina-olszewski.jpg (Robina Stadium /
-Cbus Super Stadium side view by Chris Olszewski, Wikimedia Commons,
-CC BY-SA 4.0).
+assets/source/cbus-stadium-western-grandstand.jpg (Western Grandstand of
+Robina Stadium / Cbus Super Stadium by Jason L, Wikimedia Commons,
+CC BY-SA 4.0). Crop keeps the visible "cbus super" grandstand signage.
 
-Source is 3849x2839 landscape. Tiles are 1:1. Crops a centred square
-(stadium roof and bowl), exports 800x800 JPEG + WebP. Tile markup lives
-in scripts/lib/cro-extras.cjs (MP_TILES).
+Source is 4128x2322 landscape. Tiles are 1:1. Crops a left-biased square
+from the top of the frame (roof + cbus super signs + seating), exports
+800x800 JPEG + WebP.
 """
 from pathlib import Path
 from PIL import Image, ImageOps
 
 ROOT = Path(__file__).resolve().parents[1]
-SRC = ROOT / 'assets/source/cbus-stadium-robina-olszewski.jpg'
+SRC = ROOT / 'assets/source/cbus-stadium-western-grandstand.jpg'
 OUT = ROOT / 'public/assets/imported/spl-cbus-stadium.jpg'
 SIZE = 800
 
@@ -21,8 +21,9 @@ def main():
     im = ImageOps.exif_transpose(Image.open(SRC)).convert('RGB')
     w, h = im.size
     s = min(w, h)
-    left = (w - s) // 2
-    top = (h - s) // 2
+    # Bias left so both "cbus super" signs stay in frame
+    left = min(w - s, max(0, int(w * 0.35) - s // 2))
+    top = 0
     crop = im.crop((left, top, left + s, top + s)).resize((SIZE, SIZE), Image.Resampling.LANCZOS)
     OUT.parent.mkdir(parents=True, exist_ok=True)
     crop.save(OUT, 'JPEG', quality=80, optimize=True, progressive=True)

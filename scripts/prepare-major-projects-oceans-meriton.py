@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """Rebuild the Oceans Meriton tile image on /major-projects/ from
-assets/source/oceans-meriton-olszewski.jpg (Ocean / Meriton tower from the
-Surfers Paradise beach skyline, by Chris Olszewski, Wikimedia Commons,
-CC BY-SA 4.0).
+assets/source/oceans-meriton-olszewski.jpg (look-up / low-angle view of
+Ocean (Meriton) tower from Surfers Paradise Beach, Jan 2022, by Chris
+Olszewski, Wikimedia Commons, CC BY-SA 4.0).
 
-Source is 3024x4032 portrait. Tiles are 1:1. Crops a full-width square
-with a mid bias so more of the tower (crown through mid facade) and beach
-context stay in frame — not a tight upper crop. Exports 800x800 JPEG +
-WebP. Tile markup lives in scripts/lib/cro-extras.cjs (MP_TILES).
+Source is 2715x4584 portrait. Tiles are 1:1. Crops a full-width square
+biased toward the top so the look-up composition keeps the crown and as
+much of the tower shaft as possible. Exports 800x800 JPEG + WebP.
 """
 from pathlib import Path
 from PIL import Image, ImageOps
@@ -16,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / 'assets/source/oceans-meriton-olszewski.jpg'
 OUT = ROOT / 'public/assets/imported/spl-oceans-meriton.jpg'
 SIZE = 800
-TOP_SHARE = 0.45  # gentler: keep crown + more of the tower shaft
+TOP_SHARE = 0.08  # look-up: keep top of tower
 
 
 def main():
