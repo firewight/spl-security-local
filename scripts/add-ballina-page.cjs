@@ -11,7 +11,7 @@ const services=[
  ['locksmith-services','Locksmiths','Residential, commercial and restricted key locksmith services.'],
  ['emergency-locksmith','24/7 Emergency Locksmiths','Lockouts, break-ins and urgent lock repairs, day or night.'],
  ['auto-locksmith','24/7 Auto Locksmiths','Car lockouts, jammed ignitions, car and transponder keys.'],
- ['door-hardware','Door Hardware','Door and lock hardware over the counter at the showroom.'],
+ ['architectural-door-hardware','Architectural Door Hardware','Commercial door hardware, labelled door packs and over-the-counter showroom supply.'],
  ['safe','Safes','Safes for homes and businesses, supplied and installed.'],
  ['alarm-system','Alarm Systems','Alarm installation, maintenance and monitoring.'],
  ['cctv-system','Security Cameras &amp; CCTV','Camera systems for homes and businesses.'],

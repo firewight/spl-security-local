@@ -1,7 +1,7 @@
 // CRO fixes: 24/7-first hours, hero proof line, "How it works" strip, Google reviews high on landing pages (Brisbane menu link intentionally stays #gold-coast: serviced from Gold Coast office). Idempotent.
 const fs=require('fs'),path=require('path'),X=require('./lib/cro-extras.cjs');
 const pub=path.join(__dirname,'..','public');
-const LANDING=['emergency-locksmith','locksmith-services','residential-locksmith','commercial-locksmith','auto-locksmith','locations','security-systems','access-control-systems','alarm-system','cctv-system','intercom','alarm-monitoring'];
+const LANDING=['emergency-locksmith','locksmith-services','residential-locksmith','commercial-locksmith','auto-locksmith','locations','security-systems','access-control-systems','alarm-system','cctv-system','intercom','alarm-monitoring','architectural-door-hardware'];
 const PROOF='<p class="hero-proof" data-cro="">Securing the Gold Coast since 1990</p>';
 const HOW='<section class="how-it-works" data-cro="" aria-labelledby="how-it-works-title"><h2 id="how-it-works-title">How it works</h2><ol><li><span>1</span><span class="how-text"><a href="tel:+61755888111">Call</a> or <a href="__UP__contact/#contact-enquiry">Contact us</a> <strong class="how-free">anytime</strong></span></li><li><span>2</span><span class="how-text">Chat with us and get a <strong class="how-free">free</strong> quote</span></li><li><span>3</span><span class="how-text">Our licensed staff get the job done <strong class="how-free">fast</strong></span></li></ol></section>';
 const walk=d=>fs.readdirSync(d,{withFileTypes:true}).flatMap(e=>e.isDirectory()?(d===pub&&e.name==='assets'?[]:walk(path.join(d,e.name))):e.name.endsWith('.html')?[path.join(d,e.name)]:[]);

@@ -1,7 +1,7 @@
 {
   "source": "https://www.splsecurity.com.au",
   "importedAt": "2026-10-15T03:33:14.618Z",
-  "homepageMainSha256": "ee80be00d3928cb534836646af3ecd2e42c7320e6bd8de4161d378119eca2093",
+  "homepageMainSha256": "19da66620a5ab292318cc23f22ba25849b0aabd6d62c31d36fe342038e0bd979",
   "pages": [
     {
       "url": "/blog/24-7-gold-coast-locksmith-secrets-to-our-success",
@@ -122,12 +122,6 @@
       "title": "Door Closers & Seals Gold Coast",
       "file": "door-closers/index.html",
       "blocks": 31
-    },
-    {
-      "url": "/door-hardware",
-      "title": "Door Hardware Gold Coast",
-      "file": "door-hardware/index.html",
-      "blocks": 30
     },
     {
       "url": "/emergency-locksmith",

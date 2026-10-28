@@ -22,7 +22,7 @@ const pages={
  'locksmiths/lock-hardware':{title:'Lock Hardware & Door Hardware | SPL Security Solutions',description:'Add the finishing touches to your doors, bathrooms and kitchens with the best in door and lock hardware on display in our Bundall and Ballina showrooms.'},
  'safe':{title:'Safes | SPL Security Solutions',description:`Need safe services across ${RW}? We deliver, install, repair and reopen a variety of safes. Call SPL on (07) 55 888 111.`},
  'door-hardware':{title:'Door Hardware | SPL Security Solutions',description:'Add the finishing touches to your doors, bathrooms and kitchens with the very best in door hardware, on display in our Bundall and Ballina showrooms.'},
- 'architectural-door-hardware':{title:'Architectural Door Hardware | SPL Security Solutions',description:'Choose from an extensive range of high-quality architectural door hardware at SPL Security Solutions. Visit our Bundall or Ballina showroom.'},
+ 'architectural-door-hardware':{title:'Architectural Door Hardware | SPL Security Solutions',description:'Commercial architectural door hardware with NCC, AS1428.1 and fire-rating compliance advice, labelled door packs and tender-to-handover support. Call SPL on (07) 55 888 111.'},
  'door-handles':{title:'Door Handles & Levers | SPL Security Solutions',description:'Security door levers and handles for homes and businesses, on display at our Bundall (Gold Coast) and Ballina showrooms. Call SPL on (07) 55 888 111.'},
  'door-closers':{title:'Door Closers & Seals | SPL Security Solutions',description:`Need reliable closers and seals across ${RW}? Overhead closers, acoustic seals and more. Call SPL on (07) 55 888 111.`},
  'fire-door-hardware':{title:'Fire Door Hardware | SPL Security Solutions',description:`Need new fire door hardware across ${RW}? Ensure safety with compliant components. Call SPL on (07) 55 888 111.`},
@@ -62,13 +62,13 @@ const sectionLinks={
  'retail-security':[['door-handles','Lever Door Handles'],['door-closers','Door Closers &amp; Seals'],['fire-door-hardware','Fire Door Hardware'],['locksmiths/lock-hardware','Lock Hardware'],['safe','Safes']],
  'locksmith-services':[['commercial-locksmith','Commercial Locksmiths'],['auto-locksmith','24/7 Auto Locksmiths'],['residential-locksmith','Residential Locksmiths'],['restricted-keys','Restricted Key Systems'],['emergency-locksmith','Emergency Locksmiths']],
  'security-systems':[['cctv-system','Security Cameras &amp; CCTV'],['access-control-systems','Access Control Systems'],['intercom','Intercom Systems'],['alarm-system','Alarm Systems'],['alarm-monitoring','Security System Maintenance']],
- 'door-hardware':[['architectural-door-hardware','Architectural Door Hardware'],['door-handles','Lever Door Handles'],['door-closers','Door Closers &amp; Seals'],['fire-door-hardware','Fire Door Hardware'],['locksmiths/lock-hardware','Lock Hardware']]};
+ 'architectural-door-hardware':[['door-handles','Lever Door Handles'],['door-closers','Door Closers &amp; Seals'],['fire-door-hardware','Fire Door Hardware'],['locksmiths/lock-hardware','Lock Hardware']]};
 sectionLinks.locksmiths=sectionLinks['locksmith-services'];
 // Retail & Trade section (Oct 2026 tidy): overview lists its sub-pages + 24/7 Emergency Locksmiths; each sub-page lists
 // the Retail & Trade overview, its siblings (Door Hardware overview too where the page sits in that menu) and Emergency.
 {const R=[['door-handles','Lever Door Handles'],['door-closers','Door Closers &amp; Seals'],['fire-door-hardware','Fire Door Hardware'],['locksmiths/lock-hardware','Lock Hardware'],['safe','Safes']],E=['emergency-locksmith','24/7 Emergency Locksmiths'];
  sectionLinks['retail-security']=[...R,E];
- for(const [k] of R)sectionLinks[k]=[['retail-security','Retail &amp; Trade'],...(k==='safe'?[]:[['door-hardware','Door Hardware']]),...R.filter(([x])=>x!==k),E];}
+ for(const [k] of R)sectionLinks[k]=[['retail-security','Retail &amp; Trade'],...(k==='safe'?[]:[['architectural-door-hardware','Architectural Door Hardware']]),...R.filter(([x])=>x!==k),E];}
 // Contextual links to otherwise-orphaned product pages and articles (one short paragraph before Explore more).
 const contextual={
  'alarm-system':'<p>Looking for a starting point? See the <a href="../products/ajax-starterkit.html">Ajax StarterKit</a>, a wireless alarm kit that can be expanded as your property changes.</p>',
