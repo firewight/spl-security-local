@@ -56,9 +56,10 @@
       if(typeof window.gtag==='function'){p.event_callback=finish;p.event_timeout=1000;window.gtag('event','generate_lead',p);setTimeout(finish,1200);}
       else finish();
       return;}
+    if(window.splLoadGtag)window.splLoadGtag();
     gtagSafe('event','generate_lead',p);
   };
   try{var pending=sessionStorage.getItem(KEY);
-    if(pending){sessionStorage.removeItem(KEY);var lp=JSON.parse(pending);if(lp&&lp.form)gtagSafe('event','generate_lead',leadParams(lp));}
+    if(pending){if(window.splLoadGtag)window.splLoadGtag();sessionStorage.removeItem(KEY);var lp=JSON.parse(pending);if(lp&&lp.form)gtagSafe('event','generate_lead',leadParams(lp));}
   }catch(e){}
 })();

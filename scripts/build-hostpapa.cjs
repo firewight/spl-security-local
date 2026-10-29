@@ -79,10 +79,17 @@ const strippedStubs=[];
 // GA4 (launch builds only): gtag right after charset/viewport, plus deferred conversion events (public/analytics.js).
 const GA4=INDEX&&config.ga4MeasurementId;let ga4Pages=0;
 if(GA4){const id=config.ga4MeasurementId;if(!/^G-[A-Z0-9]{6,}$/.test(id))throw new Error('bad ga4MeasurementId');
-  const snip=`<script async src="https://www.googletagmanager.com/gtag/js?id=${id}"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${id}');</script><script defer src="/analytics.js?v=20261029b"></script>`;
+  // gtag.js (~75 KB, ~200 ms main thread on a slow phone) is loaded after the page: on the first interaction, or ~2.5 s
+  // after load when the browser is idle. Until then gtag() calls queue in dataLayer and are sent in order once it loads.
+  // window.splLoadGtag() lets analytics.js load it straight away (e.g. a pending lead on the thank-you page).
+  const snip=`<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${id}');`+
+    `(function(){var done=0;function load(){if(done)return;done=1;var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=${id}';document.head.appendChild(s);}`+
+    `window.splLoadGtag=load;['pointerdown','keydown','touchstart','scroll','mousemove'].forEach(function(e){addEventListener(e,load,{once:true,passive:true});});`+
+    `addEventListener('load',function(){setTimeout(function(){(window.requestIdleCallback||setTimeout)(load,{timeout:2000});},2500);});})();</script>`+
+    `<script defer src="/analytics.js?v=20261029c"></script>`;
   for(const f of walk(web).filter(f=>f.endsWith('.html'))){const rel=path.relative(web,f);
     if(rel.startsWith('assets'+path.sep)||/^google[0-9a-f]+\.html$/.test(rel))continue;
-    let s=fs.readFileSync(f,'utf8');if(s.includes('googletagmanager.com/gtag/js')||/http-equiv=["']refresh["']/i.test(s))continue;
+    let s=fs.readFileSync(f,'utf8');if(s.includes("googletagmanager.com/gtag/js")&&s.includes('splLoadGtag')||/http-equiv=["']refresh["']/i.test(s))continue;
     const vp=s.match(/<meta[^>]*name="viewport"[^>]*>/i),cs=s.match(/<meta charset="utf-8"\/?>/i);const at=vp||cs;if(!at)continue;
     const i=s.indexOf(at[0])+at[0].length;s=s.slice(0,i)+snip+s.slice(i);fs.writeFileSync(f,s);ga4Pages++;}}
 // Merge each page's consecutive local stylesheets into one content-hashed bundle (assets/css/), same order => same cascade.

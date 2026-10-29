@@ -126,3 +126,9 @@ Rebuild **without** `--index` and redeploy staging package so `robots.txt` is `D
 - Fix: homepage LCP hero gets `fetchpriority="high"` + an 800w WebP (`hero-team-800.webp`, 79 KB vs 119 KB) via srcset for phones only (desktop keeps the 1480w file, so desktop is pixel-identical; phone hero SSIM 0.9999). Mobile home LCP 2.6 s → 2.3 s.
 - Already in place (no change needed): Brotli/gzip (nginx `content-encoding: br`), 1-year cache on CSS/JS/images, `font-display:swap` + font preloads, width/height on images, below-fold lazy-loading, scripts at end of body, CLS 0.
 - GA: `analytics.js?v=20261029b` adds `cta_click` (link_text ≤60, link_url path, page_section) and `scroll_depth` (percent 25/50/75/90, once each). `form_start` and outbound clicks are left to GA4 enhanced measurement (verified: form_start with form_id; click with outbound=true). Privacy page updated (Google signals, 14-month retention, ad-settings opt-out).
+
+## Mobile PSI follow-up (29 Oct 2026, 12:30)
+- PSI (Nathan, 12:05): mobile 81 (FCP 2.8 s, LCP 3.7 s, TBT 190 ms, CLS 0.014), desktop 96.
+- Change: gtag.js now loads after the page (first interaction, or ~2.5 s after load when idle); gtag() calls queue in dataLayer until then. `window.splLoadGtag()` loads it at once for a pending lead on the thank-you page and for Customer Portal leads. Effect in Lighthouse: homepage TBT 40 → 0 ms, main-thread work 597 → 385 ms, page weight 439 → 256 KB. All events re-verified.
+- Tried and NOT shipped (worse in Lighthouse): inlining critical CSS (HTML 10 → 16 KB gz, LCP +0.2–0.3 s), dropping font preloads (FCP 1.5 → 2.4 s at 300 ms RTT), extra 680w hero (PSI's emulated phone picks the 800w anyway).
+- Biggest remaining cost is network distance: 66.102.137.241 (sh-cp18-au.yyz2…) geolocates to Toronto, Canada. An Australian data centre or a CDN in front (e.g. Cloudflare) would cut TLS/TTFB for AU visitors — needs a DNS change, so it's Nathan's call.
