@@ -9,24 +9,26 @@ AddDefaultCharset utf-8
 <IfModule mod_rewrite.c>
 RewriteEngine On
 
-# --- Canonical host + HTTPS -------------------------------------------------
-# ENABLE ONLY AFTER DNS points here AND AutoSSL has issued a certificate for
-# both spl.com.au and www.spl.com.au (cPanel > SSL/TLS Status). Canonical host: {{HOST}}
-# RewriteCond %{HTTPS} !=on [OR]
-# RewriteCond %{HTTP_HOST} ^{{OTHER_HOST_ESC}}$ [NC]
-# RewriteRule ^ https://{{HOST}}%{REQUEST_URI} [R=301,L,NE]
-
-# --- Contact form endpoint (forms.js posts to /api/contact) -------------------
+# --- Form endpoints (contact + Customer Portal quote) -----------------------------
 RewriteRule ^api/contact/?$ api/contact.php [L]
+RewriteRule ^api/portal-quote/?$ api/portal-quote.php [L]
 
-# --- 301 redirects: old splsecurity.com.au paths (on this host) (seo.config.json + backlink-migration.csv)
+# --- 301 redirects: old paths -> final https://{{HOST}} URLs (absolute, one hop) ---
+# Runs BEFORE host/HTTPS canonical so renamed paths (door-hardware, locksmiths/24-7-*, …)
+# never soft-land on the old path after a naive apex redirect. Source: seo.config.json + backlink-migration.csv
 {{REDIRECTS}}
 
 # --- Old ballinalocksmiths.com.au domain (only active if that domain is pointed/parked on this account)
 {{BALLINA}}
 
-# --- Old splsecurity.com.au domain -> spl.com.au, same path (only active if that domain is parked/aliased here)
+# --- Old splsecurity.com.au domain -> spl.com.au, same path (only if parked/aliased here; unmapped paths)
 RewriteCond %{HTTP_HOST} ^(www\.)?splsecurity\.com\.au$ [NC]
+RewriteRule ^ https://{{HOST}}%{REQUEST_URI} [R=301,L,NE]
+
+# --- Canonical host + HTTPS (remaining requests) --------------------------------
+# ENABLED 29 Oct 2026 cutover: DNS + AutoSSL live. Canonical host: {{HOST}}
+RewriteCond %{HTTPS} !=on [OR]
+RewriteCond %{HTTP_HOST} ^{{OTHER_HOST_ESC}}$ [NC]
 RewriteRule ^ https://{{HOST}}%{REQUEST_URI} [R=301,L,NE]
 </IfModule>
 
@@ -39,8 +41,8 @@ RewriteRule ^ https://{{HOST}}%{REQUEST_URI} [R=301,L,NE]
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set X-Frame-Options "SAMEORIGIN"
   Header always set Permissions-Policy "geolocation=(), camera=(), microphone=()"
-  # Enable after HTTPS works on both hosts:
-  # Header always set Strict-Transport-Security "max-age=31536000"
+  # Enabled 29 Oct 2026 cutover (HTTPS live on apex + www):
+  Header always set Strict-Transport-Security "max-age=31536000"
 </IfModule>
 
 # Block dotfiles (except .well-known for AutoSSL) and backup/source files
@@ -84,3 +86,11 @@ RewriteRule ^ https://{{HOST}}%{REQUEST_URI} [R=301,L,NE]
 AddType font/woff2 .woff2
 AddType application/manifest+json .webmanifest
 AddType image/webp .webp
+
+# --- Sitemap / XML content type (GSC needs application/xml) ---
+AddType application/xml .xml
+<IfModule mod_headers.c>
+  <FilesMatch "^sitemap\.xml$">
+    Header always set Content-Type "application/xml; charset=utf-8"
+  </FilesMatch>
+</IfModule>

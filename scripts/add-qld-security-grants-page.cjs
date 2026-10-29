@@ -20,8 +20,8 @@ const page={
  slug:'qld-security-grants',
  crumb:'Queensland security grants',
  h1:'Queensland security grants for small businesses',
- title:'Queensland Security Grants for Small Businesses | SPL Security',
- description:'Queensland Secure Communities Partnership Program: small business security grants $1,500–$20,000 and shared grants $20,000–$200,000. How SPL can help with supplier quotes for eligible security work.',
+ title:'Queensland Security Grants for Small Business | SPL Security',
+ description:'Queensland Secure Communities grants: $1,500–$20,000 for small business security, $20,000–$200,000 for shared projects. SPL can quote eligible work.',
  summary:'Queensland’s Secure Communities Partnership Program offers co-funded security grants for eligible small and family businesses — including tradie utes, vans and other mobile assets — plus larger shared projects for precincts. SPL can supply quotes and install eligible security work; you apply through the Queensland Government, not through us.',
  image:{src:'assets/imported/spl-commercial-cctv-system.jpg',alt:'Commercial CCTV security camera system',w:1000,h:667},
  sections:[

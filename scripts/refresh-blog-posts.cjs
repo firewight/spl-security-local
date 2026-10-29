@@ -59,6 +59,7 @@ edits['how-much-does-a-locksmith-cost'].push(['How much does a locksmith costs?'
 // Every post: author recredited, and the duplicate imported byline line ("Author • Month D, YYYY") removed.
 const postFix=h=>{if(!h.includes('class="article-byline"'))return h;
  return h.split('"name":"AUSHost"').join('"name":"SPL Security Solutions"').split('data-seo-generated="">AUSHost ·').join('data-seo-generated="">SPL Security Solutions ·')
+  .split('SPL Security Solutions Underwood').join('SPL Security Solutions') // retired Underwood location: same author as every other post
   .replace(/<div class="editorial-block">[^<]*• [A-Z][a-z]+ \d{1,2}, \d{4}<\/div>\n?/,'');};
 // Labels that point at a renamed post, on any page.
 const siteWide=[['Changing for Locksmith’s','Changing for Locksmiths']];

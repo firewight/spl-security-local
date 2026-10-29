@@ -9,6 +9,9 @@ return [
     'smtp_pass'   => 'CHANGE_ME',
     'from_email'  => 'website@spl.com.au',    // must be a mailbox the SMTP account may send as
     'from_name'   => 'SPL Security website',
+    // Customer Portal only (portal-quote.php). Main contact form keeps from_email / to_email above.
+    'portal_from_email' => 'service@spl.com.au',
+    'portal_to_email'   => 'service@spl.com.au',
     'to_email'    => 'support@spl.com.au',    // testing; switch to info@spl.com.au at launch
     // Origins allowed to post (scheme + host, no trailing slash)
     'allowed_origins' => ['https://spl.com.au', 'https://www.spl.com.au'],  // launch domain; add any other live origin
@@ -18,4 +21,7 @@ return [
     'rate_dir'        => __DIR__ . '/ratelimit',                  // must be writable; outside web root if possible
     'transport'       => 'smtp',              // 'smtp' (live) | 'log' (local testing: write to log_file, send nothing)
     'log_file'        => __DIR__ . '/ratelimit/test-mail.log',
+    // Optional: override HMAC secret for Customer Portal maths challenge (portal-quote.php).
+    // If omitted, a stable secret is derived from to_email — no third-party captcha keys required.
+    // 'challenge_secret' => 'CHANGE_ME_LONG_RANDOM',
 ];

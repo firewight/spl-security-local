@@ -1,0 +1,14 @@
+/* SPL + East Coast Safes header lockup (29 Oct 2026). ECS logo = eastcoastsafeco.com.au ECS-Logo-White-H.svg */
+.brand-lockup{display:flex;align-items:center;gap:clamp(12px,1.3vw,20px);flex-shrink:0;min-width:0}
+.brand-lockup .brand{flex-shrink:0}
+.brand-divider{display:block;width:1px;height:34px;background:rgba(255,255,255,.3);flex:none}
+.brand-partner{display:flex;align-items:center;flex:none;opacity:.92;transition:opacity .15s ease}
+.brand-partner:hover,.brand-partner:focus-visible{opacity:1}
+.brand-partner:focus-visible{outline:2px solid var(--yellow,#f7c600);outline-offset:4px}
+.brand-partner img{display:block;width:clamp(128px,10vw,168px);height:auto}
+/* Laptop widths: full desktop nav needs the room, so show SPL only here (nav never crowded). */
+@media(min-width:981px) and (max-width:1399px){.brand-divider,.brand-partner{display:none}}
+/* Tablet / mobile: nav collapses to the Menu button, lockup returns. */
+@media(max-width:980px){.brand-lockup{gap:10px}.brand-divider{height:28px}.brand-partner img{width:112px}}
+@media(max-width:420px){.brand-lockup .brand img{width:108px}.brand-lockup{gap:8px}.brand-divider{height:24px}.brand-partner img{width:88px}}
+@media(max-width:340px){.brand-divider{display:none}.brand-partner img{width:74px}}

@@ -6,6 +6,9 @@ return [
     // PLACEHOLDER: must be a real mailbox on spl.com.au (create in cPanel > Email Accounts), and spl.com.au SPF/DKIM must cover this server.
     'from_email'  => 'info@spl.com.au',
     'from_name'   => 'SPL Security website',
+    // Customer Portal only (portal-quote.php). Main contact form keeps from_email / to_email above.
+    'portal_from_email' => 'service@spl.com.au',
+    'portal_to_email'   => 'service@spl.com.au',
     'to_email'    => 'support@spl.com.au',    // TESTING. Switch to info@spl.com.au at launch.
     // Only used when transport = 'smtp' (cPanel > Email Accounts > Connect Devices shows these):
     'smtp_host'   => 'mail.spl.com.au',

@@ -4,6 +4,12 @@
 #   options: --no-build (reuse existing build)  --no-prune  --verify-only
 # Never prints the token. Keeps the server's api/config.php (staging: log transport, preview origin).
 # Keeps .well-known, cgi-bin and cPanel's PHP handler lines in .htaccess. Deletes the uploaded zip.
+#
+# IndexNow: the API key file under public/ is copied into every staging build (ready for cutover).
+# This script NEVER enables indexing and NEVER calls IndexNow. For go-live:
+#   1) node scripts/build-hostpapa.cjs --index --out /workspace/deploy/build-hostpapa-launch
+#   2) publish that launch package to public_html when Nathan confirms DNS
+#   3) node scripts/indexnow-submit.cjs --yes --confirm-indexed
 set -euo pipefail
 cd "$(dirname "$0")/.."
 SERVER="${HOSTPAPA_CPANEL_URL:-https://66.102.137.241:2083}"; CPUSER="${HOSTPAPA_USER:-splco501}"
@@ -11,7 +17,7 @@ HOME_DIR="/home/$CPUSER"; DOCROOT="$HOME_DIR/public_html"
 PREVIEW="${HOSTPAPA_PREVIEW_URL:-http://66.102.137.241/~$CPUSER}"
 MANIFEST_NAME=".spl-staging-manifest.txt"   # stored in $HOME_DIR (not web-visible)
 BUILD_OUT="/workspace/deploy/build-hostpapa"; STAGE="/workspace/deploy/stage"; ZIP="/workspace/deploy/spl-stage.zip"
-KEEP_RE='^(\.well-known|cgi-bin)(/|$)'
+KEEP_RE='^(\.well-known|cgi-bin|google[0-9a-f]+\.html)(/|$)'
 BUILD=1; PRUNE=1; DEPLOY=1
 for a in "$@"; do case "$a" in --no-build) BUILD=0;; --no-prune) PRUNE=0;; --verify-only) BUILD=0; DEPLOY=0;; *) echo "Unknown option $a"; exit 2;; esac; done
 [ -n "${HOSTPAPA_CPANEL_TOKEN:-}" ] || { echo "Set HOSTPAPA_CPANEL_TOKEN"; exit 1; }
@@ -64,7 +70,7 @@ fi
 
 # Verify
 fail=0
-for p in / about/ contact/ locations/ ballina/ locksmith-services/ emergency-locksmith/ access-control-systems/ alarm-system/ robots.txt; do
+for p in / about/ contact/ customer-portal/ locations/ ballina/ locksmith-services/ emergency-locksmith/ access-control-systems/ alarm-system/ robots.txt; do
   c=$(curl -s -m 30 -o /dev/null -w '%{http_code}' "$PREVIEW/$p"); printf '  %s %s\n' "$c" "/$p"; [ "$c" = 200 ] || fail=1; done
 curl -s -m 30 "$PREVIEW/robots.txt" | grep -qx 'Disallow: /' && echo "  robots.txt: Disallow: / OK" || { echo "  robots.txt: Disallow missing"; fail=1; }
 curl -sI -m 30 "$PREVIEW/" | grep -qi '^x-robots-tag: noindex' && echo "  X-Robots-Tag noindex OK" || { echo "  X-Robots-Tag missing"; fail=1; }

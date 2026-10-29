@@ -92,3 +92,22 @@ Rebuild **without** `--index` and redeploy staging package so `robots.txt` is `D
 - **HostPapa done:** Deleted 19 stub files/dirs from `public_html`; synced `.htaccess` from launch build; `scripts/build-hostpapa.cjs` now strips redirect stubs from every package.
 - **Desired finals for Google samples:** homepage (GMB UTM apex); `/contact/`; `/architectural-door-hardware/`; `/auto-locksmith/`.
 - **OntheNet still owns old-domain DNS (A 203.13.68.170):** currently path-preserving 301 → `https://spl.com.au{path}`. Nathan should request one-hop finals — see `ONTHENET-REDIRECTS-FOR-NATHAN-2026-10-29.md`. Do not change NS; do not cancel GSC move.
+
+## Deep-link 301 fix (29 Oct 2026, afternoon)
+
+- Reordered `htaccess.template`: path redirects (absolute `https://spl.com.au/...`) run **before** www/HTTPS canonical.
+- `build-hostpapa.cjs` now emits absolute 301 targets (87 renames).
+- Redeployed launch package to HostPapa `public_html` via UAPI; restored `google351d3b3cdbb78047.html` after prune (now in `public/` + KEEP_RE).
+- OntheNet still path-preserves on `203.13.68.170` — Nathan request list: `ONTHENET-REDIRECT-REQUEST-2026-10-29.md` (page→final page).
+- Verified with `curl --resolve`: `/door-hardware` → `https://spl.com.au/architectural-door-hardware/`; `/locksmiths/24-7-mobile-surfers-paradise` → `/auto-locksmith/` (Imunify may soft-200 challenge non-Googlebot IPs).
+
+## Small website fixes (29 Oct 2026, ~11:00–12:00 Asia/Bangkok) — approved by Nathan
+- **Images:** 14 in-use images over 300 KB recompressed in `public/assets` (same names/paths/formats; editorial 16:9 cover photos cropped to their visible centre band, max ~2x display width). Total 7,741 KB → 2,151 KB. `<img>` width/height updated to the new intrinsic sizes.
+- **Unused media:** `scripts/lib/prune-unused-assets.cjs` (run by `build-hostpapa.cjs`) leaves any asset whose file name appears in no deployed text file out of the package. 46 files (4.6 MB) moved off live to `/home/splco501/backup-pre-smallfixes-20261029/removed-unused-assets/` (not deleted). Sources stay in `public/` because some prep scripts read them.
+- **CSS:** `scripts/lib/bundle-css.cjs` (run by `build-hostpapa.cjs`) merges each page's consecutive stylesheets into one content-hashed `assets/css/bundle-*.css` (same order, url() rebased). 7 → 1 stylesheet request on most pages. Screenshots at 390/1440 px on 17 templates were pixel-identical before/after. Critical-CSS inlining not done (no safe extraction tooling; gain small).
+- **Build:** `<meta charset>` moved first in `<head>` (matches what was live).
+- **Schema:** old `https://www.splsecurity.com.au/` removed from homepage Organization `sameAs`; LinkedIn and the site's own Google Maps link (`https://maps.app.goo.gl/gMTHmoGATMh5Bm7XA`) added. Ballina `geo` **not** added: the Ballina map embed is an address query with no coordinates.
+- **Meta:** `/qld-security-grants/` title 60 chars, description 148 chars. Blog author "SPL Security Solutions Underwood" → "SPL Security Solutions" (Underwood location retired; `refresh-blog-posts.cjs` keeps it fixed).
+- **Reviews:** Google rating text 4.3 from **227** reviews (was 225) on 12 pages. No rating schema (by design).
+- **Backup:** full pre-change copy of `public_html` on the server at `/home/splco501/backup-pre-smallfixes-20261029/public_html/` and locally at `/workspace/deploy/backup-pre-smallfixes-20261029/` (not in git).
+- **IndexNow:** 18 changed URLs submitted (HTTP 200).

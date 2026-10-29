@@ -83,8 +83,9 @@ curl -I --resolve spl.com.au:80:66.102.137.241 http://spl.com.au/
 - [ ] In `.htaccess`, **uncomment** the HTTPS/canonical-host block and the `Strict-Transport-Security` line.
 - [ ] **Remove noindex:** rebuild with `node scripts/build-hostpapa.cjs --index` (add `--www` if chosen) and upload. That build has no noindex meta tags and no X-Robots-Tag header; the 404, thank-you and redirect pages stay noindex.
 - [ ] If splsecurity.com.au and ballinalocksmiths.com.au are added to this account as aliases (parked domains), their 301s in `.htaccess` take effect automatically. Otherwise, set up 301s on their current host.
-- [ ] Google Search Console and Bing Webmaster Tools: verify spl.com.au, submit `https://spl.com.au/sitemap.xml`, and use the *Change of Address* tool from splsecurity.com.au.
-- [ ] Add GA4 if wanted. The privacy policy already describes it.
+- [ ] Google Search Console and Bing Webmaster Tools: verify spl.com.au, submit `https://spl.com.au/sitemap.xml`, and use the *Change of Address* tool from splsecurity.com.au. Keep old-path and host **301s for at least 180 days**.
+- [ ] IndexNow: key file ships as `public/{indexNowKey}.txt` (see `seo.config.json`). After the `--index` package is live on the production host, run `node scripts/indexnow-submit.cjs --yes --confirm-indexed` (dry-run first). Do **not** ping while staging is noindex.
+- [ ] Add GA4 only if Nathan approves analytics. Do not invent UTM schemes without an approved setup. The privacy policy already describes GA4 as optional.
 - [ ] Final check: https://spl.com.au/ returns 200, http:// and the other host 301 to the canonical address, and the old URLs return 301.
 
 ## 6. Rollback

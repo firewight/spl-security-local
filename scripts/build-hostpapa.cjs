@@ -25,6 +25,8 @@ for(const f of walk(web).filter(f=>TEXT.test(f))){let s=fs.readFileSync(f,'utf8'
  // Schema identities: old-domain #fragment IDs -> launch domain (sameAs/profile links to the old domain are left as is).
  s=s.split(OLD_BIZ+'#').join(SITE+'#');
  if(INDEX&&f.endsWith('.html')&&!isStub(s)&&!/(^|\/)(404\.html|thank-you\/index\.html)$/.test(path.relative(web,f))){const b=s;s=s.replace(/<meta name="robots" content="noindex, ?follow"/g,'<meta name="robots" content="index, follow"');if(s!==b)indexed++;}
+ // <meta charset> first in <head> (must be in the first 1024 bytes; matches what is live on HostPapa).
+ if(f.endsWith('.html'))s=s.replace(/<head>([\s\S]*?)<meta charset="utf-8"\/?>/i,(m,pre)=>pre.includes('<meta charset')?m:`<head><meta charset="utf-8">${pre}`);
  if(s!==o){fs.writeFileSync(f,s);rewritten++;}}
 // robots.txt for the host root
 fs.writeFileSync(path.join(web,'robots.txt'),INDEX?`User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: ${SITE}sitemap.xml\n`:`# Staging: hidden from search engines until launch\nUser-agent: *\nDisallow: /\n`);
@@ -45,7 +47,8 @@ const resolve=t=>{const seen=new Set();while(redirects.has(t)&&!seen.has(t)){see
 const esc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');const lines=[],missing=[];
 for(const[from,to0]of[...redirects].sort()){const to=resolve(to0);const tgt=to==='/'?'/':to+'/';
  if(!fs.existsSync(path.join(web,to,'index.html'))&&to!=='/')missing.push(from+' -> '+to);
- lines.push(`RewriteRule ^${esc(from.slice(1))}/?$ ${tgt} [R=301,L,NC]`);}
+ // Absolute https://HOST target: one-hop to final page even after OntheNet path-preserve or www/http.
+ lines.push(`RewriteRule ^${esc(from.slice(1))}/?$ https://${HOST}${tgt} [R=301,L,NC]`);}
 const blines=[];let bcatch=null;for(const[from,to0]of[...ballina].sort()){if(from==='/*'){bcatch=resolve(to0);continue;}const to=resolve(to0);const tgt=to==='/'?'/':to+'/';if(!fs.existsSync(path.join(web,to,'index.html'))&&to!=='/')missing.push('ballina '+from+' -> '+to);
  blines.push(`RewriteCond %{HTTP_HOST} ^(www\\.)?ballinalocksmiths\\.com\\.au$ [NC]\nRewriteRule ^${from==='/'?'':esc(from.slice(1))+'/?'}$ https://${HOST}${tgt} [R=301,L,NC]`);}
 if(bcatch)blines.push(`# catch-all for any other old Ballina Locksmiths URL\nRewriteCond %{HTTP_HOST} ^(www\\.)?ballinalocksmiths\\.com\\.au$ [NC]\nRewriteRule ^ https://${HOST}${bcatch}/ [R=301,L]`);
@@ -73,8 +76,12 @@ const strippedStubs=[];
   }
   strippedStubs.sort();
 }
+// Merge each page's consecutive local stylesheets into one content-hashed bundle (assets/css/), same order => same cascade.
+const cssBundles=require('./lib/bundle-css.cjs')(web);
+// Leave media that no deployed file references out of the package (sources stay in public/).
+const prunedAssets=require('./lib/prune-unused-assets.cjs')(web);
 const leftovers=execSync(`grep -rl "firewight\\|spl-security-local" "${web}" --include=*.html --include=*.xml --include=*.js --include=*.txt --include=*.json || true`).toString().trim();
 const indexNowKey=config.indexNowKey||null,indexNowKeyFile=config.indexNowKeyFile||(indexNowKey?indexNowKey+'.txt':null);
 const indexNowPresent=!!(indexNowKeyFile&&fs.existsSync(path.join(web,indexNowKeyFile)));
-const report={host:HOST,siteUrl:SITE,mode:INDEX?'launch (indexable)':'staging (noindex)',filesRewritten:rewritten,pagesMadeIndexable:indexed,redirects:lines.length,ballinaDomainRedirects:blines.length,redirectTargetsMissing:missing,strippedRedirectStubs:strippedStubs,demoLeftovers:leftovers?leftovers.split('\n'):[],indexNowKeyFile:indexNowKeyFile,indexNowKeyPresent:indexNowPresent,indexNowSubmitReady:INDEX&&indexNowPresent,indexNowNote:INDEX?'After publish + DNS: node scripts/indexnow-submit.cjs --build '+outRoot+' --yes --confirm-indexed':'Key file ships with staging; do NOT ping IndexNow until --index launch is live'};
+const report={host:HOST,siteUrl:SITE,mode:INDEX?'launch (indexable)':'staging (noindex)',filesRewritten:rewritten,pagesMadeIndexable:indexed,redirects:lines.length,ballinaDomainRedirects:blines.length,redirectTargetsMissing:missing,strippedRedirectStubs:strippedStubs,unusedAssetsOmitted:prunedAssets,cssBundles:{pages:cssBundles.pages,linksRemoved:cssBundles.linksRemoved,bundles:cssBundles.bundles.map(b=>b.name+' ('+b.files.join(' + ')+')')},demoLeftovers:leftovers?leftovers.split('\n'):[],indexNowKeyFile:indexNowKeyFile,indexNowKeyPresent:indexNowPresent,indexNowSubmitReady:INDEX&&indexNowPresent,indexNowNote:INDEX?'After publish + DNS: node scripts/indexnow-submit.cjs --build '+outRoot+' --yes --confirm-indexed':'Key file ships with staging; do NOT ping IndexNow until --index launch is live'};
 fs.writeFileSync(path.join(outRoot,'build-report.json'),JSON.stringify(report,null,2));console.log(report);

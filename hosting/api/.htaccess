@@ -1,7 +1,8 @@
-# Serve /api/contact from contact.php; block access to config, vendor, composer files, logs and rate-limit data.
+# Serve /api/contact and /api/portal-quote; block access to config, vendor, composer files, logs and rate-limit data.
 Options -Indexes
 RewriteEngine On
 RewriteRule ^contact/?$ contact.php [L]
+RewriteRule ^portal-quote/?$ portal-quote.php [L]
 RewriteRule ^(config\.php|config\.example\.php|composer\.(json|lock)|vendor/|ratelimit/|logs?/) - [F,L]
 # Fallback where rewrites are unavailable or path-prefixed (e.g. ~user staging URLs).
 <FilesMatch "^(config(\.example)?\.php|composer\.(json|lock)|.*\.(log|lock|md|dist|sh|json))$">
