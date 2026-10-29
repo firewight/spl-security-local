@@ -119,3 +119,10 @@ Rebuild **without** `--index` and redeploy staging package so `robots.txt` is `D
 - Privacy policy: sentence on counted taps/submissions added to "Cookies and analytics".
 - Live backup: /home/splco501/backup-pre-ga4-20261029/public_html/ (101 files).
 - Mark as Key events in GA4: generate_lead (primary), phone_call_click, optionally email_click.
+
+## Ballina domain redirects + speed pass + extra GA events (29 Oct 2026, afternoon)
+- Ballina: crawled the live old site (52 URLs + 118 images) → `hosting/hostpapa/ballina-redirect-map.csv`; 44 host-scoped path 301s + catch-all → /ballina/ now run first in `.htaccess` (inert until the domain is parked here). Cutover steps: `hosting/hostpapa/BALLINA-DOMAIN-CUTOVER.md`. The cPanel PHP handler block is now in `htaccess.template` so builds keep it.
+- PageSpeed Insights API/web UI refused requests from our server (Google 429 "automated queries", keyless quota 0), so scores below are local Lighthouse 12.8 runs on the exact deploy build served with gzip (mobile = simulated slow 4G). Lighthouse from our box against live got Imunify's "One moment, please" challenge page instead of the site → needs a check with PSI from Nathan's browser / GSC URL Inspection (see report).
+- Fix: homepage LCP hero gets `fetchpriority="high"` + an 800w WebP (`hero-team-800.webp`, 79 KB vs 119 KB) via srcset for phones only (desktop keeps the 1480w file, so desktop is pixel-identical; phone hero SSIM 0.9999). Mobile home LCP 2.6 s → 2.3 s.
+- Already in place (no change needed): Brotli/gzip (nginx `content-encoding: br`), 1-year cache on CSS/JS/images, `font-display:swap` + font preloads, width/height on images, below-fold lazy-loading, scripts at end of body, CLS 0.
+- GA: `analytics.js?v=20261029b` adds `cta_click` (link_text ≤60, link_url path, page_section) and `scroll_depth` (percent 25/50/75/90, once each). `form_start` and outbound clicks are left to GA4 enhanced measurement (verified: form_start with form_id; click with outbound=true). Privacy page updated (Google signals, 14-month retention, ad-settings opt-out).

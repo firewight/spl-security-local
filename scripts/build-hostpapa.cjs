@@ -79,7 +79,7 @@ const strippedStubs=[];
 // GA4 (launch builds only): gtag right after charset/viewport, plus deferred conversion events (public/analytics.js).
 const GA4=INDEX&&config.ga4MeasurementId;let ga4Pages=0;
 if(GA4){const id=config.ga4MeasurementId;if(!/^G-[A-Z0-9]{6,}$/.test(id))throw new Error('bad ga4MeasurementId');
-  const snip=`<script async src="https://www.googletagmanager.com/gtag/js?id=${id}"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${id}');</script><script defer src="/analytics.js?v=20261029"></script>`;
+  const snip=`<script async src="https://www.googletagmanager.com/gtag/js?id=${id}"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${id}');</script><script defer src="/analytics.js?v=20261029b"></script>`;
   for(const f of walk(web).filter(f=>f.endsWith('.html'))){const rel=path.relative(web,f);
     if(rel.startsWith('assets'+path.sep)||/^google[0-9a-f]+\.html$/.test(rel))continue;
     let s=fs.readFileSync(f,'utf8');if(s.includes('googletagmanager.com/gtag/js')||/http-equiv=["']refresh["']/i.test(s))continue;
