@@ -4,6 +4,8 @@
 //   default: staging build, noindex kept (meta + X-Robots-Tag header), canonical host https://spl.com.au
 //   --index : LAUNCH switch: remove noindex from normal pages and the X-Robots-Tag header
 //   --www   : use https://www.spl.com.au as canonical host instead of the apex
+// IndexNow key file (seo.config.json indexNowKey) is copied from public/; pings are NOT sent here —
+// after an --index publish + DNS, run: node scripts/indexnow-submit.cjs --yes --confirm-indexed
 const fs=require('fs'),path=require('path'),{execSync}=require('child_process');
 const root=path.resolve(__dirname,'..'),src=path.join(root,'public'),args=process.argv.slice(2);
 const INDEX=args.includes('--index'),WWW=args.includes('--www');
@@ -28,7 +30,7 @@ for(const f of walk(web).filter(f=>TEXT.test(f))){let s=fs.readFileSync(f,'utf8'
 fs.writeFileSync(path.join(web,'robots.txt'),INDEX?`User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: ${SITE}sitemap.xml\n`:`# Staging: hidden from search engines until launch\nUser-agent: *\nDisallow: /\n`);
 // Contact API
 const api=path.join(web,'api');fs.mkdirSync(api,{recursive:true});
-execSync(`cp -a "${root}/hosting/api/contact.php" "${root}/hosting/api/composer.json" "${root}/hosting/api/composer.lock" "${root}/hosting/api/vendor" "${root}/hosting/api/config.example.php" "${api}/"`);
+execSync(`cp -a "${root}/hosting/api/contact.php" "${root}/hosting/api/portal-quote.php" "${root}/hosting/api/composer.json" "${root}/hosting/api/composer.lock" "${root}/hosting/api/vendor" "${root}/hosting/api/config.example.php" "${api}/"`);
 fs.writeFileSync(path.join(api,'config.php'),fs.readFileSync(path.join(root,'hosting/hostpapa/config.hostpapa.php'),'utf8'));
 fs.copyFileSync(path.join(root,'hosting/api/.htaccess'),path.join(api,'.htaccess')); // vendor/.htaccess comes with cp -a vendor
 // .htaccess with redirects
@@ -51,6 +53,28 @@ const tpl=fs.readFileSync(path.join(root,'hosting/hostpapa/htaccess.template'),'
 const ht=tpl.replace(/{{HOST}}/g,HOST).replace(/{{HOST_ESC}}/g,esc(HOST)).replace('{{OTHER_HOST_ESC}}',esc(WWW?'spl.com.au':'www.spl.com.au'))
  .replace('{{REDIRECTS}}',lines.join('\n')).replace('{{BALLINA}}',blines.join('\n')).replace('{{STAGING}}',INDEX?'# (launch build: no X-Robots-Tag noindex header)':'<IfModule mod_headers.c>\n  Header always set X-Robots-Tag "noindex, follow"\n</IfModule>');
 fs.writeFileSync(path.join(web,'.htaccess'),ht);
+// Strip meta-refresh stub pages from the HostPapa package. HostPapa's nginx
+// layer often serves those static index.html files as soft 200s before Apache
+// .htaccess can issue the real 301 — which breaks GSC Change of Address samples.
+const strippedStubs=[];
+{
+  const isRefreshStub=h=>/http-equiv=["']refresh["']/i.test(h);
+  const stubDirs=new Set();
+  for(const[from]of redirects){
+    const dir=path.join(web,...from.split('/').filter(Boolean));
+    const idx=path.join(dir,'index.html');
+    if(fs.existsSync(idx)&&isRefreshStub(fs.readFileSync(idx,'utf8'))){
+      fs.unlinkSync(idx);stubDirs.add(dir);
+      strippedStubs.push(from);
+    }
+  }
+  for(const dir of[...stubDirs].sort((a,b)=>b.length-a.length)){
+    try{if(fs.existsSync(dir)&&fs.readdirSync(dir).length===0)fs.rmdirSync(dir);}catch{}
+  }
+  strippedStubs.sort();
+}
 const leftovers=execSync(`grep -rl "firewight\\|spl-security-local" "${web}" --include=*.html --include=*.xml --include=*.js --include=*.txt --include=*.json || true`).toString().trim();
-const report={host:HOST,siteUrl:SITE,mode:INDEX?'launch (indexable)':'staging (noindex)',filesRewritten:rewritten,pagesMadeIndexable:indexed,redirects:lines.length,ballinaDomainRedirects:blines.length,redirectTargetsMissing:missing,demoLeftovers:leftovers?leftovers.split('\n'):[]};
+const indexNowKey=config.indexNowKey||null,indexNowKeyFile=config.indexNowKeyFile||(indexNowKey?indexNowKey+'.txt':null);
+const indexNowPresent=!!(indexNowKeyFile&&fs.existsSync(path.join(web,indexNowKeyFile)));
+const report={host:HOST,siteUrl:SITE,mode:INDEX?'launch (indexable)':'staging (noindex)',filesRewritten:rewritten,pagesMadeIndexable:indexed,redirects:lines.length,ballinaDomainRedirects:blines.length,redirectTargetsMissing:missing,strippedRedirectStubs:strippedStubs,demoLeftovers:leftovers?leftovers.split('\n'):[],indexNowKeyFile:indexNowKeyFile,indexNowKeyPresent:indexNowPresent,indexNowSubmitReady:INDEX&&indexNowPresent,indexNowNote:INDEX?'After publish + DNS: node scripts/indexnow-submit.cjs --build '+outRoot+' --yes --confirm-indexed':'Key file ships with staging; do NOT ping IndexNow until --index launch is live'};
 fs.writeFileSync(path.join(outRoot,'build-report.json'),JSON.stringify(report,null,2));console.log(report);
