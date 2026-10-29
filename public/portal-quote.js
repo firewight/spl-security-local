@@ -314,6 +314,8 @@
       .then(function (res) {
         if (res.ok) {
           showSuccess();
+          // GA4 conversion (analytics.js, launch build only). Honeypot path above never reaches here.
+          if (window.splTrackLead) window.splTrackLead({ form: 'customer_portal', request_type: isServiceCall() ? 'service_call' : 'quote' });
           return;
         }
         if (status) status.className = 'form-status error';

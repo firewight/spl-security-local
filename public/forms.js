@@ -23,7 +23,8 @@
       fetch(cfg.endpoint,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(data)})
         .then(function(r){return r.json().catch(function(){return {};}).then(function(j){return {status:r.status,ok:r.ok&&j.ok!==false,body:j};});})
         .then(function(res){
-          if(res.ok){status.className='form-status success';status.textContent='Thanks, your enquiry has been sent.';if(cfg.thankYouUrl)location.href=cfg.thankYouUrl;return;}
+          if(res.ok){status.className='form-status success';status.textContent='Thanks, your enquiry has been sent.';var go=function(){if(cfg.thankYouUrl)location.href=cfg.thankYouUrl;};
+            if(window.splTrackLead)window.splTrackLead({form:'contact',request_type:data.service||''},go);else go();return;}
           status.className='form-status error';
           if(res.status===422&&res.body.fields){var first;Object.keys(res.body.fields).forEach(function(k){var f=mark(form,k,res.body.fields[k]);first=first||f;});status.textContent=msg.fields;if(first)first.focus();}
           else status.textContent=res.status===429?msg.limit:msg.fail;

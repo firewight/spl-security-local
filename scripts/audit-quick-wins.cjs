@@ -9,7 +9,9 @@ const root=path.resolve(__dirname,'..'),out=path.join(root,'public'),base=requir
 const walk=(d,a=[])=>{for(const e of fs.readdirSync(d,{withFileTypes:true})){const f=path.join(d,e.name);if(e.isDirectory())walk(f,a);else if(e.name.endsWith('.html'))a.push(f);}return a;};
 const PAGES_CSS_V='20261028-doornav';
 const GEO={'#gold-coast':{geo:{'@type':'GeoCoordinates',latitude:-28.0092643,longitude:153.4015131},hasMap:'https://www.google.com/maps/search/?api=1&query=-28.0092643%2C153.4015131'},
- '#ballina':{hasMap:'https://maps.google.com/maps?q=SPL%20Ballina%20Locksmiths%2C%20Unit%202%2F269%20River%20Street%2C%20Ballina%20NSW%202478'}};
+ // Ballina: OpenStreetMap geocode of 269 River Street, Ballina NSW 2478 (showroom Unit 2); hasMap is the Ballina address search
+ // (never the Bundall maps.app.goo.gl short link).
+ '#ballina':{geo:{'@type':'GeoCoordinates',latitude:-28.8683387,longitude:153.5557077},hasMap:'https://www.google.com/maps/search/?api=1&query=Unit+2%2F269+River+Street%2C+Ballina+NSW+2478'}};
 const CSS=`/* audit-quick-wins */
 .menu-toggle{position:relative}.menu-toggle::after{content:"";position:absolute;inset:-13px -12px}
 .breadcrumbs a{text-decoration:underline;text-underline-offset:3px;position:relative}.breadcrumbs a::after{content:"";position:absolute;inset:-12px -4px}

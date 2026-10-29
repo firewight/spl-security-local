@@ -111,3 +111,11 @@ Rebuild **without** `--index` and redeploy staging package so `robots.txt` is `D
 - **Reviews:** Google rating text 4.3 from **227** reviews (was 225) on 12 pages. No rating schema (by design).
 - **Backup:** full pre-change copy of `public_html` on the server at `/home/splco501/backup-pre-smallfixes-20261029/public_html/` and locally at `/workspace/deploy/backup-pre-smallfixes-20261029/` (not in git).
 - **IndexNow:** 18 changed URLs submitted (HTTP 200).
+
+## GA4 + conversion tracking (29 Oct 2026)
+- GA4 `G-VP8N70L55E` (property spl.com.au, 561418888) injected by `build-hostpapa.cjs --index` from `seo.config.json` `ga4MeasurementId` into every package HTML page (99, incl. thank-you, 404, customer portal; not the Google verification file).
+- `public/analytics.js`: `phone_call_click`, `email_click`, `ecs_click` (link_url, link_text, page_location, location = header|sticky_bar|body|footer); `generate_lead` (form = contact|customer_portal, request_type) only after the API returns success. Contact leads are handed to the thank-you page via sessionStorage so the redirect can't drop the hit; direct thank-you visits and honeypot hits aren't counted.
+- Ballina `#ballina` Locksmith node: geo -28.8683387,153.5557077 (OpenStreetMap) and hasMap = Google Maps search for Unit 2/269 River Street, Ballina NSW 2478. Never use maps.app.goo.gl/gMTHmoGATMh5Bm7XA (Bundall) for Ballina.
+- Privacy policy: sentence on counted taps/submissions added to "Cookies and analytics".
+- Live backup: /home/splco501/backup-pre-ga4-20261029/public_html/ (101 files).
+- Mark as Key events in GA4: generate_lead (primary), phone_call_click, optionally email_click.

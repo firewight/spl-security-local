@@ -76,6 +76,15 @@ const strippedStubs=[];
   }
   strippedStubs.sort();
 }
+// GA4 (launch builds only): gtag right after charset/viewport, plus deferred conversion events (public/analytics.js).
+const GA4=INDEX&&config.ga4MeasurementId;let ga4Pages=0;
+if(GA4){const id=config.ga4MeasurementId;if(!/^G-[A-Z0-9]{6,}$/.test(id))throw new Error('bad ga4MeasurementId');
+  const snip=`<script async src="https://www.googletagmanager.com/gtag/js?id=${id}"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${id}');</script><script defer src="/analytics.js?v=20261029"></script>`;
+  for(const f of walk(web).filter(f=>f.endsWith('.html'))){const rel=path.relative(web,f);
+    if(rel.startsWith('assets'+path.sep)||/^google[0-9a-f]+\.html$/.test(rel))continue;
+    let s=fs.readFileSync(f,'utf8');if(s.includes('googletagmanager.com/gtag/js')||/http-equiv=["']refresh["']/i.test(s))continue;
+    const vp=s.match(/<meta[^>]*name="viewport"[^>]*>/i),cs=s.match(/<meta charset="utf-8"\/?>/i);const at=vp||cs;if(!at)continue;
+    const i=s.indexOf(at[0])+at[0].length;s=s.slice(0,i)+snip+s.slice(i);fs.writeFileSync(f,s);ga4Pages++;}}
 // Merge each page's consecutive local stylesheets into one content-hashed bundle (assets/css/), same order => same cascade.
 const cssBundles=require('./lib/bundle-css.cjs')(web);
 // Leave media that no deployed file references out of the package (sources stay in public/).
@@ -83,5 +92,5 @@ const prunedAssets=require('./lib/prune-unused-assets.cjs')(web);
 const leftovers=execSync(`grep -rl "firewight\\|spl-security-local" "${web}" --include=*.html --include=*.xml --include=*.js --include=*.txt --include=*.json || true`).toString().trim();
 const indexNowKey=config.indexNowKey||null,indexNowKeyFile=config.indexNowKeyFile||(indexNowKey?indexNowKey+'.txt':null);
 const indexNowPresent=!!(indexNowKeyFile&&fs.existsSync(path.join(web,indexNowKeyFile)));
-const report={host:HOST,siteUrl:SITE,mode:INDEX?'launch (indexable)':'staging (noindex)',filesRewritten:rewritten,pagesMadeIndexable:indexed,redirects:lines.length,ballinaDomainRedirects:blines.length,redirectTargetsMissing:missing,strippedRedirectStubs:strippedStubs,unusedAssetsOmitted:prunedAssets,cssBundles:{pages:cssBundles.pages,linksRemoved:cssBundles.linksRemoved,bundles:cssBundles.bundles.map(b=>b.name+' ('+b.files.join(' + ')+')')},demoLeftovers:leftovers?leftovers.split('\n'):[],indexNowKeyFile:indexNowKeyFile,indexNowKeyPresent:indexNowPresent,indexNowSubmitReady:INDEX&&indexNowPresent,indexNowNote:INDEX?'After publish + DNS: node scripts/indexnow-submit.cjs --build '+outRoot+' --yes --confirm-indexed':'Key file ships with staging; do NOT ping IndexNow until --index launch is live'};
+const report={host:HOST,siteUrl:SITE,mode:INDEX?'launch (indexable)':'staging (noindex)',filesRewritten:rewritten,pagesMadeIndexable:indexed,redirects:lines.length,ballinaDomainRedirects:blines.length,redirectTargetsMissing:missing,strippedRedirectStubs:strippedStubs,ga4:{id:GA4||null,pages:ga4Pages},unusedAssetsOmitted:prunedAssets,cssBundles:{pages:cssBundles.pages,linksRemoved:cssBundles.linksRemoved,bundles:cssBundles.bundles.map(b=>b.name+' ('+b.files.join(' + ')+')')},demoLeftovers:leftovers?leftovers.split('\n'):[],indexNowKeyFile:indexNowKeyFile,indexNowKeyPresent:indexNowPresent,indexNowSubmitReady:INDEX&&indexNowPresent,indexNowNote:INDEX?'After publish + DNS: node scripts/indexnow-submit.cjs --build '+outRoot+' --yes --confirm-indexed':'Key file ships with staging; do NOT ping IndexNow until --index launch is live'};
 fs.writeFileSync(path.join(outRoot,'build-report.json'),JSON.stringify(report,null,2));console.log(report);
