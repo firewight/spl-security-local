@@ -1,10 +1,11 @@
+// Master Builders QLD Member: Lic 23411 added to footer 30 Oct 2026 (approved by Nathan).
 // QLD Security Licence 3247282 (number supplied by SPL; listed on SPL's previous site). Class not verified, so no class wording.
 const fs=require('fs'),path=require('path'),crypto=require('crypto');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'public');
 const CREDS=[{"@type":"EducationalOccupationalCredential","credentialCategory":"licence","name":"QLD Security Licence 3247282","identifier":"3247282"},{"@type":"EducationalOccupationalCredential","credentialCategory":"licence","name":"NSW Security Licence 000102071","identifier":"000102071"}];
 const MEMBERS=[{"@type":"ProgramMembership","programName":"Master Locksmiths Association of Australia","membershipNumber":"6386"},{"@type":"ProgramMembership","programName":"Australian Security Industry Association Ltd (ASIAL)","membershipNumber":"C908"}];
 const LOCK=['locksmith-services','residential-locksmith','commercial-locksmith','emergency-locksmith','auto-locksmith','restricted-keys'],SEC=['security-systems','cctv-system','alarm-system','alarm-monitoring','access-control-systems','intercom'];
-const FOOT='<p class="footer-links footer-abn">SPL Security Solutions Pty Ltd · ABN&nbsp;39&nbsp;088&nbsp;382&nbsp;745 · QLD&nbsp;Security&nbsp;Licence&nbsp;3247282 · NSW&nbsp;Security&nbsp;Licence&nbsp;000102071</p>';
+const FOOT='<p class="footer-links footer-abn">SPL Security Solutions Pty Ltd · ABN&nbsp;39&nbsp;088&nbsp;382&nbsp;745 · QLD&nbsp;Security&nbsp;Licence&nbsp;3247282 · NSW&nbsp;Security&nbsp;Licence&nbsp;000102071 · Master&nbsp;Builders&nbsp;QLD&nbsp;Member:&nbsp;Lic&nbsp;23411</p>';
 function walk(d){return fs.readdirSync(d,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(d,e.name)):e.name.endsWith('.html')?[path.join(d,e.name)]:[])}
 module.exports=function(){let n=0;
  for(const f of walk(out)){let h=fs.readFileSync(f,'utf8');const b=h;if(/http-equiv="refresh"/.test(h))continue;
