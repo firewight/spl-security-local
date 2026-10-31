@@ -43,6 +43,7 @@ for(const entry of entries){
  if(isHome)description='Locksmiths, security systems, door hardware and retail/trade advice across the Gold Coast, Brisbane and Northern NSW. Call SPL on (07) 55 888 111.';
  if(usedDescriptions.has(description)&&usedDescriptions.get(description)!==preferredCanonical)description=heading+'. '+description;
  if(description.length>175){const shortened=description.slice(0,172);description=shortened.slice(0,shortened.lastIndexOf(' '))+'…';}
+ description=description.replace(/\(07\) 55 888…$/,'(07) 55 888 111.'); // never cut the phone number mid-way
  if(usedDescriptions.has(description)&&usedDescriptions.get(description)!==preferredCanonical)description=title+'. Explore advice, services and contact details from SPL Security Solutions.';
  usedDescriptions.set(description,preferredCanonical);
  const canonical=canonicalUrl(entry.url),alias=sourcePath(entry.url)!==entry.url&&files.has(sourcePath(entry.url));

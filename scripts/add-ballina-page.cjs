@@ -27,7 +27,7 @@ module.exports=function run(){
  const set=(s,v)=>$(s).attr('content',v);
  set('meta[name="description"]',description);$('link[rel="canonical"]').attr('href',url);
  set('meta[property="og:title"]',title);set('meta[name="twitter:title"]',title);set('meta[property="og:description"]',description);set('meta[name="twitter:description"]',description);set('meta[property="og:url"]',url);
- const ballina={'@type':'Locksmith','@id':prod+'/#ballina','name':'SPL Ballina Locksmiths','url':url,'telephone':'+61 2 6686 7675','email':'ballina@spl.com.au','address':{'@type':'PostalAddress','streetAddress':'Unit 2/269 River Street','addressLocality':'Ballina','addressRegion':'NSW','postalCode':'2478','addressCountry':'AU'},'areaServed':'Northern NSW','openingHoursSpecification':[{'@type':'OpeningHoursSpecification','dayOfWeek':['Monday','Tuesday','Wednesday','Thursday','Friday'],'opens':'08:00','closes':'17:00'}],'parentOrganization':{'@id':prod+'/#business'}};
+ const ballina={'@type':'Locksmith','@id':prod+'/#ballina','name':'SPL Ballina Locksmiths','url':url,'telephone':'+61266867675','email':'ballina@spl.com.au','address':{'@type':'PostalAddress','streetAddress':'Unit 2/269 River Street','addressLocality':'Ballina','addressRegion':'NSW','postalCode':'2478','addressCountry':'AU'},'areaServed':'Northern NSW','openingHoursSpecification':[{'@type':'OpeningHoursSpecification','dayOfWeek':['Monday','Tuesday','Wednesday','Thursday','Friday'],'opens':'08:00','closes':'17:00'}],'parentOrganization':{'@id':prod+'/#business'}};
  const graph=[{'@type':'WebSite','@id':base+'#website',url:base,name:config.siteName,inLanguage:'en-AU'},{'@type':'WebPage','@id':url+'#webpage',url,name:title,description,inLanguage:'en-AU',isPartOf:{'@id':base+'#website'},about:{'@id':prod+'/#ballina'},breadcrumb:{'@id':url+'#breadcrumb'}},{'@type':'BreadcrumbList','@id':url+'#breadcrumb',itemListElement:[{'@type':'ListItem',position:1,name:'Home',item:base},{'@type':'ListItem',position:2,name:'Locations',item:base+'locations/'},{'@type':'ListItem',position:3,name:'Ballina',item:url}]},ballina];
  $('script[data-seo-schema]').text(JSON.stringify({'@context':'https://schema.org','@graph':graph}).replaceAll('<','\\u003c'));
  $('.page-hero .breadcrumbs').html('<a href="../index.html">Home</a> / <a href="../locations/index.html">Locations</a> / Ballina');
@@ -93,6 +93,11 @@ module.exports=function run(){
   h=h.replace(/(<section class="contact-options"[\s\S]*?<\/section>)/,sec=>sec
    .replace('href="tel:+61755888111"><span><small>CALL SPL · 24/7 EMERGENCIES</small><strong>(07) 55 888 111</strong>','href="tel:+61266867675"><span><small>CALL SPL BALLINA · 24/7 EMERGENCIES</small><strong>(02) 6686 7675</strong>')
    .replace('href="mailto:info@spl.com.au"><span><small>EMAIL OUR TEAM</small><strong>info@spl.com.au</strong>','href="mailto:ballina@spl.com.au"><span><small>EMAIL OUR BALLINA TEAM</small><strong>ballina@spl.com.au</strong>'));
+  if(h!==b)fs.writeFileSync(bf,h);}
+ // /ballina/ header service bar and mobile sticky call bar: Ballina number (approved by Nathan, 31 Oct 2026).
+ {const bf=path.join(out,'ballina/index.html');let h=fs.readFileSync(bf,'utf8');const b=h;
+  h=h.replace('<a class="cro-tel" data-cro-tel="" href="tel:+61755888111">(07) 55 888 111</a></span></div><header','<a class="cro-tel" data-cro-tel="" href="tel:+61266867675">(02) 6686 7675</a></span></div><header')
+   .replace('<a class="mobile-cta-call" data-cro-tel="" href="tel:+61755888111">','<a class="mobile-cta-call" data-cro-tel="" href="tel:+61266867675">');
   if(h!==b)fs.writeFileSync(bf,h);}
  // Ballina van photo (old Ballina site, at the lighthouse) after the About section; replaces the earlier cut-out.
  {const bf=path.join(out,'ballina/index.html');let h=fs.readFileSync(bf,'utf8');const b=h;

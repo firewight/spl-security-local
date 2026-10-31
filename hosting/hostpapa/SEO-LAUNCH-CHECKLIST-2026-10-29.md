@@ -136,3 +136,9 @@ Rebuild **without** `--index` and redeploy staging package so `robots.txt` is `D
 ## Mobile PSI re-check (31 Oct 2026, 10:32–10:37 +07)
 - pagespeed.web.dev mobile, 3 runs each: home 100/100/98 (LCP 1.7 s, TBT 0–20 ms, CLS 0), /security-systems/ 100×3 (LCP 0.9 s), /locksmith-services/ 100/98/100 (LCP 0.9–1.2 s, TBT 20–100 ms). Contact, CCTV, Ballina, Door Hardware, About, Retail: 98–100.
 - The earlier 81 was before the 29 Oct gtag-delay + hero changes. No further site changes needed; nothing deployed.
+
+## Phone format (31 Oct 2026, approved by Nathan)
+- Site-wide display format is "(07) 55 888 111" (tel:+61755888111); Ballina content uses "(02) 6686 7675" (tel:+61266867675). The site already used this format everywhere except the items below, which were fixed on live (5 files) and in public/.
+- /ballina/: header service bar and the mobile sticky "Call now" bar now dial the Ballina number (they used the main number). JSON-LD telephone fields are now E.164 everywhere ("+61755888111" / "+61266867675"; index, locations and ballina had "+61 7 5588 8111" / "+61 2 6686 7675").
+- Re-key blog post description (meta/og/twitter/JSON-LD) and its blog index card were truncated to "(07) 55 888…"; now the full number. scripts/optimize-seo.cjs and scripts/add-ballina-page.cjs updated so a rebuild keeps this.
+- Live backup: /home/splco501/spl-backups-20261031/phone-format/ (RESTORE.txt).
