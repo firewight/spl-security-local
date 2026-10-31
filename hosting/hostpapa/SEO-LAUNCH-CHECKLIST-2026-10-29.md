@@ -132,3 +132,7 @@ Rebuild **without** `--index` and redeploy staging package so `robots.txt` is `D
 - Change: gtag.js now loads after the page (first interaction, or ~2.5 s after load when idle); gtag() calls queue in dataLayer until then. `window.splLoadGtag()` loads it at once for a pending lead on the thank-you page and for Customer Portal leads. Effect in Lighthouse: homepage TBT 40 → 0 ms, main-thread work 597 → 385 ms, page weight 439 → 256 KB. All events re-verified.
 - Tried and NOT shipped (worse in Lighthouse): inlining critical CSS (HTML 10 → 16 KB gz, LCP +0.2–0.3 s), dropping font preloads (FCP 1.5 → 2.4 s at 300 ms RTT), extra 680w hero (PSI's emulated phone picks the 800w anyway).
 - Biggest remaining cost is network distance: 66.102.137.241 (sh-cp18-au.yyz2…) geolocates to Toronto, Canada. An Australian data centre or a CDN in front (e.g. Cloudflare) would cut TLS/TTFB for AU visitors — needs a DNS change, so it's Nathan's call.
+
+## Mobile PSI re-check (31 Oct 2026, 10:32–10:37 +07)
+- pagespeed.web.dev mobile, 3 runs each: home 100/100/98 (LCP 1.7 s, TBT 0–20 ms, CLS 0), /security-systems/ 100×3 (LCP 0.9 s), /locksmith-services/ 100/98/100 (LCP 0.9–1.2 s, TBT 20–100 ms). Contact, CCTV, Ballina, Door Hardware, About, Retail: 98–100.
+- The earlier 81 was before the 29 Oct gtag-delay + hero changes. No further site changes needed; nothing deployed.
