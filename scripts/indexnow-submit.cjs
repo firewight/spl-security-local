@@ -5,6 +5,7 @@
 //   node scripts/indexnow-submit.cjs
 //   node scripts/indexnow-submit.cjs --build /workspace/deploy/build-hostpapa-launch
 //   node scripts/indexnow-submit.cjs --yes --confirm-indexed   # live POST after DNS + --index publish
+//   node scripts/indexnow-submit.cjs --only /master-key-systems/,/contact/ --yes --confirm-indexed   # just these URLs (each must be in the sitemap)
 //
 // Requires: public/{key}.txt (and seo.config.json indexNowKey), sitemap in the launch build,
 // and that https://spl.com.au/{key}.txt is publicly reachable (search engines verify ownership).
@@ -62,6 +63,15 @@ const badHost = urls.filter((u) => {
 });
 if (badHost.length) die(`Sitemap still has non-${HOST} URLs (sample: ${badHost[0]}). Rebuild with build-hostpapa.cjs --index.`);
 
+const onlyIdx = args.indexOf('--only');
+if (onlyIdx >= 0) {
+  const want = (args[onlyIdx + 1] || '').split(',').map((x) => x.trim()).filter(Boolean)
+    .map((x) => new URL(x, SITE).href);
+  if (!want.length) die('--only needs a comma-separated list of paths or URLs');
+  const missing = want.filter((u) => !urls.includes(u));
+  if (missing.length) die(`--only URLs not in the launch sitemap: ${missing.join(', ')}`);
+  urls.splice(0, urls.length, ...want);
+}
 const keyLocation = `${SITE}${KEY_FILE}`;
 const payload = {
   host: HOST,

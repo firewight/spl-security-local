@@ -560,6 +560,13 @@
       "file": "qld-security-grants/index.html",
       "blocks": 9,
       "addedAt": "2026-10-26"
+    },
+    {
+      "url": "/master-key-systems",
+      "title": "Master Key Systems for Business",
+      "file": "master-key-systems/index.html",
+      "blocks": 9,
+      "addedAt": "2026-11-01"
     }
   ],
   "failures": [],

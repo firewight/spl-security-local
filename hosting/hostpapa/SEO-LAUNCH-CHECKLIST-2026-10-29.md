@@ -142,3 +142,12 @@ Rebuild **without** `--index` and redeploy staging package so `robots.txt` is `D
 - /ballina/: header service bar and the mobile sticky "Call now" bar now dial the Ballina number (they used the main number). JSON-LD telephone fields are now E.164 everywhere ("+61755888111" / "+61266867675"; index, locations and ballina had "+61 7 5588 8111" / "+61 2 6686 7675").
 - Re-key blog post description (meta/og/twitter/JSON-LD) and its blog index card were truncated to "(07) 55 888…"; now the full number. scripts/optimize-seo.cjs and scripts/add-ballina-page.cjs updated so a rebuild keeps this.
 - Live backup: /home/splco501/spl-backups-20261031/phone-format/ (RESTORE.txt).
+
+## Master key systems page + fixes (1 Nov 2026, approved by Nathan)
+- New /master-key-systems/ "Master Key Systems for Business" (index, follow; canonical https://spl.com.au/master-key-systems/; Service + FAQPage schema; in sitemap). Source: scripts/add-master-key-systems-page.cjs (runs in optimize-seo.cjs) + scripts/templates/master-key-systems-main.html; builds from the restricted-keys template.
+- Linked from the Locksmiths menu (every page), /locksmith-services/ (service list + Explore more) and /restricted-keys/ (Master Key Systems section, Explore more).
+- /restricted-keys/ "Master Key Systems" section: replaced misplaced alarm-monitoring paragraph with master key copy.
+- /contact/ JSON-LD business url now https://spl.com.au/ (optimize-seo.cjs uses siteUrl, not the old splsecurity.com.au businessUrl). No other splsecurity.com.au references in the deployed docroot (facebook.com/splsecurity profile links are intentional).
+- .htaccess: the only /master-key-systems/ rule was the old-domain (Host ballinalocksmiths.com.au) 301 to /restricted-keys/; it now points at /master-key-systems/ (backlink-migration.csv, ballina-redirect-map.csv, add-ballina-page.cjs). spl.com.au/master-key-systems/ itself has no redirect.
+- Deployed: build-hostpapa.cjs --index output, only the 100 changed files + 2 new (page, assets/og/commercial-locksmiths.png). Backup /home/splco501/spl-backups-20261101/master-key/ (RESTORE.txt).
+- IndexNow: indexnow-submit.cjs now has --only; submitted /master-key-systems/, /restricted-keys/, /locksmith-services/, /contact/ -> HTTP 200.
