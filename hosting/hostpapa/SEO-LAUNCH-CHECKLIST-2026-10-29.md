@@ -151,3 +151,5 @@ Rebuild **without** `--index` and redeploy staging package so `robots.txt` is `D
 - .htaccess: the only /master-key-systems/ rule was the old-domain (Host ballinalocksmiths.com.au) 301 to /restricted-keys/; it now points at /master-key-systems/ (backlink-migration.csv, ballina-redirect-map.csv, add-ballina-page.cjs). spl.com.au/master-key-systems/ itself has no redirect.
 - Deployed: build-hostpapa.cjs --index output, only the 100 changed files + 2 new (page, assets/og/commercial-locksmiths.png). Backup /home/splco501/spl-backups-20261101/master-key/ (RESTORE.txt).
 - IndexNow: indexnow-submit.cjs now has --only; submitted /master-key-systems/, /restricted-keys/, /locksmith-services/, /contact/ -> HTTP 200.
+
+- 2 Nov 2026 (07:50–07:56 UTC+7) mobile PSI re-check via pagespeed.web.dev (PSI API keyless quota is 0): / 98, 100, 99 (FCP 0.9 s, LCP 1.7 s, TBT 0–40 ms, CLS 0); /security-systems/ 100×3; /locksmith-services/ 100×3; /alarm-system/ 100×3 (LCP 0.9 s). www / http variants redirect to https://spl.com.au/ and also score 98. GA4 gtag.js (G-VP8N70L55E) still loads after interaction/idle and sends page_view. No site changes deployed: target ≥90 already met.
