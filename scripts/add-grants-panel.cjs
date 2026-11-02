@@ -15,8 +15,25 @@ const panel=`<aside class="grants-callout" id="grants-callout" data-grants-callo
 `</aside>\n`;
 const RE=/<aside class="grants-callout"[^>]*data-grants-callout[\s\S]*?<\/aside>\n?/;
 const ANCHORS=['<section class="cro-faq cro-faq-inline"','<div class="editorial-block"> <h3 id="section-service-areas">','<section class="related-links">'];
+// ---- HOMEPAGE BANNER (GRANTS-BANNER-HOME) -------------------------------------------
+// Slim one-line strip directly under the homepage hero (approved by Nathan, 2 Nov 2026).
+// REMOVE after 5pm 23 April 2027 (small business grants close) or earlier if funding is exhausted:
+// set SHOW_HOME_BANNER=false and rebuild (the strip is stripped from public/index.html by marker).
+const SHOW_HOME_BANNER=true;
+const banner=`<section class="grants-banner" id="grants-banner-home" data-grants-banner="" aria-label="Queensland security grants" style="background:#161616;color:#eee;border-top:1px solid #222;padding:12px max(6vw,24px);text-align:center;position:relative;z-index:2">`+
+`<style>.grants-banner p{margin:0;font-size:15px;line-height:1.5}.grants-banner a{color:#f7c600;font-weight:700;text-decoration:none;white-space:nowrap;margin-left:10px}.grants-banner a:hover,.grants-banner a:focus-visible{text-decoration:underline;text-underline-offset:3px}@media(max-width:560px){.grants-banner p{font-size:13.5px;line-height:1.45}.grants-banner a{margin-left:6px}}@media(max-width:374px){.grants-banner p{font-size:12.5px}.grants-banner{padding-left:16px!important;padding-right:16px!important}}</style>`+
+`<p>Queensland businesses may be eligible for a security grant of up to $20,000 (ex GST). <a class="grants-cta" href="./qld-security-grants/index.html">Check eligibility <span aria-hidden="true">›</span></a></p>`+
+`</section>\n`;
+const BANNER_RE=/<section class="grants-banner" id="grants-banner-home"[\s\S]*?<\/section>\n?/;
+const BANNER_ANCHOR='<section class="trust-strip" aria-label="Ratings and licences">';
+function homeBanner(){
+  const f=path.join(root,'index.html');let t=fs.readFileSync(f,'utf8').replace(BANNER_RE,'');
+  if(SHOW_HOME_BANNER){const i=t.indexOf(BANNER_ANCHOR);if(i<0){console.warn('grants banner: anchor missing');return 'home banner: anchor missing';}t=t.slice(0,i)+banner+t.slice(i);}
+  fs.writeFileSync(f,t);return SHOW_HOME_BANNER?'home banner (before trust-strip)':'home banner removed';
+}
+// ---- END HOMEPAGE BANNER --------------------------------------------------------------
 module.exports=function addGrantsPanel(){
-  const done=[];
+  const done=[homeBanner()];
   for(const p of PAGES){
     const f=path.join(root,p,'index.html');if(!fs.existsSync(f))continue;
     let t=fs.readFileSync(f,'utf8').replace(RE,'');
