@@ -153,3 +153,8 @@ Rebuild **without** `--index` and redeploy staging package so `robots.txt` is `D
 - IndexNow: indexnow-submit.cjs now has --only; submitted /master-key-systems/, /restricted-keys/, /locksmith-services/, /contact/ -> HTTP 200.
 
 - 2 Nov 2026 (07:50–07:56 UTC+7) mobile PSI re-check via pagespeed.web.dev (PSI API keyless quota is 0): / 98, 100, 99 (FCP 0.9 s, LCP 1.7 s, TBT 0–40 ms, CLS 0); /security-systems/ 100×3; /locksmith-services/ 100×3; /alarm-system/ 100×3 (LCP 0.9 s). www / http variants redirect to https://spl.com.au/ and also score 98. GA4 gtag.js (G-VP8N70L55E) still loads after interaction/idle and sends page_view. No site changes deployed: target ≥90 already met.
+
+## Qld security grants call-out panel (2 Nov 2026, approved by Nathan)
+- scripts/add-grants-panel.cjs (idempotent, runs at the end of optimize-seo.cjs) adds a short panel linking to /qld-security-grants/ on /cctv-system/, /alarm-system/, /access-control-systems/, /intercom/, /alarm-monitoring/, /master-key-systems/ (commercial locksmith page; /commercial-locksmith/ is a 301) and /security-systems/. Placed before the inline FAQ, else before Service Areas, else before Explore more. Not on residential pages, blog posts or /major-projects/.
+- Copy uses only facts on /qld-security-grants/ ($1,500–$20,000 ex GST, 50% co-contribution, closes 5pm 23 April 2027). Inline styles only (no CSS bundle change, no images/JS). Button class grants-cta, so analytics.js reports cta_click (page_section grants-callout).
+- Live backup: /home/splco501/spl-backups-20261102/grants-panel/ (RESTORE.txt). Deployed only the 7 changed HTML files.

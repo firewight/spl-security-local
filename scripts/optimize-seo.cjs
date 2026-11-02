@@ -124,3 +124,4 @@ require('./service-area-cards.cjs')();
 require('./add-master-key-systems-page.cjs')();
 require('./optimize-images.cjs')().catch(error=>{console.error(error);process.exitCode=1;});
 process.once('beforeExit',()=>require('./cro-fixes.cjs')());
+process.once('beforeExit',()=>console.log('grants panel',require('./add-grants-panel.cjs')()));
