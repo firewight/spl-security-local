@@ -261,6 +261,7 @@ $data = [
     'form_name' => $get('form_name', 120) ?: 'Customer Portal quote request',
     'name'      => $get('name', 120),
     'phone'     => $get('phone', 40),
+    'address'   => $get('address', 200),
     'email'     => $get('email', 160),
     'company'   => $get('company', 160),
     'message'   => $get('message', 4000),
@@ -285,6 +286,7 @@ $data['form_name'] = preg_replace('/[\r\n]+/', ' ', $data['form_name']) ?? $data
 if (!str_starts_with($data['form_name'], 'Customer Portal')) $data['form_name'] = 'Customer Portal quote request';
 $data['name'] = preg_replace('/[\r\n]+/', ' ', $data['name']) ?? $data['name'];
 $data['company'] = preg_replace('/[\r\n]+/', ' ', $data['company']) ?? $data['company'];
+$data['address'] = trim(preg_replace('/\s+/u', ' ', $data['address']) ?? $data['address']); // optional, single line, max 200 chars; no spam rules apply
 // Form label follows the chosen request type so subjects/headers never say "quote request" for a service call.
 if (in_array($data['request_type'], $requestTypes, true)) {
     $data['form_name'] = 'Customer Portal ' . strtolower($data['request_type']);
@@ -365,6 +367,7 @@ $labels = [
     'Request type' => 'request_type',
     'Name' => 'name',
     'Phone' => 'phone',
+    'Address' => 'address',
     'Email' => 'email',
     'Company / site' => 'company',
     'What they need' => 'message',
