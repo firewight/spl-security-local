@@ -10,6 +10,69 @@ $configFile = getenv('SPL_CONTACT_CONFIG') ?: __DIR__ . '/config.php';
 if (!is_file($configFile)) { http_response_code(500); exit('Not configured'); }
 $cfg = require $configFile;
 
+// Enquiry store: every valid submission is saved (outside public_html) BEFORE any mail is attempted, so an
+// enquiry is never lost if mail fails. Default /home/<user>/spl-enquiries/YYYY-MM/<timestamp>-<form>.json (0700/0600).
+function spl_enquiry_save(array $cfg, string $form, array $record, array $attachments = []): ?string {
+    $base = (string)($cfg['enquiry_dir'] ?? dirname(__DIR__, 2) . '/spl-enquiries');
+    $now = new DateTimeImmutable('now', new DateTimeZone('Australia/Brisbane'));
+    $dir = $base . '/' . $now->format('Y-m');
+    if (!is_dir($dir) && !@mkdir($dir, 0700, true) && !is_dir($dir)) { error_log("SPL enquiry store: cannot create $dir"); return null; }
+    @chmod($base, 0700); @chmod($dir, 0700);
+    if (!is_file($base . '/.htaccess')) { @file_put_contents($base . '/.htaccess', "Require all denied\nDeny from all\n"); @chmod($base . '/.htaccess', 0600); }
+    $stem = $now->format('Ymd-His') . '-' . bin2hex(random_bytes(3)) . '-' . preg_replace('/[^a-z0-9-]+/', '-', strtolower($form));
+    $record = ['time' => $now->format('c'), 'form' => $form] + $record;
+    if ($attachments) {
+        $adir = $dir . '/' . $stem;
+        if (@mkdir($adir, 0700) || is_dir($adir)) {
+            $saved = [];
+            foreach ($attachments as $i => $a) {
+                $dest = $adir . '/' . ($i + 1) . '-' . $a['name'];
+                $ok = @copy($a['path'], $dest);
+                if ($ok) @chmod($dest, 0600); else error_log("SPL enquiry store: cannot copy attachment to $dest");
+                $saved[] = ['name' => $a['name'], 'size' => $a['size'], 'mime' => $a['mime'], 'stored' => $ok ? $dest : null];
+            }
+            $record['attachments'] = $saved;
+        } else {
+            error_log("SPL enquiry store: cannot create $adir");
+        }
+    }
+    $file = $dir . '/' . $stem . '.json';
+    return spl_enquiry_write($file, $record) ? $file : null;
+}
+
+function spl_enquiry_write(string $file, array $record): bool {
+    $tmp = $file . '.tmp';
+    $json = json_encode($record, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE);
+    if ($json === false || @file_put_contents($tmp, $json . "\n", LOCK_EX) === false) { error_log("SPL enquiry store: cannot write $file"); return false; }
+    @chmod($tmp, 0600);
+    if (!@rename($tmp, $file)) { @unlink($tmp); error_log("SPL enquiry store: cannot rename to $file"); return false; }
+    return true;
+}
+
+/** Record the mail result on an already-saved enquiry. */
+function spl_enquiry_update(?string $file, array $changes): void {
+    if ($file === null || !is_file($file)) return;
+    $rec = json_decode((string)file_get_contents($file), true);
+    if (!is_array($rec)) return;
+    spl_enquiry_write($file, array_replace_recursive($rec, $changes));
+}
+
+/** Transport from config: 'mail' = PHP mail() via local sendmail/exim, 'smtp' = authenticated SMTP. ('log' is handled before.) */
+function spl_configure_mailer(PHPMailer $mail, array $cfg, string $from): void {
+    if (($cfg['transport'] ?? 'smtp') === 'mail') {
+        $mail->isMail();
+    } else {
+        $mail->isSMTP();
+        $mail->Host = $cfg['smtp_host']; $mail->Port = (int)$cfg['smtp_port'];
+        $mail->SMTPAuth = (bool)$cfg['smtp_auth'];
+        if ($mail->SMTPAuth) { $mail->Username = $cfg['smtp_user']; $mail->Password = $cfg['smtp_pass']; }
+        $mail->SMTPSecure = $cfg['smtp_secure'] === 'ssl' ? PHPMailer::ENCRYPTION_SMTPS : ($cfg['smtp_secure'] === 'tls' ? PHPMailer::ENCRYPTION_STARTTLS : '');
+        $mail->SMTPAutoTLS = $cfg['smtp_secure'] !== '';
+    }
+    $mail->CharSet = 'UTF-8';
+    $mail->Sender = $from; // envelope sender (Return-Path) = From, for SPF/DMARC alignment
+}
+
 $wantsJson = str_contains($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json')
     || str_contains($_SERVER['CONTENT_TYPE'] ?? '', 'application/json');
 
@@ -104,32 +167,41 @@ foreach (['Form' => 'form_name', 'Name' => 'name', 'Phone' => 'phone', 'Email' =
 $text = '';
 foreach ($data as $k => $v) $text .= ucfirst(str_replace('_', ' ', $k)) . ": $v\n";
 
+// Save a copy first (all transports), then send.
+$subject = $data['form_name'] . ' - ' . $data['name'];
+$transport = (string)($cfg['transport'] ?? 'smtp');
+$saved = spl_enquiry_save($cfg, 'contact', [
+    'ip' => $ip,
+    'user_agent' => mb_substr((string)($_SERVER['HTTP_USER_AGENT'] ?? ''), 0, 300),
+    'origin' => $origin,
+    'fields' => $data,
+    'mail' => ['transport' => $transport, 'from' => $cfg['from_email'], 'to' => $cfg['to_email'], 'reply_to' => $data['email'], 'subject' => $subject, 'status' => 'pending'],
+]);
+
 // Local testing: 'transport' => 'log' writes the message to log_file instead of sending (no email leaves the machine).
-if (($cfg['transport'] ?? 'smtp') === 'log') {
-    $entry = ['time' => date('c'), 'to' => $cfg['to_email'], 'reply_to' => $data['email'], 'subject' => $data['form_name'] . ' - ' . $data['name'], 'body' => $text];
+if ($transport === 'log') {
+    $entry = ['time' => date('c'), 'to' => $cfg['to_email'], 'reply_to' => $data['email'], 'subject' => $subject, 'body' => $text];
     file_put_contents($cfg['log_file'], json_encode($entry) . "\n", FILE_APPEND | LOCK_EX);
+    spl_enquiry_update($saved, ['mail' => ['status' => 'logged']]);
     respond(true, 200);
 }
 
 $mail = new PHPMailer(true);
 try {
-    $mail->isSMTP();
-    $mail->Host = $cfg['smtp_host']; $mail->Port = (int)$cfg['smtp_port'];
-    $mail->SMTPAuth = (bool)$cfg['smtp_auth'];
-    if ($mail->SMTPAuth) { $mail->Username = $cfg['smtp_user']; $mail->Password = $cfg['smtp_pass']; }
-    $mail->SMTPSecure = $cfg['smtp_secure'] === 'ssl' ? PHPMailer::ENCRYPTION_SMTPS : ($cfg['smtp_secure'] === 'tls' ? PHPMailer::ENCRYPTION_STARTTLS : '');
-    $mail->SMTPAutoTLS = $cfg['smtp_secure'] !== '';
-    $mail->CharSet = 'UTF-8';
+    spl_configure_mailer($mail, $cfg, $cfg['from_email']);
     $mail->setFrom($cfg['from_email'], $cfg['from_name']);
     $mail->addAddress($cfg['to_email']);
     $mail->addReplyTo($data['email'], $data['name']);
-    $mail->Subject = $data['form_name'] . ' - ' . $data['name'];
+    $mail->Subject = $subject;
     $mail->isHTML(true);
     $mail->Body = '<table>' . $rows . '</table><p style="color:#777;font-size:12px">Sent from the SPL website form. IP ' . htmlspecialchars($ip) . '</p>';
     $mail->AltBody = $text . "\nIP: $ip\n";
     $mail->send();
+    spl_enquiry_update($saved, ['mail' => ['status' => 'sent', 'message_id' => $mail->getLastMessageID(), 'sent_at' => date('c')]]);
 } catch (MailException $e) {
-    error_log('SPL contact form mail error: ' . $mail->ErrorInfo);
-    respond(false, 502, 'Sorry, your enquiry could not be sent. Please call (07) 55 888 111.');
+    error_log('SPL contact form mail error: ' . $mail->ErrorInfo . ($saved ? " (enquiry saved: $saved)" : ' (ENQUIRY NOT SAVED)'));
+    spl_enquiry_update($saved, ['mail' => ['status' => 'failed', 'error' => $mail->ErrorInfo, 'failed_at' => date('c')]]);
+    // The enquiry is captured on disk, so the visitor still gets success; only fail if it was neither saved nor sent.
+    if ($saved === null) respond(false, 502, 'Sorry, your enquiry could not be sent. Please call (07) 55 888 111.');
 }
 respond(true, 200);
