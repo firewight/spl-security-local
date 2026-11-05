@@ -29,6 +29,11 @@ RewriteRule ^api/portal-quote/?$ api/portal-quote.php [L]
 
 
 # --- Old splsecurity.com.au domain -> spl.com.au, same path (only if parked/aliased here; unmapped paths)
+# Extensionless paths without trailing slash: add the slash so it is ONE hop to the 200 page (audit 5 Nov 2026)
+RewriteCond %{HTTP_HOST} ^(www\.)?splsecurity\.com\.au$ [NC]
+RewriteCond %{REQUEST_URI} !/$
+RewriteCond %{REQUEST_URI} !\.[A-Za-z0-9]{1,5}$
+RewriteRule ^ https://{{HOST}}%{REQUEST_URI}/ [R=301,L,NE]
 RewriteCond %{HTTP_HOST} ^(www\.)?splsecurity\.com\.au$ [NC]
 RewriteRule ^ https://{{HOST}}%{REQUEST_URI} [R=301,L,NE]
 
