@@ -9,6 +9,7 @@ require __DIR__ . '/vendor/autoload.php';
 $configFile = getenv('SPL_CONTACT_CONFIG') ?: __DIR__ . '/config.php';
 if (!is_file($configFile)) { http_response_code(500); exit('Not configured'); }
 $cfg = require $configFile;
+require __DIR__ . '/portal-mail-routing.php';
 
 // Enquiry store: every valid submission is saved (outside public_html) BEFORE any mail is attempted, so an
 // enquiry is never lost if mail fails. Default /home/<user>/spl-enquiries/YYYY-MM/<timestamp>-<form>.json (0700/0600).
@@ -73,9 +74,10 @@ function spl_configure_mailer(PHPMailer $mail, array $cfg, string $from): void {
     $mail->Sender = $from; // envelope sender (Return-Path) = From, for SPF/DMARC alignment
 }
 // Portal can send as a different mailbox than the main contact form (e.g. service@ for live service calls).
+// Staff To is chosen later from the allowlisted request_type via portal_staff_recipient() — never from raw user input.
 $portalFromEmail = (string)($cfg['portal_from_email'] ?? $cfg['from_email'] ?? '');
 $portalFromName  = (string)($cfg['portal_from_name']  ?? $cfg['from_name']  ?? 'SPL Security website');
-$portalToEmail   = (string)($cfg['portal_to_email']   ?? $cfg['to_email']   ?? '');
+$portalToEmail   = (string)($cfg['portal_to_email']   ?? $cfg['to_email']   ?? ''); // fallback; overwritten after request_type validation
 
 $wantsJson = str_contains($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json')
     || str_contains($_SERVER['CONTENT_TYPE'] ?? '', 'application/json')
@@ -103,7 +105,7 @@ function portal_respond(bool $ok, int $status, string $error = '', array $fields
         header('Location: ' . ($cfg['thank_you_url'] ?? '/thank-you/'), true, 303);
     } else {
         header('Content-Type: text/html; charset=utf-8');
-        echo '<!doctype html><meta charset="utf-8"><meta name="robots" content="noindex"><title>Quote not sent</title>'
+        echo '<!doctype html><meta name="robots" content="noindex"><title>Quote not sent</title>'
            . '<p>' . htmlspecialchars($error) . '</p>'
            . ($fields ? '<ul>' . implode('', array_map(fn($m) => '<li>' . htmlspecialchars((string)$m) . '</li>', $fields)) . '</ul>' : '')
            . '<p>Please go back and try again, or call (07) 55 888 111.</p>';
@@ -267,9 +269,10 @@ $data = [
     'message'   => $get('message', 4000),
     'request_type' => $get('request_type', 40),
 ];
+$requestTypeKey = $data['request_type']; // allowlisted key only (service_call|quote_request); never used as an email address
 $requestTypes = ['service_call' => 'Service call', 'quote_request' => 'Quote request'];
-if (!isset($requestTypes[$data['request_type']])) $errors['request_type'] = 'Please choose a service call or a quote request.';
-else $data['request_type'] = $requestTypes[$data['request_type']];
+if (!isset($requestTypes[$requestTypeKey])) $errors['request_type'] = 'Please choose a service call or a quote request.';
+else $data['request_type'] = $requestTypes[$requestTypeKey];
 if ($data['name'] === '') $errors['name'] = 'Please enter your name.';
 elseif (preg_match('/https?:|www\./i', $data['name'])) $errors['name'] = 'Please enter your name without links.';
 if ($data['phone'] !== '' && !preg_match('/^[0-9+() .-]{6,40}$/', $data['phone'])) {
@@ -355,6 +358,9 @@ if ($data['request_type'] === 'Service call' && !count($attachments) && !isset($
 }
 
 if ($errors) portal_respond(false, 422, 'Please check the highlighted fields.', $errors);
+
+// Staff notification To — allowlisted request_type only; missing/unknown falls back to portal_to_email / service@.
+$portalToEmail = portal_staff_recipient($requestTypeKey, $cfg);
 
 $photoNote = count($attachments) ? (count($attachments) . ' photo(s) attached') : 'No photos attached';
 $photoListPlain = '';

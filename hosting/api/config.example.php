@@ -11,7 +11,11 @@ return [
     'from_name'   => 'SPL Security website',
     // Customer Portal only (portal-quote.php). Main contact form keeps from_email / to_email above.
     'portal_from_email' => 'service@spl.com.au',
+    // Staff notification To is chosen by request_type (allowlisted keys only) in portal-mail-routing.php.
+    // portal_to_email is the safe fallback when the type is missing or unrecognised.
     'portal_to_email'   => 'service@spl.com.au',
+    'portal_to_email_service_call'  => 'service@spl.com.au',  // Request type: Service call
+    'portal_to_email_quote_request' => 'sales@spl.com.au',    // Request type: Quote request
     'to_email'    => 'support@spl.com.au',    // testing; switch to info@spl.com.au at launch
     // Origins allowed to post (scheme + host, no trailing slash)
     'allowed_origins' => ['https://spl.com.au', 'https://www.spl.com.au'],  // launch domain; add any other live origin
